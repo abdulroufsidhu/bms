@@ -14,7 +14,7 @@ private:
 
 public:
     Contact();
-    Contact(std::vector<std::string>* args)
+    Contact(std::vector<std::string>* args);
 
     std::string& getId();
     std::string& getText();

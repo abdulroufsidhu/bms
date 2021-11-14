@@ -6,6 +6,7 @@
 #include "./location.h"
 #include "./contact.h"
 #include "./cnic.h"
+#include "./api.h"
 
 namespace data {
     class Person;
@@ -23,12 +24,12 @@ public:
     Person();
     Person(std::vector<std::string>* args);
     
-    data::Emai& getEmail();
+    data::Email& getEmail();
     data::Contact& getContact();
     data::CNIC& getCnic();
     data::Location& getLocation();
-    data::string& getName();
-    data::string& getId();
+    std::string& getName();
+    std::string& getId();
 
 };
 

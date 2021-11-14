@@ -6,6 +6,7 @@
 #include "./location.h"
 #include "./contact.h"
 #include "./email.h"
+#include "./api.h"
 
 namespace data {
   class Branch;

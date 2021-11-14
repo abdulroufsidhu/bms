@@ -3,6 +3,7 @@
 
 #include "./common_headers.h"
 #include "./person.h"
+#include "./api.h"
 
 namespace data {
     class Organization;
@@ -22,7 +23,7 @@ public:
     std::string& getId();
     std::string& getName();
     data::Person& getPerson();
-    data::Email& getData();
+    data::Email& getEmail();
 };
 
 #endif // ORGANIZATION_H

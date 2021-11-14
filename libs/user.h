@@ -4,7 +4,8 @@
 #include "./common_headers.h"
 #include "./person.h"
 #include "./branch.h"
-// #include "./job.h"
+#include "./job.h"
+#include "./api.h"
 
 namespace data {
   class User;
@@ -15,7 +16,7 @@ class data::User
 private:
     std::string id;
     data::Person person;
-//    data::Job job;
+    data::Job job;
     data::Branch branch;
     double salary;
 
@@ -25,7 +26,7 @@ public:
 
     std::string& getId();
     data::Person& getPerson();
-    // data::Job& getJob();
+    data::Job& getJob();
     data::Branch& getBranch();
     double& getSalary();
 

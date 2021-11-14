@@ -48,14 +48,15 @@ id uuid default uuid_generate_v4() primary key
 create table organizations (
 id uuid default uuid_generate_v4() primary key
 , name text not null
-, founderid uuid references persons(id) text not null
+, founderid uuid references persons(id) not null
 , emailid uuid references emails(id) not null unique --yet to be added in database // November 7, 2021  10:13am
 -- , logo 	//yet to implement
 );
 
 create table branches (
 id uuid default uuid_generate_v4() primary key
-, name text
+, name text not null
+, code text not null
 , locationid uuid References locations(id) not null
 , organizationid uuid not null references organizations (id)
 , contactid uuid references contacts(id) 
@@ -67,18 +68,20 @@ id uuid default uuid_generate_v4() primary key
 , personid uuid references persons(id) unique
 , jobid uuid references jobs(id)
 , branchid uuid references branches(id)
-, salary
+, salary numeric not null
 );
 
+/*
 create table itemtypes (
 id uuid default uuid_generate_v4() primary key
 , itemtype text not null
 );
+*/
 
 create table items (
 id uuid default uuid_generate_v4() primary key
-, itemtypeid uuid references itemtypes(id) not null
-, company not null	
+, itemtype text not null
+, company text not null	
 , name text not null
 , modal text not null 	--yet to add in db //November 7, 2021 
 , version text 		--yet to add in db //November 7, 2021 
@@ -106,7 +109,7 @@ id uuid default uuid_generate_v4() primary key
 , userid uuid references users(id) not null
 , quantity integer default 1
 , branchid uuid references branches(id) not null
-, profit
+, profit numeric not null
 , time date not null default CURRENT_DATE -- to use it I can say select to_char(time,'yyyymm') from deals
 );
 
@@ -122,7 +125,7 @@ create table reports (
 id uuid default uuid_generate_v4() primary key
 , branchid uuid references branches(id) not null
 , profit numeric not null default 0
-, time date not null default CURRENT_DATE
+, time date not null default CURRENT_DATE --use wher to_char(time, 'yyyymm') == to_char(CURRENT_DATE, 'yyyymm')
 );
 
 /*

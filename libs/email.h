@@ -15,8 +15,8 @@ public:
     Email();
     Email(std::vector<std::string>* args);
 
-    std::string* getId();
-    std::string* getText();
+    std::string& getId();
+    std::string& getText();
 };
 
 #endif // EMAIL_H

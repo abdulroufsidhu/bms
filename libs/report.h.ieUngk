@@ -1,0 +1,18 @@
+#ifndef REPORT_H
+#define REPORT_H
+
+#include "./common_headers.h"
+#include "branch.h"
+
+namespace data {
+    class Report;
+}
+
+class data::Report
+{
+
+public:
+    Report();
+};
+
+#endif // REPORT_H
