@@ -28,11 +28,16 @@ public:
     void set(std::string* query);
 
     std::ifstream getFile(std::string* name);
-    void clearLayout(QLayout *l);
+    static void clearLayout(QLayout *l);
     void getConInfo(std::string *file_name = new std::string(""));
 
-    template <typename T>
-    inline void get(std::string * select, std::string* from, std::string* where, std::vector<T>* data) {
+    template <typename T /*, typename statusbar*/>
+    inline void get(std::string * select
+                    , std::string* from
+                    , std::string* where
+                    , std::vector<T>* data
+                    /*, statusbar *s*/
+                    ) {
         try {
             if (!select->length()
                     || !from->length()
@@ -62,7 +67,8 @@ public:
                     }  catch (std::exception& e) {
                         qCritical () << e.what();
                     }
-                    QMessageBox::information(0, "recieved data" , i[j].c_str() );
+//                    QMessageBox::information(0, "recieved data" , i[j].c_str() );
+//                    s->showMessage(i[j].c_str(),250);
                 }
 
                 data->insert(data->begin() + tempindex , T(&str));
@@ -72,9 +78,6 @@ public:
         }  catch (std::exception& e) {
             qCritical() << e.what();
         }
-//        delete select;
-//        delete from;
-//        delete where;
     }
 };
 

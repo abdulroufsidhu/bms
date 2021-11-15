@@ -4,6 +4,8 @@
 #include "./common_headers.h"
 #include "./api.h"
 #include "./email.h"
+#include "./person.h"
+#include "./user.h"
 
 namespace data {
     class Auth;
@@ -20,6 +22,7 @@ private:
 public:
     Auth();
     Auth(std::vector<std::string> *args);
+    Auth(std::string* email, std::string* pswd);
 
     std::string& getId();
     std::string& getPassword();

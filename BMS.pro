@@ -32,7 +32,11 @@ SOURCES += \
     libs/report.cpp \
     libs/user.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    widgets/home.cpp \
+    widgets/org.cpp \
+    widgets/personal.cpp \
+    widgets/store.cpp
 
 HEADERS += \
     libs/api.h \
@@ -51,12 +55,23 @@ HEADERS += \
     libs/person.h \
     libs/report.h \
     libs/user.h \
-    mainwindow.h
+    mainwindow.h \
+    widgets/home.h \
+    widgets/org.h \
+    widgets/personal.h \
+    widgets/store.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    widgets/home.ui \
+    widgets/org.ui \
+    widgets/personal.ui \
+    widgets/store.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    resources/icons.qrc

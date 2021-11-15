@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -13,24 +14,47 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
-void MainWindow::on_btn_set_clicked()
+void MainWindow::on_btn_home_clicked()
 {
-    std::string str = ui->le_set->text().toStdString();
-    db::PSQL::getInstance()->set( &str );
+    delete s; s = NULL;
+    delete o; o = NULL;
+    delete p; p = NULL;
+    if (h==NULL) h = new Home();
+    db::PSQL::clearLayout(ui->output_layout);
+    ui->output_layout->addWidget(h);
 }
 
 
-void MainWindow::on_btn_get_clicked()
+void MainWindow::on_btn_inventory_clicked()
 {
-    std::string select = ui->le_select->text().toStdString();
-    std::string from = ui->le_from->text().toStdString();
-    std::string where = ui->le_where->text().toStdString();
+    delete h; h = NULL;
+    delete o; o = NULL;
+    delete p; p = NULL;
+    if (s==NULL) s = new Store();
+    db::PSQL::clearLayout(ui->output_layout);
+    ui->output_layout->addWidget(s);
 
-    std::vector<data::Branch> u;
-    db::PSQL::getInstance()->get(&select,&from, &where, &u);
+}
 
-//    QMessageBox::information(this, "u" , u.at(0).getId().c_str());
 
+void MainWindow::on_btn_organization_clicked()
+{
+    delete h; h = NULL;
+    delete s; s = NULL;
+    delete p; p = NULL;
+    if (o==NULL) o = new Org();
+    db::PSQL::clearLayout(ui->output_layout);
+    ui->output_layout->addWidget(o);
+}
+
+
+void MainWindow::on_btn_person_clicked()
+{
+    delete h; h = NULL;
+    delete o; o = NULL;
+    delete s; s = NULL;
+    if (p==NULL) p = new Personal();
+    db::PSQL::clearLayout(ui->output_layout);
+    ui->output_layout->addWidget(p);
 }
 

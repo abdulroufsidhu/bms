@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>icons/home-svgrepo-com.svg</file>
+        <file>icons/organization-administration-svgrepo-com.svg</file>
+        <file>icons/stock-svgrepo-com.svg</file>
+        <file>icons/person-svgrepo-com.svg</file>
+    </qresource>
+</RCC>

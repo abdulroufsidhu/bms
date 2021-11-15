@@ -12,6 +12,26 @@ data::Auth::Auth(std::vector<std::string> * args) {
 //    delete args;
 }
 
+data::Auth::Auth(std::string* email, std::string* pswd) {
+    std::string select, from, where;
+    select = "*";
+    from = "emails";
+    where = "email = '";
+    where += email->c_str() ; where+= "'";
+    std::vector<data::Email> e;
+    db::PSQL::getInstance()->get(&select, &from, &where, &e);
+    this->email = e.at(0);
+    std::vector<data::Person> per;
+    from = "persons";
+    where = "emailid = '" + this->email.getId() + "'";
+    db::PSQL::getInstance()->get(&select, &from, &where, &per);
+    std::vector<data::User> usr;
+    from = "users";
+    where = "personid = '" + per.at(0).getId() + "'";
+    db::PSQL::getInstance()->get(&select, &from, &where, &usr);
+    data::User::setCurrentUser(usr.at(0));
+}
+
 std::string& data::Auth::getId() { return this->id; }
 std::string& data::Auth::getPassword() { return this->password; }
 data::Email& data::Auth::getEmail() { return this->email; }

@@ -7,43 +7,38 @@ data::Branch::Branch(std::vector<std::string>* args) {
     this->name = args->at(1);
     std::string select, from, where;
 
-    std::vector<data::Location>* l = new std::vector<data::Location>();
+    // location         2
+    std::vector<data::Location> l ;
     select = "*";
     from = "location";
     where = "id = " + args->at(2);
-    db::PSQL::getInstance()->get(&select, &from, &where, l);
-    this->location = l->at(0);
+    db::PSQL::getInstance()->get(&select, &from, &where, &l);
+    this->location = l.at(0);
 
-    std::vector<data::Organization>* o = new std::vector<data::Organization>();
+    // organization     3
+    std::vector<data::Organization> o ;
     select = "*";
     from = "organizations";
     where = "id = " + args->at(3);
-    db::PSQL::getInstance()->get(&select, &from, &where, o);
-    this->organization = o->at(0);
+    db::PSQL::getInstance()->get(&select, &from, &where, &o);
+    this->organization = o.at(0);
 
-    std::vector<data::Contact>* c = new std::vector<data::Contact>();
+    // contact          4
+    std::vector<data::Contact> c ;
     select = "*";
     from = "contacts";
     where = "id = " + args->at(4);
-    db::PSQL::getInstance()->get(&select, &from, &where, c);
-    this->contact = c->at(0);
+    db::PSQL::getInstance()->get(&select, &from, &where, &c);
+    this->contact = c.at(0);
 
-    std::vector<data::Email>* e = new std::vector<data::Email>();
+    // email            5
+    std::vector<data::Email> e ;
     select = "*";
     from = "location";
     where = "id = " + args->at(5);
-    db::PSQL::getInstance()->get(&select, &from, &where, e);
-    this->email = e->at(0);
+    db::PSQL::getInstance()->get(&select, &from, &where, &e);
+    this->email = e.at(0);
 
-    delete l;
-    delete o;
-    delete c;
-    delete e;
-
-    // location         2
-    // organization     3
-    // contact          4
-    // email            5
 
 //    delete args;
 
