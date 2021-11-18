@@ -7,6 +7,8 @@
 #include <fstream>
 #include <QDebug>
 #include <QMessageBox>
+#include <QProxyStyle>
+#include <QStyleOptionTab>
 
 namespace db {
     class PSQL;
@@ -55,7 +57,7 @@ public:
             pqxx::result R (N.exec(query));
             if (R.size() < 1) {
                 QMessageBox::information(0,"get transaction error", "no record found ") ;
-                throw "no record found ";
+                //throw "no record found ";
                 return;
             }
             short int tempindex = 0;
@@ -77,8 +79,55 @@ public:
 
         }  catch (std::exception& e) {
             qCritical() << e.what();
+            QMessageBox::information(0,"error",e.what());
         }
     }
+
+
+    inline void get(std::string *query
+                    , std::string *destination
+                    ) {
+        if(query->empty()) return;
+        if (destination == NULL) return;
+        try {
+            pqxx::connection C(this->conInfo);
+            if (!C.is_open()) QMessageBox::information(0, "error", "unable to connect to database");
+            pqxx::nontransaction N (C);
+            pqxx::result R (N.exec(*query));
+            if (R.size() < 1) QMessageBox::information(0, "caution", "no record found");
+            for (auto c: R) {
+                *destination = c[0].as<std::string>();
+            }
+
+        }  catch (std::exception &e) {
+            QMessageBox::information(0, "error", e.what());
+        }
+
+    }
+};
+
+class CustomTabStyle : public QProxyStyle {
+public:
+  QSize sizeFromContents(ContentsType type, const QStyleOption* option,
+                         const QSize& size, const QWidget* widget) const {
+    QSize s = QProxyStyle::sizeFromContents(type, option, size, widget);
+    if (type == QStyle::CT_TabBarTab) {
+      s.transpose();
+    }
+    return s;
+  }
+
+  void drawControl(ControlElement element, const QStyleOption* option, QPainter* painter, const QWidget* widget) const {
+    if (element == CE_TabBarTabLabel) {
+      if (const QStyleOptionTab* tab = qstyleoption_cast<const QStyleOptionTab*>(option)) {
+        QStyleOptionTab opt(*tab);
+        opt.shape = QTabBar::RoundedNorth;
+        QProxyStyle::drawControl(element, &opt, painter, widget);
+        return;
+      }
+    }
+    QProxyStyle::drawControl(element, option, painter, widget);
+  }
 };
 
 #endif // PSQL_H

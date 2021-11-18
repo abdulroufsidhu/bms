@@ -33,10 +33,13 @@ SOURCES += \
     libs/user.cpp \
     main.cpp \
     mainwindow.cpp \
+    widgets/authscreen.cpp \
     widgets/home.cpp \
     widgets/org.cpp \
     widgets/personal.cpp \
-    widgets/store.cpp
+    widgets/store.cpp \
+    widgets/login.cpp \
+    widgets/signup.cpp
 
 HEADERS += \
     libs/api.h \
@@ -56,17 +59,23 @@ HEADERS += \
     libs/report.h \
     libs/user.h \
     mainwindow.h \
+    widgets/authscreen.h \
     widgets/home.h \
     widgets/org.h \
     widgets/personal.h \
-    widgets/store.h
+    widgets/store.h \
+    widgets/login.h \
+    widgets/signup.h
 
 FORMS += \
     mainwindow.ui \
+    widgets/authscreen.ui \
     widgets/home.ui \
     widgets/org.ui \
     widgets/personal.ui \
-    widgets/store.ui
+    widgets/store.ui \
+    widgets/login.ui \
+    widgets/signup.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

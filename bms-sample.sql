@@ -29,6 +29,16 @@ id uuid default uuid_generate_v4() primary key
 , grade integer not null
 );
 
+create table cities {
+id uuid default uuid_generate_v4() primary key
+, city text not null unique
+}
+
+create table countries {
+id uuid default uuid_generate_v4() primary key
+, country text not null unique
+}
+
 create table locations (
 id uuid default uuid_generate_v4() primary key
 , city text 
@@ -43,12 +53,13 @@ id uuid default uuid_generate_v4() primary key
 , cnicid uuid references cnics(id) unique
 , locationid uuid references locations(id)
 , name text not null 
+, age integer
 );
 
 create table organizations (
 id uuid default uuid_generate_v4() primary key
 , name text not null
-, founderid uuid references persons(id) not null
+, founderid uuid references users(id) not null
 , emailid uuid references emails(id) not null unique --yet to be added in database // November 7, 2021  10:13am
 -- , logo 	//yet to implement
 );
@@ -61,6 +72,7 @@ id uuid default uuid_generate_v4() primary key
 , organizationid uuid not null references organizations (id)
 , contactid uuid references contacts(id) 
 , emailid uuid references emails(id) not null unique --yet to be added in database // Novmber 7, 2021 10:13am
+, active boolean not null default true
 );
 
 create table users (
@@ -69,6 +81,7 @@ id uuid default uuid_generate_v4() primary key
 , jobid uuid references jobs(id)
 , branchid uuid references branches(id)
 , salary numeric not null
+, active boolean not null default true -- use this while getting user for login
 );
 
 /*

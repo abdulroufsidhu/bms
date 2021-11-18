@@ -16,11 +16,16 @@ data::Auth::Auth(std::string* email, std::string* pswd) {
     std::string select, from, where;
     select = "*";
     from = "emails";
-    where = "email = '";
-    where += email->c_str() ; where+= "'";
+    where = "email = '" + *email + "'";
     std::vector<data::Email> e;
     db::PSQL::getInstance()->get(&select, &from, &where, &e);
     this->email = e.at(0);
+
+    std::string query = "select emailid from auth where password = '" + *pswd + "'";
+    std::string eid;
+    db::PSQL::getInstance()->get(&query, &eid);
+    if (this->email.getId() != eid) { QMessageBox::critical(0, "error", "login credentials not confirmed."); return ; }
+
     std::vector<data::Person> per;
     from = "persons";
     where = "emailid = '" + this->email.getId() + "'";
