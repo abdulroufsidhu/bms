@@ -65,12 +65,14 @@ public:
                 std::vector<std::string> str;
                 for (int j=0; j< i.size(); j++) {
                     try {
+//                        QMessageBox::information(0,"get", QString(i[j].name()) + " : " + QString(i[j].as<std::string>().c_str()) );
                         str.insert(str.begin() + j, i[j].as<std::string>());
+
                     }  catch (std::exception& e) {
                         qCritical () << e.what();
+                        str.insert(str.begin() + j, "");
+                        QMessageBox::critical(0,"error", QString(i[j].name()) + " : " + QString(e.what()));
                     }
-//                    QMessageBox::information(0, "recieved data" , i[j].c_str() );
-//                    s->showMessage(i[j].c_str(),250);
                 }
 
                 data->insert(data->begin() + tempindex , T(&str));

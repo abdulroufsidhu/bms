@@ -25,7 +25,7 @@ public:
     User();
     User(std::vector<std::string>* args);
 
-    static data::User* setCurrentUser(data::User& u);
+    static data::User* setCurrentUser(data::User* u) ;
     static data::User* getCurrentUser();
 
     std::string& getId();

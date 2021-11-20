@@ -88,8 +88,8 @@ void Signup::on_btn_signup_clicked()
 //        q = "insert into locations (city, country, address) select '" + city + "'" + country + "'" + address + "' where not exists ( select city,country,address from locations where city ='"+ city + "' and country = '" + country + "' and address = '" + address + "' )";
 
         db::PSQL::getInstance()->set(&q);
+        db::PSQL::getInstance()->get(&select, &from, &where ,&lv);
     }
-    db::PSQL::getInstance()->get(&select, &from, &where ,&lv);
 
     from = "emails";
     where = "email ='" + email + "'";

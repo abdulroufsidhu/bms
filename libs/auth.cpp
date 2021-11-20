@@ -21,9 +21,10 @@ data::Auth::Auth(std::string* email, std::string* pswd) {
     db::PSQL::getInstance()->get(&select, &from, &where, &e);
     this->email = e.at(0);
 
-    std::string query = "select emailid from auth where password = '" + *pswd + "'";
+    std::string query = "select emailid from auth where emailid ='" + e.at(0).getId() + "' and password = '" + *pswd + "' and active ";
     std::string eid;
     db::PSQL::getInstance()->get(&query, &eid);
+//    QMessageBox::information(0,"email id", QString(eid.c_str()) + "\n" + QString(this->email.getId().c_str()));
     if (this->email.getId() != eid) { QMessageBox::critical(0, "error", "login credentials not confirmed."); return ; }
 
     std::vector<data::Person> per;
@@ -34,7 +35,7 @@ data::Auth::Auth(std::string* email, std::string* pswd) {
     from = "users";
     where = "personid = '" + per.at(0).getId() + "'";
     db::PSQL::getInstance()->get(&select, &from, &where, &usr);
-    data::User::setCurrentUser(usr.at(0));
+    data::User::setCurrentUser(&usr.at(0));
 }
 
 std::string& data::Auth::getId() { return this->id; }

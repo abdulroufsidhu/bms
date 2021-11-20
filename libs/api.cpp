@@ -21,8 +21,9 @@ db::PSQL* db::PSQL::getInstance() {
 std::ifstream db::PSQL::getFile(std::string* name) {
   std::ifstream f;
   f.open(name->c_str());
-  if (f.is_open()) { return f; }
+  return f;
 //  delete name;
+
 }
 
 void db::PSQL::clearLayout(QLayout* l) {
@@ -64,6 +65,7 @@ void db::PSQL::set(std::string *query) {
         QMessageBox::information(0, "set", "operation successful");
     }  catch (std::exception& e) {
         qCritical() << e.what();
+        QMessageBox::critical(0,"error updating data", e.what());
     }
 //    delete query;
 }
