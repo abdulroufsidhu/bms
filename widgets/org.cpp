@@ -8,6 +8,10 @@ Org::Org(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->tabWidget_org_and_branch->tabBar()->setStyle(new CustomTabStyle);
+    ui->label_org_name->setText(data::User::getCurrentUser()->getBranch().getOrganization().getName().c_str());
+    ui->label_organization_founder->setText(data::User::getCurrentUser()->getBranch().getOrganization().getPerson().getName().c_str());
+    ui->label_current_branch->setText(data::User::getCurrentUser()->getBranch().getName().c_str());
+    ui->label_current_location->setText(data::User::getCurrentUser()->getBranch().getLocation().getAddress().c_str());
 }
 
 Org::~Org()
@@ -28,11 +32,9 @@ void Org::on_btn_register_clicked()
     query = "insert into emails(email) values ('" + email + "')";
     db::PSQL::getInstance()->set(&query);
 
-    data::Email e;
     std::vector<data::Email> ev;
     db::PSQL::getInstance()->get(&select , &from , &where, &ev );
-    e = ev.at(0);
-    query = "insert into organizations(name, emailid, founderid) values ('" + name + "','" + e.getId() + "','" + data::User::getCurrentUser()->getId() + "')";
+    query = "insert into organizations(name, emailid, founderid) values ('" + name + "','" + ev.at(0).getId() + "','" + data::User::getCurrentUser()->getPerson().getId() + "')";
     db::PSQL::getInstance()->set(&query);
 }
 

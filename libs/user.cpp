@@ -1,23 +1,23 @@
 #include "user.h"
 
-data::User* data::User::currentUser = NULL;
+data::User* data::User::currentUser = NULL ;
 
 data::User* data::User::getCurrentUser() {
     return data::User::currentUser ;
 }
 
-data::User* data::User::setCurrentUser(data::User* u)  {
+void data::User::setCurrentUser(std::vector<std::string>* args)  {
     if (data::User::currentUser == NULL) {
-        data::User::currentUser = u;
-        QMessageBox::information(0,"instancing user", u->getPerson().getName().c_str());
+        data::User::currentUser = new data::User(args);
     }
-    return data::User::currentUser;
 }
 
 data::User::User() { }
 data::User::User(std::vector<std::string>* args) {
     if (args->size()<1) {QMessageBox::information(0,"caution","no user found"); return;}
     this->id = args->at(0);
+
+    QMessageBox::information(0,"user id", args->at(0).c_str());
 
     std::string select, from, where;
     select = "*";

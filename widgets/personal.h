@@ -5,7 +5,7 @@
 #include <QMessageBox>
 
 namespace Ui {
-class Personal;
+class Person;
 }
 
 class Personal : public QWidget
@@ -17,7 +17,7 @@ public:
     ~Personal ();
 
 private:
-    Ui::Personal *ui;
+    Ui::Person *ui;
 };
 
 #endif // PERSONAL_H
