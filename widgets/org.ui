@@ -283,7 +283,7 @@
                 <enum>QTabWidget::North</enum>
                </property>
                <property name="currentIndex">
-                <number>1</number>
+                <number>0</number>
                </property>
                <property name="iconSize">
                 <size>
@@ -352,49 +352,49 @@
                     </widget>
                    </item>
                    <item row="0" column="1">
-                    <widget class="QLineEdit" name="lineEdit">
+                    <widget class="QLineEdit" name="le_add_branch_name">
                      <property name="placeholderText">
                       <string>Uni-Chowk</string>
                      </property>
                     </widget>
                    </item>
                    <item row="1" column="1">
-                    <widget class="QLineEdit" name="lineEdit_2">
+                    <widget class="QLineEdit" name="le_add_brannch_code">
                      <property name="placeholderText">
                       <string>B-504</string>
                      </property>
                     </widget>
                    </item>
                    <item row="2" column="1">
-                    <widget class="QLineEdit" name="lineEdit_3">
+                    <widget class="QLineEdit" name="le_add_branch_country">
                      <property name="placeholderText">
                       <string>Pakistan</string>
                      </property>
                     </widget>
                    </item>
                    <item row="3" column="1">
-                    <widget class="QLineEdit" name="lineEdit_4">
+                    <widget class="QLineEdit" name="le_add_branch_city">
                      <property name="placeholderText">
                       <string>Bahawalpur</string>
                      </property>
                     </widget>
                    </item>
                    <item row="4" column="1">
-                    <widget class="QLineEdit" name="lineEdit_5">
+                    <widget class="QLineEdit" name="le_add_branch_address">
                      <property name="placeholderText">
                       <string>F-5 uni tower university chowk</string>
                      </property>
                     </widget>
                    </item>
                    <item row="5" column="1">
-                    <widget class="QLineEdit" name="lineEdit_6">
+                    <widget class="QLineEdit" name="le_add_branch_contact">
                      <property name="placeholderText">
                       <string>+92342816024</string>
                      </property>
                     </widget>
                    </item>
                    <item row="6" column="1">
-                    <widget class="QLineEdit" name="lineEdit_7">
+                    <widget class="QLineEdit" name="le_add_branch_email">
                      <property name="placeholderText">
                       <string>abdulroufsidhu@gmail.com</string>
                      </property>

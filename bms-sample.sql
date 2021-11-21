@@ -79,9 +79,9 @@ create table users (
 id uuid default uuid_generate_v4() primary key
 , personid uuid references persons(id) unique
 , jobid uuid references jobs(id)
-, branchid uuid references branches(id)
+, branchid uuid references branches(id)                                        
 , salary text default '0' not null
---, active BOOL not null default true -- use this while getting user for login
+, active BOOL not null default true -- use this while getting user for login
 );
 
 /*

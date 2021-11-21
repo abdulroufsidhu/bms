@@ -57,4 +57,8 @@ data::Job& data::User::getJob() { return this->job; }
 data::Branch& data::User::getBranch() { return this->branch; }
 double& data::User::getSalary() { return this->salary; }
 
+std::vector<data::Organization>& data::User::getOrganization() { return this->organizations; }
+void data::User::setOrganization(std::vector<data::Organization> *org) { this->organizations = *org; this->index = (org->size() - 1); }
+int& data::User::getIndex() { return this->index; }
+
 

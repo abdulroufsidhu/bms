@@ -53,9 +53,12 @@ public:
         where = "personid = '" + per.at(0).getId() + "'";
         db::PSQL::getInstance()->getVecStr(&select, &from, &where, &usr);
         data::User::setCurrentUser(&usr);
-        QMessageBox::information(0,"current user", ( data::User::getCurrentUser()->getPerson().getName() + " : " + data::User::getCurrentUser()->getPerson().getEmail().getText() ).c_str());
         if (data::User::getCurrentUser()->getPerson().getId().length()) {
-            QMessageBox::information(0,"current user", ( data::User::getCurrentUser()->getPerson().getName() + " : " + data::User::getCurrentUser()->getPerson().getEmail().getText() ).c_str());
+            std::vector<data::Organization> ov;
+            from = "organizations";
+            where = "founderid = '" + data::User::getCurrentUser()->getPerson().getId() + "'";
+            db::PSQL::getInstance()->get(&select, &from, &where, &ov);
+            data::User::getCurrentUser()->setOrganization(&ov);
             source_widow->hide();
             destination_window->show();
         }
