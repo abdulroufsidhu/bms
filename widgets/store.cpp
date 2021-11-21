@@ -23,3 +23,11 @@ void Store::on_btn_generate_uuid_clicked()
     ui->le_serial->setText(uid.toString(QUuid::StringFormat(3)));
 }
 
+
+void Store::on_tabWidget_currentChanged(int index)
+{
+    if (index == 1) {
+        return;
+    }
+}
+

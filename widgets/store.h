@@ -20,6 +20,8 @@ public:
 private slots:
     void on_btn_generate_uuid_clicked();
 
+    void on_tabWidget_currentChanged(int index);
+
 private:
     Ui::Store *ui;
 };

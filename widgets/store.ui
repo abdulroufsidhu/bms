@@ -20,7 +20,7 @@
       <cursorShape>ArrowCursor</cursorShape>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <property name="iconSize">
       <size>
@@ -213,9 +213,9 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_2">
+     <widget class="QWidget" name="tab_list">
       <attribute name="title">
-       <string>Tab 2</string>
+       <string>List</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_4">
        <item row="0" column="0">
@@ -232,6 +232,11 @@
             <height>408</height>
            </rect>
           </property>
+          <layout class="QGridLayout" name="gridLayout_5">
+           <item row="0" column="0">
+            <widget class="QListWidget" name="lw_items"/>
+           </item>
+          </layout>
          </widget>
         </widget>
        </item>

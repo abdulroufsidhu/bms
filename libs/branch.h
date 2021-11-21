@@ -15,7 +15,7 @@ namespace data {
 class data::Branch
 {
 private:
-    std::string id, name;
+    std::string id, name, code;
     data::Location location;
     data::Organization organization;
     data::Contact contact;
@@ -32,6 +32,8 @@ public:
     data::Contact& getContact();
     data::Email& getEmail();
 
+    const std::string &getCode() const;
+    void setCode(const std::string &newCode);
 };
 
 #endif // BRANCH_H

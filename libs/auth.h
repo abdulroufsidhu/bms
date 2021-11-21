@@ -58,7 +58,7 @@ public:
             from = "organizations";
             where = "founderid = '" + data::User::getCurrentUser()->getPerson().getId() + "'";
             db::PSQL::getInstance()->get(&select, &from, &where, &ov);
-            data::User::getCurrentUser()->setOrganization(&ov);
+            data::User::getCurrentUser()->setOrganizationVec(&ov);
             source_widow->hide();
             destination_window->show();
         }

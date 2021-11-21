@@ -18,10 +18,12 @@ private:
     data::Person person;
     data::Job job;
     data::Branch branch;
+    std::vector<data::Branch> branches;
     std::vector<data::Organization> organizations;
     double salary;
     static data::User* currentUser;
-    int index ;
+    int org_index = 0 ;
+    int branc_index = 0;
 
 public:
     User();
@@ -34,10 +36,17 @@ public:
     data::Person& getPerson();
     data::Job& getJob();
     data::Branch& getBranch();
-    std::vector<data::Organization>& getOrganization();
-    void setOrganization(std::vector<data::Organization> *org_vector);
+    std::vector<data::Organization>& getOrganizationVec();
+    void setOrganizationVec(std::vector<data::Organization> *org_vector);
+
+    std::vector<data::Branch>& getBranchVec();
+    void setBranchVec(std::vector<data::Branch> *branch_vec);
+
     double& getSalary();
-    int& getIndex();
+    int& getOrgIndex();
+    void setOrgIndex(int i);
+    int& getBranchIndex();
+    void setBranchIndex( int i);
 
 };
 

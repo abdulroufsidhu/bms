@@ -57,8 +57,14 @@ data::Job& data::User::getJob() { return this->job; }
 data::Branch& data::User::getBranch() { return this->branch; }
 double& data::User::getSalary() { return this->salary; }
 
-std::vector<data::Organization>& data::User::getOrganization() { return this->organizations; }
-void data::User::setOrganization(std::vector<data::Organization> *org) { this->organizations = *org; this->index = (org->size() - 1); }
-int& data::User::getIndex() { return this->index; }
+std::vector<data::Organization>& data::User::getOrganizationVec() { return this->organizations; }
+void data::User::setOrganizationVec(std::vector<data::Organization> *org_vec) { this->organizations = *org_vec; }
+int& data::User::getOrgIndex() { return this->org_index; }
+void data::User::setOrgIndex(int i) { this->org_index = i; }
 
+std::vector<data::Branch>& data::User::getBranchVec() { return this->branches; }
+void data::User::setBranchVec(std::vector<data::Branch> *branch_vec) { this->branches= *branch_vec; }
 
+int& data::User::getBranchIndex() { return this->branc_index; }
+
+void data::User::setBranchIndex(int i) { this->branc_index = i; }
