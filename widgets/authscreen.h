@@ -8,21 +8,21 @@
 #include "./widgets/signup.h"
 
 namespace Ui {
-class AuthScreen;
+	class AuthScreen;
 }
 
 class AuthScreen : public QDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit AuthScreen(QWidget *parent = nullptr);
-    ~AuthScreen();
+	explicit AuthScreen(QWidget *parent = nullptr);
+	~AuthScreen();
 
 private slots:
 
 private:
-    Ui::AuthScreen *ui;
+	Ui::AuthScreen *ui;
 };
 
 #endif // AUTHSCREEN_H

@@ -6,30 +6,30 @@
 #include "./api.h"
 
 namespace data {
-    class Expense;
+	class Expense;
 }
 
 class data::Expense
 {
 public:
-    std::string id
-//                , branch
-                , reason
-//                , cost
-                , time
-                ;
-    float cost;
-    data::Branch branch;
+	std::string id
+	//                , branch
+	, reason
+	//                , cost
+	, time
+	;
+	float cost;
+	data::Branch branch;
 public:
-    Expense();
-    Expense(std::vector<std::string> *args);
+	Expense();
+	Expense(std::vector<std::string> *args);
 
-    std::string& getId();
-    std::string& getReason();
-    float& getCost();
-    std::string& getTime();
+	std::string& getId();
+	std::string& getReason();
+	float& getCost();
+	std::string& getTime();
 
-    data::Branch& getBranch();
+	data::Branch& getBranch();
 
 };
 

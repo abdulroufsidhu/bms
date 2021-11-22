@@ -5,7 +5,7 @@
 
 
 namespace data {
-    class CNIC;
+	class CNIC;
 }
 
 class data::CNIC

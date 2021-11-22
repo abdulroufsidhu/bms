@@ -9,31 +9,31 @@
 #include "./api.h"
 
 namespace data {
-  class Branch;
+	class Branch;
 }
 
 class data::Branch
 {
 private:
-    std::string id, name, code;
-    data::Location location;
-    data::Organization organization;
-    data::Contact contact;
-    data::Email email;
+	std::string id, name, code;
+	data::Location location;
+	data::Organization organization;
+	data::Contact contact;
+	data::Email email;
 
 public:
-    Branch();
-    Branch(std::vector<std::string>* args) ;
+	Branch();
+	Branch(std::vector<std::string>* args) ;
 
-    std::string& getId();
-    std::string& getName();
-    data::Location& getLocation();
-    data::Organization& getOrganization();
-    data::Contact& getContact();
-    data::Email& getEmail();
+	std::string& getId();
+	std::string& getName();
+	data::Location& getLocation();
+	data::Organization& getOrganization();
+	data::Contact& getContact();
+	data::Email& getEmail();
 
-    const std::string &getCode() const;
-    void setCode(const std::string &newCode);
+	const std::string &getCode() const;
+	void setCode(const std::string &newCode);
 };
 
 #endif // BRANCH_H

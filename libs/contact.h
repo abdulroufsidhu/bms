@@ -4,21 +4,21 @@
 #include "./common_headers.h"
 
 namespace data {
-    class Contact;
+	class Contact;
 }
 
 class data::Contact
 {
 private:
-    std::string id, text;
+	std::string id, text;
 
 public:
-    Contact();
-    Contact(std::vector<std::string>* args);
+	Contact();
+	Contact(std::vector<std::string>* args);
 
-    std::string& getId();
-    std::string& getText();
-    
+	std::string& getId();
+	std::string& getText();
+
 };
 
 #endif // CONTACT_H

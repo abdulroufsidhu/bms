@@ -15,28 +15,28 @@ QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
+	MainWindow(QWidget *parent = nullptr);
+	~MainWindow();
 
 private slots:
 
-    void on_btn_home_clicked();
+	void on_btn_home_clicked();
 
-    void on_btn_inventory_clicked();
+	void on_btn_inventory_clicked();
 
-    void on_btn_organization_clicked();
+	void on_btn_organization_clicked();
 
-    void on_btn_person_clicked();
+	void on_btn_person_clicked();
 
 private:
-    Ui::MainWindow *ui;
-    Home* h = NULL;
-    Store* s = NULL;
-    Org* o = NULL;
-    Personal* p = NULL;
+	Ui::MainWindow *ui;
+	Home* h = NULL;
+	Store* s = NULL;
+	Org* o = NULL;
+	Personal* p = NULL;
 
 
 };

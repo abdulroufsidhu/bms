@@ -4,24 +4,24 @@
 #include "./common_headers.h"
 
 namespace data {
-    class Job;
+	class Job;
 }
 
 class data::Job
 {
 private:
-    std::string id
-                , designation
-                , grade
-                ;
+	std::string id
+	, designation
+	, grade
+	;
 
 public:
-    Job();
-    Job(std::vector<std::string> *args);
+	Job();
+	Job(std::vector<std::string> *args);
 
-    std::string& getId();
-    std::string& getDesignation();
-    std::string& getGrade();
+	std::string& getId();
+	std::string& getDesignation();
+	std::string& getGrade();
 };
 
 #endif // JOB_H

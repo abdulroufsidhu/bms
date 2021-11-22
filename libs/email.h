@@ -4,19 +4,19 @@
 #include "./common_headers.h"
 
 namespace data {
-    class Email;
+	class Email;
 }
 
 class data::Email
 {
 private:
-    std::string id, text;
+	std::string id, text;
 public:
-    Email();
-    Email(std::vector<std::string>* args);
+	Email();
+	Email(std::vector<std::string>* args);
 
-    std::string& getId();
-    std::string& getText();
+	std::string& getId();
+	std::string& getText();
 };
 
 #endif // EMAIL_H

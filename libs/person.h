@@ -9,27 +9,27 @@
 #include "./api.h"
 
 namespace data {
-    class Person;
+	class Person;
 }
 
 class data::Person
 {
 private:
-    std::string id, name;
-    data::Email email;
-    data::Contact contact;
-    data::CNIC cnic;
-    data::Location location;
+	std::string id, name;
+	data::Email email;
+	data::Contact contact;
+	data::CNIC cnic;
+	data::Location location;
 public:
-    Person();
-    Person(std::vector<std::string>* args);
-    
-    data::Email& getEmail();
-    data::Contact& getContact();
-    data::CNIC& getCnic();
-    data::Location& getLocation();
-    std::string& getName();
-    std::string& getId();
+	Person();
+	Person(std::vector<std::string>* args);
+
+	data::Email& getEmail();
+	data::Contact& getContact();
+	data::CNIC& getCnic();
+	data::Location& getLocation();
+	std::string& getName();
+	std::string& getId();
 
 };
 

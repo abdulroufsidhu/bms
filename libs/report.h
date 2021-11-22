@@ -6,28 +6,28 @@
 #include "./api.h"
 
 namespace data {
-    class Report;
+	class Report;
 }
 
 class data::Report
 {
 private:
-    std::string id
-//                , branch
-//                , profit
-                , time
-                ;
-    double profit;
-    data::Branch branch;
+	std::string id
+	//                , branch
+	//                , profit
+	, time
+	;
+	double profit;
+	data::Branch branch;
 
 public:
-    Report();
-    Report(std::vector<std::string> *args);
+	Report();
+	Report(std::vector<std::string> *args);
 
-    std::string& getId();
-    std::string& getTime();
-    double& getProfit();
-    data::Branch& getBranch();
+	std::string& getId();
+	std::string& getTime();
+	double& getProfit();
+	data::Branch& getBranch();
 
 };
 

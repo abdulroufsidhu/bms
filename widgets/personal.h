@@ -5,19 +5,19 @@
 #include <QMessageBox>
 
 namespace Ui {
-class Person;
+	class Person;
 }
 
 class Personal : public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit Personal (QWidget *parent = nullptr);
-    ~Personal ();
+	explicit Personal (QWidget *parent = nullptr);
+	~Personal ();
 
 private:
-    Ui::Person *ui;
+	Ui::Person *ui;
 };
 
 #endif // PERSONAL_H

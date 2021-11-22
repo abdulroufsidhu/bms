@@ -6,24 +6,24 @@
 #include "./api.h"
 
 namespace data {
-    class Organization;
+	class Organization;
 }
 
 class data::Organization
 {
 private:
-    std::string id, name ;
-    data::Person person;
-    data::Email email;
+	std::string id, name ;
+	data::Person person;
+	data::Email email;
 
 public:
-    Organization();
-    Organization(std::vector<std::string>* args);
+	Organization();
+	Organization(std::vector<std::string>* args);
 
-    std::string& getId();
-    std::string& getName();
-    data::Person& getPerson();
-    data::Email& getEmail();
+	std::string& getId();
+	std::string& getName();
+	data::Person& getPerson();
+	data::Email& getEmail();
 };
 
 #endif // ORGANIZATION_H

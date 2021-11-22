@@ -201,7 +201,8 @@
                </widget>
                <widget class="QWidget" name="tab_2">
                 <attribute name="icon">
-                 <iconset theme="cpu"/>
+                 <iconset theme="cpu">
+                  <normaloff>.</normaloff>.</iconset>
                 </attribute>
                 <attribute name="title">
                  <string>Register</string>
@@ -464,7 +465,7 @@
                  </item>
                 </layout>
                </widget>
-               <widget class="QWidget" name="tab_manage_branch">
+               <widget class="QWidget" name="tab_manage_branch_2">
                 <attribute name="title">
                  <string>Manage</string>
                 </attribute>
@@ -472,7 +473,7 @@
                  <item row="0" column="0">
                   <layout class="QFormLayout" name="formLayout_4">
                    <item row="4" column="1">
-                    <widget class="QLineEdit" name="le_bracn_email_revoke">
+                    <widget class="QLineEdit" name="le_branch_email_revoke">
                      <property name="focusPolicy">
                       <enum>Qt::WheelFocus</enum>
                      </property>

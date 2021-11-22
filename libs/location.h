@@ -4,21 +4,21 @@
 #include "./common_headers.h"
 
 namespace data {
-    class Location;
+	class Location;
 }
 
 class data::Location
 {
 private:
-    std::string id, city, country, address;
+	std::string id, city, country, address;
 public:
-    Location();
-    Location(std::vector<std::string>* args);
+	Location();
+	Location(std::vector<std::string>* args);
 
-    std::string& getId();
-    std::string& getCity();
-    std::string& getCountry();
-    std::string& getAddress();
+	std::string& getId();
+	std::string& getCity();
+	std::string& getCountry();
+	std::string& getAddress();
 
 };
 

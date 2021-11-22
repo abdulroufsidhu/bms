@@ -13,23 +13,23 @@
 #include <QCompleter>
 
 namespace Ui {
-class Signup;
+	class Signup;
 }
 
 class Signup : public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit Signup(QWidget *parent = nullptr);
-    ~Signup();
+	explicit Signup(QWidget *parent = nullptr);
+	~Signup();
 
 private slots:
 
-    void on_btn_signup_clicked();
+	void on_btn_signup_clicked();
 
 private:
-    Ui::Signup *ui;
+	Ui::Signup *ui;
 };
 
 #endif // SIGNUP_H
