@@ -79,7 +79,7 @@ public:
 
 		}  catch (std::exception& e) {
 			qCritical() << e.what();
-			QMessageBox::critical(0,"error",e.what());
+			QMessageBox::critical(0,from->c_str(),e.what());
 		}
 	}
 

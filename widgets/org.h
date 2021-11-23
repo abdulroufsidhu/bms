@@ -47,6 +47,8 @@ private slots:
 
 	void on_tabWidget_org_and_branch_currentChanged(int index);
 
+	void on_lw_branches_doubleClicked(const QModelIndex &index);
+
 private:
 	Ui::Organization *ui;
 };

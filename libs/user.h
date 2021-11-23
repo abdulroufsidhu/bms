@@ -48,6 +48,8 @@ public:
 	int& getBranchIndex();
 	void setBranchIndex( int i);
 
+	void updataBranchVec();
+
 };
 
 #endif // USER_H

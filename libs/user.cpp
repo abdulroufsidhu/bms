@@ -68,3 +68,13 @@ void data::User::setBranchVec(std::vector<data::Branch> *branch_vec) { this->bra
 int& data::User::getBranchIndex() { return this->branc_index; }
 
 void data::User::setBranchIndex(int i) { this->branc_index = i; }
+
+void data::User::updataBranchVec() {
+	std::vector<data::Branch> bv;
+	std::string select, from ,where, query;
+	select = "*";
+	from = "branches";
+	where = "organizationid = '" + data::User::getCurrentUser()->getOrganizationVec().at(data::User::getCurrentUser()->getOrgIndex()).getId() + "' AND active";
+	db::PSQL::getInstance()->get(&select, &from, &where, &bv);
+	this->setBranchVec(&bv);
+}

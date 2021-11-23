@@ -116,11 +116,8 @@ void Org::on_btn_add_branch_clicked()
 	query = "insert into branches (name, code, locationid, organizationid, contactid, emailid) values ('" + name.toStdString() + "','" + code.toStdString() + "','" + lv.at(0).getId() + "','" + data::User::getCurrentUser()->getOrganizationVec().at(data::User::getCurrentUser()->getOrgIndex()).getId() + "','" + cv.at(0).getId() + "','" + ev.at(0).getId() + "')";
 	db::PSQL::getInstance()->set(&query);
 
-	std::vector<data::Branch> bv;
-	select = "*";
-	from = "branches";
-	where = "organizationid = '" + data::User::getCurrentUser()->getOrganizationVec().at(data::User::getCurrentUser()->getOrgIndex()).getId() + "' AND active";
-	db::PSQL::getInstance()->get(&select, &from, &where, &bv);
+	data::User::getCurrentUser()->updataBranchVec();
+	std::vector<data::Branch> bv = data::User::getCurrentUser()->getBranchVec();
 
 	if (bv.at(bv.size()-1).getCode() == code.toStdString() ) {
 			ui->le_add_branch_name->setText("");
@@ -180,13 +177,7 @@ void Org::orgInfoPage() {
 
 void Org::updateLWBranches() {
 
-	std::vector<data::Branch> bv;
-	std::string select, from ,where, query;
-	select = "*";
-	from = "branches";
-	where = "organizationid = '" + data::User::getCurrentUser()->getOrganizationVec().at(data::User::getCurrentUser()->getOrgIndex()).getId() + "' AND active";
-	db::PSQL::getInstance()->get(&select, &from, &where, &bv);
-	data::User::getCurrentUser()->setBranchVec(&bv);
+	data::User::getCurrentUser()->updataBranchVec();
 
 	ui->lw_branches->clear();
 
@@ -208,5 +199,11 @@ void Org::on_tabWidget_org_and_branch_currentChanged(int index)
 	if (index == 1) {
 			updateLWBranches();
 		}
+}
+
+
+void Org::on_lw_branches_doubleClicked(const QModelIndex &index)
+{
+		data::User::getCurrentUser()->setBranchIndex(index.row());
 }
 

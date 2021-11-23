@@ -104,9 +104,9 @@ id uuid default uuid_generate_v4() primary key
 create table inventory (
 id uuid default uuid_generate_v4() primary key
 , itemid uuid references items(id)
-, attributes text not null
-, colour text not null
-, serial text
+, attributes text 
+, colour text 
+, serial text unique not null
 , branchid uuid references branches(id)
 , quantity numeric not null default 1
 , price numeric not null

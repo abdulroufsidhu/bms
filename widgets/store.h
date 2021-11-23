@@ -22,6 +22,10 @@ private slots:
 
 	void on_tabWidget_currentChanged(int index);
 
+	void on_btn_add_inventory_clicked();
+
+	void on_btn_list_filter_clicked();
+
 private:
 	Ui::Store *ui;
 };
