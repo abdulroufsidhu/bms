@@ -17,6 +17,7 @@ public:
 	explicit Store(QWidget *parent = nullptr);
 	~Store();
 
+	void updateItemsList(std::string where = "");
 private slots:
 	void on_btn_generate_uuid_clicked();
 
@@ -25,6 +26,12 @@ private slots:
 	void on_btn_add_inventory_clicked();
 
 	void on_btn_list_filter_clicked();
+
+	void on_cb_list_branches_currentIndexChanged(const QString &arg1);
+
+	void on_le_update_serial_returnPressed();
+
+	void on_btn_update_item_clicked();
 
 private:
 	Ui::Store *ui;

@@ -28,7 +28,7 @@ private:
 public:
 	static db::PSQL* getInstance();
 
-	void set(std::string* query);
+	std::string set(std::string* query);
 
 	std::ifstream getFile(std::string* name);
 	static void clearLayout(QLayout *l);

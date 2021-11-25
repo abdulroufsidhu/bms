@@ -8,7 +8,7 @@ data::Inventory::Inventory(std::vector<std::string> *args) {
 	std::string select, from, where;
 	select = "*";
 	from = "items";
-	where = " id ='" + args->at(1);
+	where = " id ='" + args->at(1) +"'";
 	std::vector<data::Item> i;
 	db::PSQL::getInstance()->get(&select, &from, &where, &i);
 	this->item = i.at(0);

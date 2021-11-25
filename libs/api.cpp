@@ -51,12 +51,13 @@ void db::PSQL::getConInfo(std::string* file_name) {
 	this->conInfo = this->db + " " + this->usr + " " + this->pswd + " " + this->h_addr + " " + this->port;
 }
 
-void db::PSQL::set(std::string *query) {
+std::string db::PSQL::set(std::string *query) {
+	std::string err = "";
 	try {
 		pqxx::connection C(this->conInfo);
 		if (!C.is_open()) {
 				QMessageBox::critical(0, "db error" , "database connection not established");
-				return;
+				return err;
 			}
 		pqxx::work W(C);
 		W.exec(query->c_str());
@@ -64,8 +65,10 @@ void db::PSQL::set(std::string *query) {
 		qInfo() << "operation successfull";
 	}  catch (std::exception& e) {
 		qCritical() << e.what();
+		err = e.what();
 		QMessageBox::critical(0,"error updating data", e.what());
 	}
+	return err;
 	//    delete query;
 }
 
