@@ -19,11 +19,9 @@ public:
 
 	void updateItemsList(std::string where = "");
 private slots:
-	void on_btn_generate_uuid_clicked();
+	void initiate();
 
 	void on_tabWidget_currentChanged(int index);
-
-	void on_btn_add_inventory_clicked();
 
 	void on_btn_list_filter_clicked();
 

@@ -4,12 +4,12 @@
 
 #include <QWidget>
 #include "ui_signup.h"
-#include "../libs/api.h"
-#include "../libs/location.h"
-#include "../libs/person.h"
-#include "../libs/user.h"
-#include "../libs/auth.h"
-#include "../mainwindow.h"
+#include "../../libs/api.h"
+#include "../../libs/location.h"
+#include "../../libs/person.h"
+#include "../../libs/user.h"
+#include "../../libs/auth.h"
+#include "../../mainwindow.h"
 #include <QCompleter>
 
 namespace Ui {

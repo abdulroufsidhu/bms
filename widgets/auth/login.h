@@ -4,18 +4,17 @@
 
 #include <QWidget>
 #include "ui_login.h"
-#include "../libs/api.h"
-#include "../libs/person.h"
-#include "../libs/user.h"
-#include "../libs/auth.h"
-#include "../mainwindow.h"
+#include "../../libs/api.h"
+#include "../../libs/person.h"
+#include "../../libs/user.h"
+#include "../../libs/auth.h"
+#include "../../mainwindow.h"
 
 namespace Ui {
 	class Login;
 }
 
-class Login : public QWidget
-{
+class Login : public QWidget {
 	Q_OBJECT
 
 public:

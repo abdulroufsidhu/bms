@@ -4,8 +4,8 @@
 #include <QDialog>
 #include <QMessageBox>
 #include "./libs/api.h"
-#include "./widgets/login.h"
-#include "./widgets/signup.h"
+#include "./widgets/auth/login.h"
+#include "./widgets/auth/signup.h"
 
 namespace Ui {
 	class AuthScreen;

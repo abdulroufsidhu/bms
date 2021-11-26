@@ -23,14 +23,6 @@ public:
 
 private slots:
 
-	void on_btn_home_clicked();
-
-	void on_btn_inventory_clicked();
-
-	void on_btn_organization_clicked();
-
-	void on_btn_person_clicked();
-
 private:
 	Ui::MainWindow *ui;
 	Home* h = NULL;

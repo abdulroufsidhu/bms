@@ -8,54 +8,22 @@ MainWindow::MainWindow(QWidget *parent)
 {
 	ui->setupUi(this);
 //	data::User::getCurrentUser()->updataBranchVec();
+
+	ui->tab_main->tabBar()->setStyle(new CustomTabStyle);
+	ui->tab_main->addTab(new Home(), QIcon(":/icons/icons/home-svgrepo-com.svg"), "HOME");
+	ui->tab_main->addTab(new Store(), QIcon(":/icons/icons/stock-svgrepo-com.svg"), "STORE");
+	ui->tab_main->addTab(new Org(), QIcon(":/icons/icons/organization-administration-svgrepo-com.svg"), "ORGANIZATION");
+	ui->tab_main->addTab(new Personal(), QIcon(":/icons/icons/person-svgrepo-com.svg"), "PERSONAL");
+	ui->tab_main->setIconSize(QSize(48,48));
+
+	QString tabbarStylesheet = " background-color: transparent; ";
+
+	ui->tab_main->tabBar()->setStyleSheet(tabbarStylesheet);
+
 }
 
 MainWindow::~MainWindow()
 {
 	delete ui;
-}
-
-void MainWindow::on_btn_home_clicked()
-{
-	delete s; s = NULL;
-	delete o; o = NULL;
-	delete p; p = NULL;
-	if (h==NULL) h = new Home();
-	db::PSQL::clearLayout(ui->output_layout);
-	ui->output_layout->addWidget(h);
-}
-
-
-void MainWindow::on_btn_inventory_clicked()
-{
-	delete h; h = NULL;
-	delete o; o = NULL;
-	delete p; p = NULL;
-	if (s==NULL) s = new Store();
-	db::PSQL::clearLayout(ui->output_layout);
-	ui->output_layout->addWidget(s);
-
-}
-
-
-void MainWindow::on_btn_organization_clicked()
-{
-	delete h; h = NULL;
-	delete s; s = NULL;
-	delete p; p = NULL;
-	if (o==NULL) o = new Org();
-	db::PSQL::clearLayout(ui->output_layout);
-	ui->output_layout->addWidget(o);
-}
-
-
-void MainWindow::on_btn_person_clicked()
-{
-	delete h; h = NULL;
-	delete o; o = NULL;
-	delete s; s = NULL;
-	if (p==NULL) p = new Personal();
-	db::PSQL::clearLayout(ui->output_layout);
-	ui->output_layout->addWidget(p);
 }
 

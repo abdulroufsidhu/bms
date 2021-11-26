@@ -17,8 +17,6 @@ data::User::User(std::vector<std::string>* args) {
 	if (args->size()<1) {QMessageBox::information(0,"caution","no user found"); return;}
 	this->id = args->at(0);
 
-	QMessageBox::information(0,"user id", args->at(0).c_str());
-
 	std::string select, from, where;
 	select = "*";
 	//Person
@@ -78,3 +76,13 @@ void data::User::updataBranchVec() {
 	db::PSQL::getInstance()->get(&select, &from, &where, &bv);
 	this->setBranchVec(&bv);
 }
+
+QStringList &data::User::getBranchesNamesList() { return this->branchesNamesList; }
+
+void data::User::updateBranchesNamesList() {
+	for (short int i = 0 ; i < (short int) data::User::getCurrentUser()->getBranchVec().size() ; i++ ) {
+			branchesNamesList.insert( i , QString(data::User::getCurrentUser()->getOrganizationVec().at(data::User::getCurrentUser()->getOrgIndex()).getName().c_str()) + "\t:\t" + QString ( data::User::getCurrentUser()->getBranchVec().at(i).getCode().c_str() ) );
+		}
+}
+
+

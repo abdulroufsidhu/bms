@@ -1,5 +1,5 @@
 #include "login.h"
-#include "authscreen.h"
+#include "../authscreen.h"
 
 Login::Login(QWidget *parent) :
 	QWidget(parent),

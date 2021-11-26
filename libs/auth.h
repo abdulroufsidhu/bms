@@ -7,6 +7,8 @@
 #include "./person.h"
 #include "./user.h"
 
+#include <QTimer>
+
 namespace data {
 	class Auth;
 }
@@ -41,7 +43,6 @@ public:
 		std::string query = "select emailid from auth where emailid ='" + e.at(0).getId() + "' and password = '" + *pswd + "' and active ";
 		std::string eid;
 		db::PSQL::getInstance()->get(&query, &eid);
-		//    QMessageBox::information(0,"email id", QString(eid.c_str()) + "\n" + QString(this->email.getId().c_str()));
 		if (this->email.getId() != eid) { QMessageBox::critical(0, "error", "login credentials not confirmed."); return ; }
 
 		std::vector<data::Person> per;
@@ -59,8 +60,10 @@ public:
 				where = "founderid = '" + data::User::getCurrentUser()->getPerson().getId() + "'";
 				db::PSQL::getInstance()->get(&select, &from, &where, &ov);
 				data::User::getCurrentUser()->setOrganizationVec(&ov);
-				source_widow->hide();
-				destination_window->show();
+				QTimer::singleShot(250,this,[=](){
+						source_widow->hide();
+						destination_window->show();
+					});
 			}
 	}
 };

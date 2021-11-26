@@ -33,13 +33,15 @@ SOURCES += \
     libs/user.cpp \
     main.cpp \
     mainwindow.cpp \
+  widgets/StoreTab/available/addproduct.cpp \
+  widgets/StoreTab/available/listavailable.cpp \
+    widgets/auth/login.cpp \
+    widgets/auth/signup.cpp \
     widgets/authscreen.cpp \
     widgets/home.cpp \
     widgets/org.cpp \
     widgets/personal.cpp \
-    widgets/store.cpp \
-    widgets/login.cpp \
-    widgets/signup.cpp
+	widgets/store.cpp
 
 HEADERS += \
     libs/api.h \
@@ -59,23 +61,27 @@ HEADERS += \
     libs/report.h \
     libs/user.h \
     mainwindow.h \
+  widgets/StoreTab/available/addproduct.h \
+  widgets/StoreTab/available/listavailable.h \
+    widgets/auth/login.h \
+    widgets/auth/signup.h \
     widgets/authscreen.h \
     widgets/home.h \
     widgets/org.h \
     widgets/personal.h \
-    widgets/store.h \
-    widgets/login.h \
-    widgets/signup.h
+	widgets/store.h
 
 FORMS += \
     mainwindow.ui \
+  widgets/StoreTab/available/addproduct.ui \
+  widgets/StoreTab/available/listavailable.ui \
+    widgets/auth/login.ui \
+    widgets/auth/signup.ui \
     widgets/authscreen.ui \
     widgets/home.ui \
     widgets/org.ui \
     widgets/personal.ui \
-    widgets/store.ui \
-    widgets/login.ui \
-    widgets/signup.ui
+	widgets/store.ui \
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

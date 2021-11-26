@@ -21,9 +21,11 @@ private:
 	std::vector<data::Branch> branches;
 	std::vector<data::Organization> organizations;
 	double salary;
-	static data::User* currentUser;
 	int org_index = 0 ;
 	int branc_index = 0;
+
+	static data::User* currentUser;
+	QStringList branchesNamesList;
 
 public:
 	User();
@@ -49,6 +51,9 @@ public:
 	void setBranchIndex( int i);
 
 	void updataBranchVec();
+
+	QStringList& getBranchesNamesList();
+	void updateBranchesNamesList();
 
 };
 

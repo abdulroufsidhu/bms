@@ -9,17 +9,20 @@ Org::Org(QWidget *parent) :
 {   
 	ui->setupUi(this);
 
-	orgInfoPage();
+	QTimer::singleShot(10000, this, [=] () {
 
-	updateLWOrg();
+			orgInfoPage();
 
-	updateLWBranches();
+			updateLWOrg();
+
+			updateLWBranches();
+		});
+
 
 }
 
 Org::~Org()
 {
-	//    QMessageBox::information(this,"destroying", "org destroyed");
 	delete ui;
 }
 
@@ -145,11 +148,13 @@ void Org::on_tabWidget_2_currentChanged(int index)
 }
 
 void Org::updateLWOrg() {
-	ui->lw_organizations->clear();
-	for (auto i : data::User::getCurrentUser()->getOrganizationVec()) {
-			QString str = QString((i.getName() + " : " + i.getEmail().getText() ).c_str());
-			ui->lw_organizations->addItem(str);
-		}
+	QTimer::singleShot(100,this,[=]() {
+			ui->lw_organizations->clear();
+			for (auto i : data::User::getCurrentUser()->getOrganizationVec()) {
+					QString str = QString((i.getName() + " : " + i.getEmail().getText() ).c_str());
+					ui->lw_organizations->addItem(str);
+				}
+		});
 }
 
 void Org::on_lw_organizations_doubleClicked(const QModelIndex &index)
@@ -167,12 +172,14 @@ void Org::on_tabWidget_currentChanged(int index)
 }
 
 void Org::orgInfoPage() {
-	int index = data::User::getCurrentUser()->getOrgIndex();
-	ui->tabWidget_org_and_branch->tabBar()->setStyle(new CustomTabStyle);
-	ui->label_org_name->setText(data::User::getCurrentUser()->getOrganizationVec().at(index).getName().c_str());
-	ui->label_organization_founder->setText(data::User::getCurrentUser()->getOrganizationVec().at(index).getPerson().getName().c_str());
-	ui->label_current_branch->setText(data::User::getCurrentUser()->getBranch().getName().c_str());
-	ui->label_current_location->setText(data::User::getCurrentUser()->getBranch().getLocation().getAddress().c_str());
+	QTimer::singleShot(100, this, [=] () {
+			int index = data::User::getCurrentUser()->getOrgIndex();
+			ui->tabWidget_org_and_branch->tabBar()->setStyle(new CustomTabStyle);
+			ui->label_org_name->setText(data::User::getCurrentUser()->getOrganizationVec().at(index).getName().c_str());
+			ui->label_organization_founder->setText(data::User::getCurrentUser()->getOrganizationVec().at(index).getPerson().getName().c_str());
+			ui->label_current_branch->setText(data::User::getCurrentUser()->getBranch().getName().c_str());
+			ui->label_current_location->setText(data::User::getCurrentUser()->getBranch().getLocation().getAddress().c_str());
+		});
 }
 
 void Org::updateLWBranches() {
