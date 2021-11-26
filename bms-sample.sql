@@ -7,12 +7,12 @@ id uuid default uuid_generate_v4() primary key
 
 create table cnics (
 id uuid default uuid_generate_v4() primary key
-, cnic text not null unique
+, cnic text unique
 );
 
 create table emails (
 id uuid default uuid_generate_v4() primary key
-, email text not null unique
+, email text unique
 );
 
 create table auth (
@@ -43,7 +43,7 @@ create table locations (
 id uuid default uuid_generate_v4() primary key
 , city text 
 , country text 
-, address text
+, address text unique
 );
 
 create table persons (
@@ -61,7 +61,7 @@ id uuid default uuid_generate_v4() primary key
 , name text not null
 , founderid uuid references persons(id) not null
 , emailid uuid references emails(id) not null unique --yet to be added in database // November 7, 2021  10:13am
--- , logo 	//yet to implement
+, logo BYTEa	--yet to implement
 );
 
 create table branches (

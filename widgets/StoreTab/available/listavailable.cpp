@@ -25,6 +25,10 @@ void ListAvailable::on_btn_list_filter_clicked()
 	updateItemsList( where);
 }
 
+void ListAvailable::on_cb_list_branches_currentIndexChanged(int index)
+{
+		this->updateItemsList();
+}
 
 void ListAvailable::updateItemsList( std::string where) {
 	std::string select, from;
@@ -43,7 +47,6 @@ void ListAvailable::updateItemsList( std::string where) {
 					for (auto i : invVec) {
 							ui->lw_items->addItem( QString( ( i.getItem().getCompany() + " : " + i.getItem().getName() + " : " + i.getItem().getModal() + i.getItem().getVersion() + " : " + i.getItem().getVendor()  ).c_str() ) );
 						}
-
 				}
 		} else {
 			from = "inventory";
@@ -57,4 +60,6 @@ void ListAvailable::updateItemsList( std::string where) {
 		}
 
 }
+
+
 

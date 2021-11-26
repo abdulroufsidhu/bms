@@ -4,5 +4,9 @@
         <file>icons/organization-administration-svgrepo-com.svg</file>
         <file>icons/stock-svgrepo-com.svg</file>
         <file>icons/person-svgrepo-com.svg</file>
+        <file>icons/arrow-up-circle.svg</file>
+        <file>icons/card-list.svg</file>
+        <file>icons/file-earmark-plus.svg</file>
+        <file>icons/search.svg</file>
     </qresource>
 </RCC>

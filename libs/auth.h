@@ -60,10 +60,8 @@ public:
 				where = "founderid = '" + data::User::getCurrentUser()->getPerson().getId() + "'";
 				db::PSQL::getInstance()->get(&select, &from, &where, &ov);
 				data::User::getCurrentUser()->setOrganizationVec(&ov);
-				QTimer::singleShot(250,this,[=](){
-						source_widow->hide();
-						destination_window->show();
-					});
+				source_widow->hide();
+				destination_window->show();
 			}
 	}
 };

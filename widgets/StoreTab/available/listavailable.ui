@@ -6,14 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>608</width>
+    <height>475</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="1" column="0">
+    <widget class="QListWidget" name="lw_items">
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+    </widget>
+   </item>
    <item row="0" column="0">
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
@@ -51,12 +58,15 @@
        </item>
        <item>
         <widget class="QPushButton" name="btn_list_filter">
+         <property name="styleSheet">
+          <string notr="true">padding: 4px</string>
+         </property>
          <property name="text">
           <string/>
          </property>
          <property name="icon">
-          <iconset theme="search">
-           <normaloff>../../</normaloff>../../</iconset>
+          <iconset resource="../../../resources/icons.qrc">
+           <normaloff>:/icons/icons/search.svg</normaloff>:/icons/icons/search.svg</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -76,15 +86,10 @@
      </item>
     </layout>
    </item>
-   <item row="1" column="0">
-    <widget class="QListWidget" name="lw_items">
-     <property name="frameShape">
-      <enum>QFrame::NoFrame</enum>
-     </property>
-    </widget>
-   </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../../resources/icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

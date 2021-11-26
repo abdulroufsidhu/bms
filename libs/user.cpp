@@ -80,6 +80,7 @@ void data::User::updataBranchVec() {
 QStringList &data::User::getBranchesNamesList() { return this->branchesNamesList; }
 
 void data::User::updateBranchesNamesList() {
+	branchesNamesList.clear();
 	for (short int i = 0 ; i < (short int) data::User::getCurrentUser()->getBranchVec().size() ; i++ ) {
 			branchesNamesList.insert( i , QString(data::User::getCurrentUser()->getOrganizationVec().at(data::User::getCurrentUser()->getOrgIndex()).getName().c_str()) + "\t:\t" + QString ( data::User::getCurrentUser()->getBranchVec().at(i).getCode().c_str() ) );
 		}

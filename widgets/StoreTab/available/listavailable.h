@@ -19,9 +19,11 @@ public:
 	explicit ListAvailable(QWidget *parent = nullptr);
 	~ListAvailable();
 
-	void updateItemsList(std::string where);
+	void updateItemsList(std::string where = "");
 private slots:
 	void on_btn_list_filter_clicked();
+
+	void on_cb_list_branches_currentIndexChanged(int index);
 
 private:
 	Ui::ListAvailable *ui;

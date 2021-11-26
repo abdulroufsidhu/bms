@@ -9,15 +9,9 @@ Org::Org(QWidget *parent) :
 {   
 	ui->setupUi(this);
 
-	QTimer::singleShot(10000, this, [=] () {
-
-			orgInfoPage();
-
-			updateLWOrg();
-
-			updateLWBranches();
-		});
-
+	orgInfoPage();
+	updateLWOrg();
+	updateLWBranches();
 
 }
 
@@ -58,23 +52,22 @@ void Org::on_btn_register_clicked()
 
 void Org::on_btn_relocate_clicked()
 {
-
+	std::string query, select, from, where;
+	query = "insert into locations (address) values ('" + ui->le_branch_new_address->text().toStdString() + "')";
+	select = "*";
+	from = "locations";
+	where = "address= '"+ui->le_branch_new_address->text().toStdString()+"'";
+	db::PSQL::getInstance()->set(&query);
+	std::vector<data::Location> lv;
+	db::PSQL::getInstance()->get(&select, &from, &where, &lv);
+	query = "UPDATE branches SET locationid ='" + lv.at(0).getId() + "' WHERE id ='" + data::User::getCurrentUser()->getBranchVec().at(ui->cb_manage_branch_relocate->currentIndex()).getId() + "'";
+	db::PSQL::getInstance()->set(&query);
 }
 
 void Org::on_btn_revoke_clicked()
 {
-	QString email = ui->le_branch_email_revoke->text();
-	std::string select, from, where, query;
-
-	std::vector<data::Email> ev;
-	select = "*";
-	from = "emails";
-	where = "email ='" + email.toStdString() + "'";
-	db::PSQL::getInstance()->get(&select, &from, &where, &ev);
-
-	query = "UPDATE branches SET active = false WHERE emailid ='" + ev.at(0).getId() + "'";
-	ui->le_branch_email_revoke->setText("");
-
+	std::string query = "UPDATE branches SET active = false WHERE id ='" + data::User::getCurrentUser()->getBranchVec().at(ui->cb_branch_revoke->currentIndex()).getId() + "'";
+	db::PSQL::getInstance()->set(&query);
 }
 
 void Org::on_btn_add_branch_clicked()
@@ -136,7 +129,6 @@ void Org::on_btn_add_branch_clicked()
 
 void Org::on_btn_hire_clicked()
 {
-
 }
 
 
@@ -148,19 +140,20 @@ void Org::on_tabWidget_2_currentChanged(int index)
 }
 
 void Org::updateLWOrg() {
-	QTimer::singleShot(100,this,[=]() {
-			ui->lw_organizations->clear();
-			for (auto i : data::User::getCurrentUser()->getOrganizationVec()) {
-					QString str = QString((i.getName() + " : " + i.getEmail().getText() ).c_str());
-					ui->lw_organizations->addItem(str);
-				}
-		});
+	ui->lw_organizations->clear();
+	for (auto i : data::User::getCurrentUser()->getOrganizationVec()) {
+			QString str = QString( (i.getName() + " : " + i.getEmail().getText() ).c_str());
+			ui->lw_organizations->addItem(str);
+		}
 }
 
 void Org::on_lw_organizations_doubleClicked(const QModelIndex &index)
 {
 	data::User::getCurrentUser()->setOrgIndex(index.row());
 	QMessageBox::information(this, "current organization changed", "current organization changed to " + QString(data::User::getCurrentUser()->getOrganizationVec().at(data::User::getCurrentUser()->getOrgIndex()).getEmail().getText().c_str() ) );
+
+	data::User::getCurrentUser()->updateBranchesNamesList();
+
 }
 
 
@@ -194,23 +187,21 @@ void Org::updateLWBranches() {
 		}
 }
 
-void Org::on_tabWidget_3_currentChanged(int index)
-{
-	if (index == 0) {
-			updateLWBranches();
-		}
-}
-
 void Org::on_tabWidget_org_and_branch_currentChanged(int index)
 {
 	if (index == 1) {
 			updateLWBranches();
+			data::User::getCurrentUser()->updateBranchesNamesList();
+			ui->cb_manage_branch_relocate->clear();
+			ui->cb_branch_revoke->clear();
+			ui->cb_manage_branch_relocate->addItems(data::User::getCurrentUser()->getBranchesNamesList());
+			ui->cb_branch_revoke->addItems(data::User::getCurrentUser()->getBranchesNamesList());
 		}
 }
 
 
 void Org::on_lw_branches_doubleClicked(const QModelIndex &index)
 {
-		data::User::getCurrentUser()->setBranchIndex(index.row());
+	data::User::getCurrentUser()->setBranchIndex(index.row());
 }
 

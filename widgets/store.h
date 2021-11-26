@@ -4,6 +4,10 @@
 #include <QWidget>
 #include <QMessageBox>
 #include "./libs/api.h"
+#include "../libs/user.h"
+#include "../libs/item.h"
+#include "../libs/inventory.h"
+#include "./StoreTab/available/available.h"
 
 namespace Ui {
 	class Store;
@@ -17,22 +21,10 @@ public:
 	explicit Store(QWidget *parent = nullptr);
 	~Store();
 
-	void updateItemsList(std::string where = "");
-private slots:
-	void initiate();
-
-	void on_tabWidget_currentChanged(int index);
-
-	void on_btn_list_filter_clicked();
-
-	void on_cb_list_branches_currentIndexChanged(const QString &arg1);
-
-	void on_le_update_serial_returnPressed();
-
-	void on_btn_update_item_clicked();
-
 private:
 	Ui::Store *ui;
+	Available* available = NULL;
+
 };
 
 #endif // STORE_H
