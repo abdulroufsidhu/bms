@@ -26,18 +26,70 @@
       <attribute name="title">
        <string>Tab 1</string>
       </attribute>
-      <widget class="QLabel" name="label">
+      <widget class="QWidget" name="horizontalLayoutWidget">
        <property name="geometry">
         <rect>
-         <x>240</x>
-         <y>10</y>
-         <width>66</width>
-         <height>19</height>
+         <x>30</x>
+         <y>60</y>
+         <width>461</width>
+         <height>61</height>
         </rect>
        </property>
-       <property name="text">
-        <string>Home</string>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLineEdit" name="le_add_attrib">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="placeholderText">
+           <string>CPU GENERATION :</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_add_attrib">
+          <property name="text">
+           <string>ADD ATTRIBUTE</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="verticalLayoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>150</y>
+         <width>421</width>
+         <height>261</height>
+        </rect>
        </property>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QComboBox" name="cb_attrib_add_val"/>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QLineEdit" name="le_attrib_add_val">
+            <property name="placeholderText">
+             <string>11th Generation</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_attrib_add_val">
+            <property name="text">
+             <string>ADD VALUE</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QComboBox" name="cb_branch"/>
+        </item>
+       </layout>
       </widget>
      </widget>
     </widget>

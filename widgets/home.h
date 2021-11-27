@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include <QMessageBox>
+#include "../libs/api.h"
+#include "../libs/user.h"
 
 namespace Ui {
 	class Home;
@@ -15,6 +17,12 @@ class Home : public QWidget
 public:
 	explicit Home(QWidget *parent = nullptr);
 	~Home();
+
+	void updateCBattribAddVal();
+private slots:
+	void on_btn_add_attrib_clicked();
+
+	void on_btn_attrib_add_val_clicked();
 
 private:
 	Ui::Home *ui;

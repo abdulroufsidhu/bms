@@ -60,7 +60,7 @@ create table organizations (
 id uuid default uuid_generate_v4() primary key
 , name text not null
 , founderid uuid references persons(id) not null
-, emailid uuid references emails(id) not null unique --yet to be added in database // November 7, 2021  10:13am
+, emailid uuid references emails(id) not null unique	--yet to be added in database // November 7, 2021  10:13am
 , logo BYTEa	--yet to implement
 );
 
@@ -71,7 +71,7 @@ id uuid default uuid_generate_v4() primary key
 , locationid uuid References locations(id) not null
 , organizationid uuid not null references organizations (id)
 , contactid uuid references contacts(id) 
-, emailid uuid references emails(id) not null unique --yet to be added in database // Novmber 7, 2021 10:13am
+, emailid uuid references emails(id) not null unique	--yet to be added in database // Novmber 7, 2021 10:13am
 , active boolean not null default true
 );
 
@@ -81,7 +81,7 @@ id uuid default uuid_generate_v4() primary key
 , jobid uuid references jobs(id)
 , branchid uuid references branches(id)                                        
 , salary text default '0' not null
-, active BOOL not null default true -- use this while getting user for login
+, active BOOL not null default true	-- use this while getting user for login
 );
 
 /*
@@ -123,7 +123,7 @@ id uuid default uuid_generate_v4() primary key
 , quantity integer default 1
 , branchid uuid references branches(id) not null
 , profit numeric not null
-, time date not null default CURRENT_DATE -- to use it I can say select to_char(time,'yyyymm') from deals
+, time date not null default CURRENT_DATE	--to use it I can say select to_char(time,'yyyymm') from deals
 );
 
 create table expensis (
@@ -138,8 +138,21 @@ create table reports (
 id uuid default uuid_generate_v4() primary key
 , branchid uuid references branches(id) not null
 , profit numeric not null default 0
-, time date not null default CURRENT_DATE --use wher to_char(time, 'yyyymm') == to_char(CURRENT_DATE, 'yyyymm')
+, time date not null default CURRENT_DATE	--use wher to_char(time, 'yyyymm') == to_char(CURRENT_DATE, 'yyyymm')
 );
+
+create table attributes (
+id uuid default uuid_generate_v4() primary key
+, attrib text not null unique
+);
+
+create table attribval (
+id uuid default uuid_generate_v4() primary key
+, attribid uuid references attributes(id) not null
+, val text not null
+, branchid uuid references attributes(id) not null
+);
+
 
 /*
 create table employees (
