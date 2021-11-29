@@ -150,7 +150,7 @@ create table attribval (
 id uuid default uuid_generate_v4() primary key
 , attribid uuid references attributes(id) not null
 , val text not null
-, branchid uuid references attributes(id) not null
+, branchid uuid references branches(id) not null
 );
 
 

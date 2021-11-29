@@ -74,6 +74,7 @@ std::vector<std::string> &db::PSQL::getAttribs() {
 }
 
 void db::PSQL::updateAttribs() {
+	this->attribs.clear();
 	std::string select, from, where;
 	select = "attrib"; from = "attributes"; where = "";
 	db::PSQL::getInstance()->getVecStr(&select, &from, &where, &this->getAttribs());

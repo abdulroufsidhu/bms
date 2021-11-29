@@ -8,5 +8,7 @@
         <file>icons/card-list.svg</file>
         <file>icons/file-earmark-plus.svg</file>
         <file>icons/search.svg</file>
+        <file>icons/node-plus.svg</file>
+        <file>icons/send-check.svg</file>
     </qresource>
 </RCC>

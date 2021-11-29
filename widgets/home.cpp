@@ -40,7 +40,10 @@ void Home::on_btn_attrib_add_val_clicked()
 	std::string query;
 	std::vector<std::string> attribVec;
 	db::PSQL::getInstance()->getVecStr(new std::string("id"), new std::string("attributes"), new std::string("attrib = '"+ ui->cb_attrib_add_val->currentText().toStdString() + "'"), &attribVec);
-	query = "insert into attribval(attribid, val, branchid) values ('" + attribVec.at(0) + "','" + ui->le_attrib_add_val->text().toStdString() + "','" + data::User::getCurrentUser()->getBranchVec().at(ui->cb_branch->currentIndex()).getId() + "')";
+//	query = "insert into attribval(attribid, val, branchid) values ('" + attribVec.at(0) + "','" + ui->le_attrib_add_val->text().toStdString() + "','" + data::User::getCurrentUser()->getBranchVec().at(ui->cb_branch->currentIndex()).getId() + "')";
+	query = "INSERT INTO attribval (attribid, val, branchid) SELECT '" + attribVec.at(0) + "','" + ui->le_attrib_add_val->text().toStdString() + "','" + data::User::getCurrentUser()->getBranchVec().at(ui->cb_branch->currentIndex()).getId() + "' WHERE NOT EXISTS (SELECT attribid, val, branchid FROM attribval WHERE attribid='" + attribVec.at(0) + "' AND val ='" + ui->le_attrib_add_val->text().toStdString() + "' AND branchid ='" + data::User::getCurrentUser()->getBranchVec().at(ui->cb_branch->currentIndex()).getId() + "')";
+
 	db::PSQL::getInstance()->set(&query);
+	ui->le_attrib_add_val->clear();
 }
 
