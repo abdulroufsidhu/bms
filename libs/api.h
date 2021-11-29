@@ -24,9 +24,13 @@ private:
 	static db::PSQL* instance;
 	std::string db, usr, pswd, h_addr, port;
 	std::string conInfo;
+	std::vector<std::string> attribs;
 
 public:
 	static db::PSQL* getInstance();
+
+	std::vector<std::string> &getAttribs();
+	void updateAttribs();
 
 	std::string set(std::string* query);
 

@@ -14,14 +14,11 @@ Home::Home(QWidget *parent) :
 }
 
 void Home::updateCBattribAddVal() {
-	std::string select, from, where;
-	std::vector<std::string> strVec;
-	select = "attrib"; from = "attributes"; where = "";
-	db::PSQL::getInstance()->getVecStr(&select, &from, &where, &strVec);
+	db::PSQL::getInstance()->updateAttribs();
 	ui->cb_attrib_add_val->clear();
-	for (auto i : strVec) {
+	for (auto i : db::PSQL::getInstance()->getAttribs()) {
 		ui->cb_attrib_add_val->addItem(i.c_str());
-		}
+	}
 }
 
 Home::~Home() { delete ui; }

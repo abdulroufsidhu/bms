@@ -29,9 +29,9 @@
       <widget class="QWidget" name="horizontalLayoutWidget">
        <property name="geometry">
         <rect>
-         <x>30</x>
+         <x>60</x>
          <y>60</y>
-         <width>461</width>
+         <width>421</width>
          <height>61</height>
         </rect>
        </property>
@@ -59,14 +59,17 @@
        <property name="geometry">
         <rect>
          <x>60</x>
-         <y>150</y>
+         <y>160</y>
          <width>421</width>
-         <height>261</height>
+         <height>111</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <widget class="QComboBox" name="cb_attrib_add_val"/>
+        </item>
+        <item>
+         <widget class="QComboBox" name="cb_branch"/>
         </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -85,9 +88,6 @@
            </widget>
           </item>
          </layout>
-        </item>
-        <item>
-         <widget class="QComboBox" name="cb_branch"/>
         </item>
        </layout>
       </widget>

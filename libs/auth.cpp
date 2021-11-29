@@ -17,3 +17,4 @@ std::string& data::Auth::getId() { return this->id; }
 std::string& data::Auth::getPassword() { return this->password; }
 data::Email& data::Auth::getEmail() { return this->email; }
 
+

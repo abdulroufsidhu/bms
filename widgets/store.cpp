@@ -14,6 +14,7 @@ Store::Store(QWidget *parent) :
 
 	available = new Available ();
 	ui->layout_avaiability->addWidget(available);
+	ui->layout_deals->addWidget(new Sell());
 
 }
 

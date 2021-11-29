@@ -22,8 +22,6 @@ std::ifstream db::PSQL::getFile(std::string* name) {
 	std::ifstream f;
 	f.open(name->c_str());
 	return f;
-	//  delete name;
-
 }
 
 void db::PSQL::clearLayout(QLayout* l) {
@@ -69,9 +67,16 @@ std::string db::PSQL::set(std::string *query) {
 		QMessageBox::critical(0,"error updating data", e.what());
 	}
 	return err;
-	//    delete query;
 }
 
+std::vector<std::string> &db::PSQL::getAttribs() {
+	return this->attribs;
+}
 
+void db::PSQL::updateAttribs() {
+	std::string select, from, where;
+	select = "attrib"; from = "attributes"; where = "";
+	db::PSQL::getInstance()->getVecStr(&select, &from, &where, &this->getAttribs());
+}
 
 
