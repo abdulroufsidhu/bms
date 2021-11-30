@@ -48,7 +48,7 @@ id uuid default uuid_generate_v4() primary key
 
 create table persons (
 id uuid default uuid_generate_v4() primary key
-, emailid uuid references emails(id) unique
+, emailid uuid references emails(id) 
 , contactid uuid references contacts(id) unique
 , cnicid uuid references cnics(id) unique
 , locationid uuid references locations(id)
@@ -62,6 +62,7 @@ id uuid default uuid_generate_v4() primary key
 , founderid uuid references persons(id) not null
 , emailid uuid references emails(id) not null unique	--yet to be added in database // November 7, 2021  10:13am
 , logo BYTEa	--yet to implement
+, desclaimer text
 );
 
 create table branches (
@@ -78,10 +79,16 @@ id uuid default uuid_generate_v4() primary key
 create table users (
 id uuid default uuid_generate_v4() primary key
 , personid uuid references persons(id) unique
+, active BOOL not null default true	-- use this while getting user for login
+);
+
+create table employee (
+id uuid default uuid_generate_v4() primary key 
+, userid uuid references users(id) not null
 , jobid uuid references jobs(id)
 , branchid uuid references branches(id)                                        
 , salary text default '0' not null
-, active BOOL not null default true	-- use this while getting user for login
+, active BOOL not null default true	-- use this while getting user for login 
 );
 
 /*
@@ -117,7 +124,7 @@ create table deals (
 id uuid default uuid_generate_v4() primary key
 , inventoryid uuid references inventory(id)
 , price numeric not null
-, discount numeric default 0
+, discount numeric not null default 0
 , personid uuid references persons(id) not null              
 , userid uuid references users(id) not null
 , quantity integer default 1

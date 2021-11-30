@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
 	QString tabbarStylesheet = " background-color: transparent; ";
 	ui->tab_main->tabBar()->setStyleSheet(tabbarStylesheet);
 
-	QTimer::singleShot(5000,this, [=]() {
+	QTimer::singleShot(3000,this, [=]() {
 			ui->tab_main->addTab(new Home(), QIcon(":/icons/icons/home-svgrepo-com.svg"), "HOME");
 			ui->tab_main->addTab(new Store(), QIcon(":/icons/icons/stock-svgrepo-com.svg"), "STORE");
 			ui->tab_main->addTab(new Org(), QIcon(":/icons/icons/organization-administration-svgrepo-com.svg"), "ORGANIZATION");

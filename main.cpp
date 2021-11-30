@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 			a.setFont(f);
 	AuthScreen auth;
 	auth.show();
-	//    MainWindow w;
-	//    w.show();
+//			MainWindow w;
+//			w.show();
 	return a.exec();
 }

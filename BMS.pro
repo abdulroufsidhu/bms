@@ -34,11 +34,11 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
 	widgets/StoreTab/available/addproduct.cpp \
-  widgets/StoreTab/available/available.cpp \
+	widgets/StoreTab/available/available.cpp \
 	widgets/StoreTab/available/listavailable.cpp \
 	widgets/StoreTab/available/updateproduct.cpp \
-  widgets/StoreTab/deal/sell.cpp \
-  widgets/attrvalwdgt.cpp \
+	widgets/StoreTab/deal/sell.cpp \
+	widgets/attrvalwdgt.cpp \
     widgets/auth/login.cpp \
     widgets/auth/signup.cpp \
     widgets/authscreen.cpp \
@@ -66,11 +66,11 @@ HEADERS += \
     libs/user.h \
     mainwindow.h \
 	widgets/StoreTab/available/addproduct.h \
-  widgets/StoreTab/available/available.h \
+	widgets/StoreTab/available/available.h \
 	widgets/StoreTab/available/listavailable.h \
 	widgets/StoreTab/available/updateproduct.h \
-  widgets/StoreTab/deal/sell.h \
-  widgets/attrvalwdgt.h \
+	widgets/StoreTab/deal/sell.h \
+	widgets/attrvalwdgt.h \
     widgets/auth/login.h \
     widgets/auth/signup.h \
     widgets/authscreen.h \
@@ -82,11 +82,11 @@ HEADERS += \
 FORMS += \
     mainwindow.ui \
 	widgets/StoreTab/available/addproduct.ui \
-  widgets/StoreTab/available/available.ui \
+	widgets/StoreTab/available/available.ui \
 	widgets/StoreTab/available/listavailable.ui \
 	widgets/StoreTab/available/updateproduct.ui \
-  widgets/StoreTab/deal/sell.ui \
-  widgets/attrvalwdgt.ui \
+	widgets/StoreTab/deal/sell.ui \
+	widgets/attrvalwdgt.ui \
     widgets/auth/login.ui \
     widgets/auth/signup.ui \
     widgets/authscreen.ui \

@@ -21,6 +21,10 @@ private slots:
 
 	void on_pushButton_clicked();
 
+	void on_btn_sell_clicked();
+
+	void on_btn_remove_last_clicked();
+
 private:
 	Ui::Sell *ui;
 
