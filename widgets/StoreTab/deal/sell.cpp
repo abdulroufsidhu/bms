@@ -104,7 +104,35 @@ void Sell::on_btn_sell_clicked()
 	where = "emailid ='" + e.at(0).getId() + "'";
 	db::PSQL::getInstance()->get(&select, &from, &where, &p);
 
+	from = "inventory"; where="serial ='" + serial + "'";
+	std::vector<data::Inventory> invVec;
+	db::PSQL::getInstance()->get(&select, &from, &where, &invVec);
 
+	q = "UPDATE inventory SET atrributes ='" + ui->te_attributes_text->toPlainText().toStdString() + "', colour ='" + ui->le_colour->text().toStdString() + "' WHERE id = '" + invVec.at(0).getId() + "'";
+	db::PSQL::getInstance()->set(&q);
+
+
+	double profit =  ( ui->sb_price->text().toDouble() - (ui->sb_discount->text().toDouble() * ui->sb_discount->text().toDouble() / 100 ) ) - invVec.at(0).getPrice() ;
+
+	q = "insert into deals (inventoryid, price, discount, personid, userid, branchid, profit) values ( '" + invVec.at(0).getId() + "','" + price + "','" + ui->sb_discount->text().toStdString() + "','" + p.at(0).getId() + "','" + data::User::getCurrentUser()->getId() + "','" + invVec.at(0).getBranch().getId() + "'," + QString::number( profit ).toStdString() + ")";
+
+	if (db::PSQL::getInstance()->set(&q).empty()) {
+			ui->le_name->clear();
+			ui->le_phone->clear();
+			ui->le_cnic->clear();
+			ui->le_email->clear();
+			ui->le_country->clear();
+			ui->le_city->clear();
+			ui->le_address->clear();
+			ui->le_serial->clear();
+			ui->sb_price->clear();
+			ui->le_colour->clear();
+			ui->sb_discount->clear();
+			db::PSQL::clearLayout(ui->v_layout_tab_selectors);
+			qDeleteAll(avwQvec);
+			avwQvec.clear();
+			ui->te_attributes_text->clear();
+		}
 }
 
 void Sell::on_btn_remove_last_clicked()
