@@ -55,11 +55,7 @@ public:
 		db::PSQL::getInstance()->getVecStr(&select, &from, &where, &usr);
 		data::User::setCurrentUser(&usr);
 		if (data::User::getCurrentUser()->getPerson().getId().length()) {
-				std::vector<data::Organization> ov;
-				from = "organizations";
-				where = "founderid = '" + data::User::getCurrentUser()->getPerson().getId() + "'";
-				db::PSQL::getInstance()->get(&select, &from, &where, &ov);
-				data::User::getCurrentUser()->setOrganizationVec(&ov);
+				data::User::getCurrentUser()->updateOrgVecBusiness();
 				source_widow->hide();
 				destination_window->show();
 			}

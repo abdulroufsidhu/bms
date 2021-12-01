@@ -5,9 +5,12 @@ Home::Home(QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::Home)
 {
+	ui->setupUi(this);
+
+	if (data::User::getCurrentUser()->getOrganizationVec().size() < 1) return;
+
 	data::User::getCurrentUser()->updataBranchVec();
 	data::User::getCurrentUser()->updateBranchesNamesList();
-	ui->setupUi(this);
 	ui->cb_branch->clear();
 	ui->cb_branch->addItems(data::User::getCurrentUser()->getBranchesNamesList());
 	this->updateCBattribAddVal();
@@ -37,6 +40,9 @@ void Home::on_btn_add_attrib_clicked()
 
 void Home::on_btn_attrib_add_val_clicked()
 {
+
+	if (data::User::getCurrentUser()->getOrganizationVec().size() < 1) return;
+
 	std::string query;
 	std::vector<std::string> attribVec;
 	db::PSQL::getInstance()->getVecStr(new std::string("id"), new std::string("attributes"), new std::string("attrib = '"+ ui->cb_attrib_add_val->currentText().toStdString() + "'"), &attribVec);

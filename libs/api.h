@@ -48,11 +48,10 @@ public:
 		try {
 			if (!select->length()
 					|| !from->length()
-					) { throw " select or from is missing "; return; }
+					) { QMessageBox::critical(0,"error", " select or from is missing "); return; }
 			pqxx::connection C(this->conInfo);
 			if (!C.is_open()) {
 					QMessageBox::critical(0, "db error" , "database connection not established");
-					throw "database connection not established";
 					return;
 				}
 			std::string query = "SELECT " + (std::string) select->c_str()
@@ -96,7 +95,7 @@ public:
 		try {
 			if (!select->length()
 					|| !from->length()
-					) { throw " select or from is missing "; return; }
+					) { QMessageBox::critical(0,"error", " select or from is missing "); return; }
 			pqxx::connection C(this->conInfo);
 			if (!C.is_open()) {
 					QMessageBox::critical(0, "db error" , "unable to connect to database");

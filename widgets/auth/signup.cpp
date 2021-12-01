@@ -111,7 +111,19 @@ void Signup::on_btn_signup_clicked()
 	db::PSQL::getInstance()->get(&select, &from, &where, &p);
 
 	q = "insert into users(personid)values('"+p.at(0).getId()+"')";
-	db::PSQL::getInstance()->set(&q);
+
+	if (db::PSQL::getInstance()->set(&q).empty()) {
+			QMessageBox::information(this, "success", "successfully signedup please login");
+			ui->le_name->clear();
+			ui->le_email->clear();
+			ui->le_cnic->clear();
+			ui->le_contact->clear();
+			ui->le_country->clear();
+			ui->le_city->clear();
+			ui->le_address->clear();
+			ui->le_password->clear();
+			ui->le_conf_password->clear();
+		}
 
 	//    data::Auth a = data::Auth(&email,&password);
 

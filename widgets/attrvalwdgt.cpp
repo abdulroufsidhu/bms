@@ -2,17 +2,10 @@
 #include "ui_attrvalwdgt.h"
 #include "../libs/api.h"
 
-short int AttrValWdgt::instancesCount = 0;
-
-short int& AttrValWdgt::getInstancesCount() {
-	return AttrValWdgt::instancesCount;
-}
-
 AttrValWdgt::AttrValWdgt(QWidget *parent) :
 	QDialog(parent),
 	ui(new Ui::AttrValWdgt)
 {
-	AttrValWdgt::instancesCount++;
 	ui->setupUi(this);
 	for (auto i: db::PSQL::getInstance()->getAttribs()) {
 			ui->cb_attr->insertItem(0,i.c_str());
@@ -38,7 +31,7 @@ void AttrValWdgt::on_cb_attr_currentIndexChanged(const QString &arg1)
 	select = "val"; from = "attribval"; where = "attribid ='" + QString(attribVec.at(0).c_str()).toStdString() + "'";
 	db::PSQL::getInstance()->getVecStr(&select, &from, &where, &vals);
 	ui->cb_val->clear();
-	for (int i=0; i< vals.size(); i++) {
+	for (int i=0; (int) i< (int) vals.size(); i++) {
 			ui->cb_val->insertItem(0, vals.at(i).c_str());
 		}
 	ui->cb_val->setCurrentIndex(0);

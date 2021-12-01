@@ -26,7 +26,6 @@ private slots:
 
 private:
 	Ui::AttrValWdgt *ui;
-	static short int instancesCount;
 
 protected:
 	bool eventFilter(QObject *obj, QEvent *ev) override;

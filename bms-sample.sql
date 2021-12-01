@@ -145,7 +145,7 @@ create table reports (
 id uuid default uuid_generate_v4() primary key
 , branchid uuid references branches(id) not null
 , profit numeric not null default 0
-, time date not null default CURRENT_DATE	--use wher to_char(time, 'yyyymm') == to_char(CURRENT_DATE, 'yyyymm')
+, time date not null default CURRENT_DATE	--use where to_char(time, 'yyyymm') = to_char(CURRENT_DATE, 'yyyymm')
 );
 
 create table attributes (

@@ -7,6 +7,8 @@ AddProduct::AddProduct(QWidget *parent) :
 {
 	ui->setupUi(this);
 
+	if (data::User::getCurrentUser()->getOrganizationVec().size() < 1) return;
+
 	ui->cb_add_item_branch->addItems(data::User::getCurrentUser()->getBranchesNamesList() );
 
 }
@@ -18,6 +20,9 @@ AddProduct::~AddProduct()
 
 void AddProduct::on_btn_add_inventory_clicked()
 {
+
+	if (data::User::getCurrentUser()->getOrganizationVec().size() < 1) return;
+
 	std::string select, from, where, query;
 	QString itemType, name, modal, manufacturer, vendor, serial, version, price;
 	itemType = ui->cb_item_type->currentText();

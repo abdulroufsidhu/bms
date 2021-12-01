@@ -15,6 +15,9 @@ UpdateProduct::~UpdateProduct()
 
 void UpdateProduct::on_le_update_serial_returnPressed()
 {
+
+	if (data::User::getCurrentUser()->getOrganizationVec().size() < 1) return;
+
 	ui->cb_update_branch->clear();
 	ui->sb_update_price->clear();
 	std::vector<data::Inventory> invVec;
@@ -41,6 +44,9 @@ void UpdateProduct::on_le_update_serial_returnPressed()
 
 void UpdateProduct::on_btn_update_item_clicked()
 {
+
+	if (data::User::getCurrentUser()->getOrganizationVec().size() < 1) return;
+
 	std::string query;
 	query = "UPDATE inventory SET branchid = '" + data::User::getCurrentUser()->getBranchVec().at(ui->cb_update_branch->currentIndex()).getId() + "', price = " + ui->sb_update_price->text().toStdString() + " WHERE serial = '" + ui->le_update_serial->text().toStdString() + "'";
 

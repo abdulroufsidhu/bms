@@ -48,6 +48,8 @@ void Sell::on_btn_sell_clicked()
 	std::string serial = ui->le_serial->text().toStdString();
 	std::string price = ui->sb_price->text().toStdString();
 
+	std::string select, from, where;
+
 	if (name.empty()) { QMessageBox::critical(this,"error","Please enter name"); return;}
 	if (email.empty()) { QMessageBox::critical(this,"error","Please enter email");  return;}
 	if (cnic.empty()) { QMessageBox::critical(this,"error","Please enter cnic");   return;}
@@ -58,6 +60,14 @@ void Sell::on_btn_sell_clicked()
 	if (address.empty()) { QMessageBox::critical(this,"error","Please enter address");  return;}
 	if (serial.empty()) { QMessageBox::critical(this,"error","Please enter serial");  return;}
 	if (price.empty()) { QMessageBox::critical(this,"error","Please enter price");  return;}
+	if (ui->te_attributes_text->toPlainText().isEmpty()) {QMessageBox::critical(this,"error","Please make sure attributes are written in the text box");  return;}
+
+	select = "*";
+	from = "inventory"; where="serial ='" + serial + "' and quantity > 0";
+	std::vector<data::Inventory> invVec;
+	db::PSQL::getInstance()->get(&select, &from, &where, &invVec);
+
+	if (invVec.size() < 1) { QMessageBox::critical(this, "ERROR", "item does not exist in inventory"); return; }
 
 	std::vector<data::Email> e;
 	std::vector<data::Contact> c;
@@ -72,8 +82,6 @@ void Sell::on_btn_sell_clicked()
 	q = "insert into contacts (contact) values ('" + contact + "')";
 	db::PSQL::getInstance()->set(&q);
 
-	std::string select, from, where;
-	select = "*";
 	from = "locations";
 	where = "city ='"+city+"' and country ='"+country+"' and address = '"+address+"'";
 
@@ -104,35 +112,33 @@ void Sell::on_btn_sell_clicked()
 	where = "emailid ='" + e.at(0).getId() + "'";
 	db::PSQL::getInstance()->get(&select, &from, &where, &p);
 
-	from = "inventory"; where="serial ='" + serial + "'";
-	std::vector<data::Inventory> invVec;
-	db::PSQL::getInstance()->get(&select, &from, &where, &invVec);
-
-	q = "UPDATE inventory SET atrributes ='" + ui->te_attributes_text->toPlainText().toStdString() + "', colour ='" + ui->le_colour->text().toStdString() + "' WHERE id = '" + invVec.at(0).getId() + "'";
+	q = "UPDATE inventory SET attributes ='" + ui->te_attributes_text->toPlainText().toStdString() + "', colour ='" + ui->le_colour->text().toStdString() + "', quantity = 0 WHERE id = '" + invVec.at(0).getId() + "' AND quantity > 0";
 	db::PSQL::getInstance()->set(&q);
-
 
 	double profit =  ( ui->sb_price->text().toDouble() - (ui->sb_discount->text().toDouble() * ui->sb_discount->text().toDouble() / 100 ) ) - invVec.at(0).getPrice() ;
 
 	q = "insert into deals (inventoryid, price, discount, personid, userid, branchid, profit) values ( '" + invVec.at(0).getId() + "','" + price + "','" + ui->sb_discount->text().toStdString() + "','" + p.at(0).getId() + "','" + data::User::getCurrentUser()->getId() + "','" + invVec.at(0).getBranch().getId() + "'," + QString::number( profit ).toStdString() + ")";
 
-	if (db::PSQL::getInstance()->set(&q).empty()) {
-			ui->le_name->clear();
-			ui->le_phone->clear();
-			ui->le_cnic->clear();
-			ui->le_email->clear();
-			ui->le_country->clear();
-			ui->le_city->clear();
-			ui->le_address->clear();
-			ui->le_serial->clear();
-			ui->sb_price->clear();
-			ui->le_colour->clear();
-			ui->sb_discount->clear();
-			db::PSQL::clearLayout(ui->v_layout_tab_selectors);
-			qDeleteAll(avwQvec);
-			avwQvec.clear();
-			ui->te_attributes_text->clear();
-		}
+	if (db::PSQL::getInstance()->set(&q).length()) return;
+		ui->le_name->clear();
+		ui->le_phone->clear();
+		ui->le_cnic->clear();
+		ui->le_email->clear();
+		ui->le_country->clear();
+		ui->le_city->clear();
+		ui->le_address->clear();
+		ui->le_serial->clear();
+		ui->sb_price->clear();
+		ui->le_colour->clear();
+		ui->sb_discount->clear();
+		db::PSQL::clearLayout(ui->v_layout_tab_selectors);
+		qDeleteAll(avwQvec);
+		avwQvec.clear();
+		ui->te_attributes_text->clear();
+
+		q = "insert into reports(branchid, profit) values ('" + invVec.at(0).getBranch().getId() + "'," + QString::number( profit ).toStdString() + ")";
+		db::PSQL::getInstance()->set(&q);
+
 }
 
 void Sell::on_btn_remove_last_clicked()

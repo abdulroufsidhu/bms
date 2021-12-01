@@ -57,6 +57,15 @@ double& data::User::getSalary() { return this->salary; }
 
 std::vector<data::Organization>& data::User::getOrganizationVec() { return this->organizations; }
 void data::User::setOrganizationVec(std::vector<data::Organization> *org_vec) { this->organizations = *org_vec; }
+
+void data::User::updateOrgVecBusiness() {
+	std::string select, from, where;
+	select = "*";
+	from = "organizations";
+	where = "founderid = '" + data::User::getCurrentUser()->getPerson().getId() + "'";
+	db::PSQL::getInstance()->get(&select, &from, &where, &this->getOrganizationVec());
+}
+
 int& data::User::getOrgIndex() { return this->org_index; }
 void data::User::setOrgIndex(int i) { this->org_index = i; }
 
@@ -68,11 +77,12 @@ int& data::User::getBranchIndex() { return this->branc_index; }
 void data::User::setBranchIndex(int i) { this->branc_index = i; }
 
 void data::User::updataBranchVec() {
+	if (this->getOrganizationVec().size() < 1) return;
 	std::vector<data::Branch> bv;
 	std::string select, from ,where, query;
 	select = "*";
 	from = "branches";
-	where = "organizationid = '" + data::User::getCurrentUser()->getOrganizationVec().at(data::User::getCurrentUser()->getOrgIndex()).getId() + "' AND active";
+	where = "organizationid = '" + this->getOrganizationVec().at( this->getOrgIndex() ).getId() + "' AND active";
 	db::PSQL::getInstance()->get(&select, &from, &where, &bv);
 	this->setBranchVec(&bv);
 }
@@ -80,9 +90,10 @@ void data::User::updataBranchVec() {
 QStringList &data::User::getBranchesNamesList() { return this->branchesNamesList; }
 
 void data::User::updateBranchesNamesList() {
-	branchesNamesList.clear();
-	for (short int i = 0 ; i < (short int) data::User::getCurrentUser()->getBranchVec().size() ; i++ ) {
-			branchesNamesList.insert( i , QString(data::User::getCurrentUser()->getOrganizationVec().at(data::User::getCurrentUser()->getOrgIndex()).getName().c_str()) + "\t:\t" + QString ( data::User::getCurrentUser()->getBranchVec().at(i).getCode().c_str() ) );
+	if (this->getOrganizationVec().size() < 1) return;
+	this->branchesNamesList.clear();
+	for (short int i = 0 ; i < (short int) this->getBranchVec().size() ; i++ ) {
+			this->branchesNamesList.insert( i , QString( this->getOrganizationVec().at ( this->getOrgIndex() ).getName().c_str()) + "\t:\t" + QString ( this->getBranchVec().at(i).getCode().c_str() ) );
 		}
 }
 

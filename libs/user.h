@@ -55,6 +55,7 @@ public:
 	QStringList& getBranchesNamesList();
 	void updateBranchesNamesList();
 
+	void updateOrgVecBusiness();
 };
 
 #endif // USER_H

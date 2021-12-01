@@ -7,6 +7,7 @@ ListAvailable::ListAvailable(QWidget *parent) :
 {
 	ui->setupUi(this);
 
+	if (data::User::getCurrentUser()->getOrganizationVec().size() < 1) return;
 	ui->cb_list_branches->addItems(data::User::getCurrentUser()->getBranchesNamesList() );
 
 }
@@ -31,6 +32,9 @@ void ListAvailable::on_cb_list_branches_currentIndexChanged(int index)
 }
 
 void ListAvailable::updateItemsList( std::string where) {
+
+	if (data::User::getCurrentUser()->getOrganizationVec().size() < 1) return;
+
 	std::string select, from;
 	select = "*";
 	from = "items";
