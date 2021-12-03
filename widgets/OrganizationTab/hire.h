@@ -2,6 +2,10 @@
 #define HIRE_H
 
 #include <QDialog>
+#include "../../libs/api.h"
+#include "../../libs/person.h"
+#include "../../libs/job.h"
+#include "../../libs/user.h"
 
 namespace Ui {
 	class Hire;
@@ -14,6 +18,9 @@ class Hire : public QDialog
 public:
 	explicit Hire(QWidget *parent = nullptr);
 	~Hire();
+
+private slots:
+	void on_btn_hire_clicked();
 
 private:
 	Ui::Hire *ui;
