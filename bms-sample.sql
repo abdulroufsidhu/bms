@@ -48,9 +48,9 @@ id uuid default uuid_generate_v4() primary key
 
 create table persons (
 id uuid default uuid_generate_v4() primary key
-, emailid uuid references emails(id) 
+, emailid uuid references emails(id)
 , contactid uuid references contacts(id) unique
-, cnicid uuid references cnics(id) unique
+, cnicid uuid references cnics(id) 
 , locationid uuid references locations(id)
 , name text not null 
 , age integer

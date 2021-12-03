@@ -28,23 +28,23 @@ data::User::User(std::vector<std::string>* args) {
 			this->person = p.at(0);
 		}
 	//job
-	if (!args->at(2).empty()) {
-			from = "jobs";
-			where = "id = '" + args->at(2) + "'";
-			std::vector<data::Job> j;
-			db::PSQL::getInstance()->get(&select, &from, &where, &j);
-			this->job = j.at(0);
-		}
-	//branch
-	if (!args->at(3).empty()) {
-			from = "branches";
-			where = "id = '" + args->at(3) + "'";
-			std::vector<data::Branch> b;
-			db::PSQL::getInstance()->get(&select, &from, &where, &b);
-			this->branch = b.at(0);
-		}
+//	if (!args->at(2).empty()) {
+//			from = "jobs";
+//			where = "id = '" + args->at(2) + "'";
+//			std::vector<data::Job> j;
+//			db::PSQL::getInstance()->get(&select, &from, &where, &j);
+//			this->job = j.at(0);
+//		}
+//	//branch
+//	if (!args->at(3).empty()) {
+//			from = "branches";
+//			where = "id = '" + args->at(3) + "'";
+//			std::vector<data::Branch> b;
+//			db::PSQL::getInstance()->get(&select, &from, &where, &b);
+//			this->branch = b.at(0);
+//		}
 
-	this->salary = std::atof( args->at(4).c_str() );
+//	this->salary = std::atof( args->at(4).c_str() );
 
 	//    delete args;
 }

@@ -37,7 +37,6 @@ void Sell::on_pushButton_clicked()
 
 void Sell::on_btn_sell_clicked()
 {
-
 	std::string name = ui->le_name->text().toStdString();
 	std::string contact = ui->le_phone->text().toStdString();
 	std::string cnic = ui->le_cnic->text().toStdString();

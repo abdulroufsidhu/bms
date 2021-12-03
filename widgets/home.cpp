@@ -53,3 +53,13 @@ void Home::on_btn_attrib_add_val_clicked()
 	ui->le_attrib_add_val->clear();
 }
 
+
+void Home::on_cb_branch_list_currentIndexChanged(int index)
+{
+	std::vector<std::string> pv;
+	std::string select, from, where;
+	select = "profit"; from = "reports"; where = "branchid = '" + data::User::getCurrentUser()->getBranchVec().at(index).getId() + "' and to_char(time,'yyyymm') = to_char(CURRENT_DATE,'yyyymm') ";
+	db::PSQL::getInstance()->getVecStr(&select, &from, &where, &pv);
+	ui->label_profit->setText(pv.at(0).c_str());
+}
+

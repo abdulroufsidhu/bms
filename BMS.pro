@@ -33,6 +33,7 @@ SOURCES += \
     libs/user.cpp \
     main.cpp \
     mainwindow.cpp \
+  widgets/OrganizationTab/hire.cpp \
 	widgets/StoreTab/available/addproduct.cpp \
 	widgets/StoreTab/available/available.cpp \
 	widgets/StoreTab/available/listavailable.cpp \
@@ -65,6 +66,7 @@ HEADERS += \
     libs/report.h \
     libs/user.h \
     mainwindow.h \
+  widgets/OrganizationTab/hire.h \
 	widgets/StoreTab/available/addproduct.h \
 	widgets/StoreTab/available/available.h \
 	widgets/StoreTab/available/listavailable.h \
@@ -81,6 +83,7 @@ HEADERS += \
 
 FORMS += \
     mainwindow.ui \
+  widgets/OrganizationTab/hire.ui \
 	widgets/StoreTab/available/addproduct.ui \
 	widgets/StoreTab/available/available.ui \
 	widgets/StoreTab/available/listavailable.ui \

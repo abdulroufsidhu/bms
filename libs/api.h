@@ -42,7 +42,7 @@ public:
 	inline void get(std::string * select
 									, std::string* from
 									, std::string* where
-									, std::vector<T>* data
+									, std::vector<T>* d
 									/*, statusbar *s*/
 									) {
 		try {
@@ -76,13 +76,13 @@ public:
 								qCritical() << QString(i[j].name()) + " : " + QString(e.what());
 							}
 						}
-					data->insert(data->begin() + tempindex , T(&str));
+					d->insert(d->end() , T(&str));
 					tempindex ++;
 				}
 
 		}  catch (std::exception& e) {
 			qCritical() << e.what();
-			QMessageBox::critical(0,from->c_str(),e.what());
+//			QMessageBox::critical(0,from->c_str(),e.what());
 		}
 	}
 
@@ -126,8 +126,7 @@ public:
 
 		}  catch (std::exception& e) {
 			qCritical() << e.what();
-			//            QMessageBox::information(0,"error",e.what());
-			qCritical() << e.what() ;
+//			QMessageBox::information(0,"error",e.what());
 		}
 	}
 

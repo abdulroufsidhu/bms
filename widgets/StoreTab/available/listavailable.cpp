@@ -8,6 +8,7 @@ ListAvailable::ListAvailable(QWidget *parent) :
 	ui->setupUi(this);
 
 	if (data::User::getCurrentUser()->getOrganizationVec().size() < 1) return;
+	data::User::getCurrentUser()->updateBranchesNamesList();
 	ui->cb_list_branches->addItems(data::User::getCurrentUser()->getBranchesNamesList() );
 
 }

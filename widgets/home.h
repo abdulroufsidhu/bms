@@ -24,6 +24,8 @@ private slots:
 
 	void on_btn_attrib_add_val_clicked();
 
+	void on_cb_branch_list_currentIndexChanged(int index);
+
 private:
 	Ui::Home *ui;
 };
