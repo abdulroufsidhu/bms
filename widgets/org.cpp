@@ -131,6 +131,10 @@ void Org::on_btn_add_branch_clicked()
 
 void Org::on_btn_hire_clicked()
 {
+	Hire* h = new Hire();
+	h->setModal(true);
+	h->show();
+
 }
 
 

@@ -135,8 +135,11 @@ void Sell::on_btn_sell_clicked()
 		avwQvec.clear();
 		ui->te_attributes_text->clear();
 
-		q = "insert into reports(branchid, profit) values ('" + invVec.at(0).getBranch().getId() + "'," + QString::number( profit ).toStdString() + ")";
-		db::PSQL::getInstance()->set(&q);
+		q = "UPDATE reports SET profit = profit + " + QString::number(profit).toStdString() + " WHERE branchid = '" + invVec.at(0).getBranch().getId() + "' AND to_char(time, 'yyyymm') = to_char(CURRENT_DATE, 'yyyymm')";
+		if (db::PSQL::getInstance()->set(&q).length()) {
+			q = "insert into reports(branchid, profit) values ('" + invVec.at(0).getBranch().getId() + "'," + QString::number( profit ).toStdString() + ")";
+			db::PSQL::getInstance()->set(&q);
+			}
 
 }
 

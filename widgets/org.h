@@ -7,6 +7,7 @@
 #include "./libs/api.h"
 #include <./libs/email.h>
 #include <./libs/user.h>
+#include "./OrganizationTab/hire.h"
 
 namespace Ui {
 	class Organization;
