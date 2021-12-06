@@ -30,7 +30,7 @@ public:
 	static db::PSQL* getInstance();
 
 	std::vector<std::string> &getAttribs();
-	void updateAttribs();
+	void updateAttribs(std::string* branchId);
 
 	std::string set(std::string* query);
 

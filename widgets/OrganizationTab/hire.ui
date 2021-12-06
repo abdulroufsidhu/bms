@@ -26,9 +26,9 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
+        <y>-37</y>
         <width>404</width>
-        <height>412</height>
+        <height>445</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout">
@@ -149,6 +149,16 @@
           <widget class="QLabel" name="label_11">
            <property name="text">
             <string>Branch</string>
+           </property>
+          </widget>
+         </item>
+         <item row="11" column="1">
+          <widget class="QLineEdit" name="le_password"/>
+         </item>
+         <item row="11" column="0">
+          <widget class="QLabel" name="label_12">
+           <property name="text">
+            <string>Password</string>
            </property>
           </widget>
          </item>

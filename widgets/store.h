@@ -8,7 +8,7 @@
 #include "../libs/item.h"
 #include "../libs/inventory.h"
 #include "./StoreTab/available/available.h"
-#include "./StoreTab/deal/sell.h"
+#include "./StoreTab/deal/dealtab.h"
 
 namespace Ui {
 	class Store;

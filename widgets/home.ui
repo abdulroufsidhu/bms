@@ -26,42 +26,13 @@
       <attribute name="title">
        <string>Tab 1</string>
       </attribute>
-      <widget class="QWidget" name="horizontalLayoutWidget">
-       <property name="geometry">
-        <rect>
-         <x>60</x>
-         <y>60</y>
-         <width>421</width>
-         <height>61</height>
-        </rect>
-       </property>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QLineEdit" name="le_add_attrib">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="placeholderText">
-           <string>CPU GENERATION :</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="btn_add_attrib">
-          <property name="text">
-           <string>ADD ATTRIBUTE</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
       <widget class="QWidget" name="verticalLayoutWidget">
        <property name="geometry">
         <rect>
-         <x>60</x>
-         <y>160</y>
-         <width>421</width>
-         <height>111</height>
+         <x>10</x>
+         <y>10</y>
+         <width>222</width>
+         <height>97</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
@@ -94,10 +65,10 @@
       <widget class="QWidget" name="verticalLayoutWidget_2">
        <property name="geometry">
         <rect>
-         <x>50</x>
-         <y>280</y>
-         <width>431</width>
-         <height>161</height>
+         <x>10</x>
+         <y>170</y>
+         <width>221</width>
+         <height>56</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -121,6 +92,108 @@
            </widget>
           </item>
          </layout>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="verticalLayoutWidget_3">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>250</y>
+         <width>351</width>
+         <height>173</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="font">
+           <font>
+            <pointsize>24</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Remove Value From Attributes</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="cb_attrib_remove_val"/>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="le_attrib_remove_val"/>
+        </item>
+        <item>
+         <widget class="QComboBox" name="cb_branches_remove_attr_val"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_attrib_remove_val">
+          <property name="text">
+           <string>REMOVE VALUE</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="verticalLayoutWidget_4">
+       <property name="geometry">
+        <rect>
+         <x>270</x>
+         <y>10</y>
+         <width>281</width>
+         <height>121</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <widget class="QComboBox" name="cb_branches_remove_attr"/>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="le_remove_attrib"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_remove_attrib">
+          <property name="text">
+           <string>REMOVE ATTRIBUTE</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="verticalLayoutWidget_5">
+       <property name="geometry">
+        <rect>
+         <x>430</x>
+         <y>190</y>
+         <width>160</width>
+         <height>95</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_5">
+        <item>
+         <widget class="QComboBox" name="cb_branch_add_attribs"/>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="le_add_attrib">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="placeholderText">
+           <string>CPU GENERATION :</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_add_attrib">
+          <property name="text">
+           <string>ADD ATTRIBUTE</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>

@@ -23,7 +23,7 @@ Hire::~Hire()
 
 void Hire::on_btn_hire_clicked()
 {
-	QString name, email, cnic, phone, country, city, address, jobTitle, grade, salary;
+	QString name, email, cnic, phone, country, city, address, jobTitle, grade, salary, password;
 	name = ui->le_name->text();
 	email = ui->le_email->text();
 	cnic = ui->le_cnic->text();
@@ -34,6 +34,7 @@ void Hire::on_btn_hire_clicked()
 	jobTitle = ui->le_job->text();
 	grade = ui->sb_grade->text();
 	salary = ui->db_salary->text();
+	password = ui->le_password->text();
 
 	if (name.isEmpty()) { QMessageBox::critical(this, "error", "name is not entered"); return;}
 	if (email.isEmpty()) { QMessageBox::critical(this, "error", "email is not entered"); return;}
@@ -45,6 +46,7 @@ void Hire::on_btn_hire_clicked()
 	if (jobTitle.isEmpty()) { QMessageBox::critical(this, "error", "job is not entered"); return;}
 	if (grade.isEmpty()) { QMessageBox::critical(this, "error", "grade is not entered"); return;}
 	if (salary.isEmpty()) { QMessageBox::critical(this, "error", "salary is not entered"); return;}
+	if (password.isEmpty()) { QMessageBox::critical(this, "error", "password is not entered"); return;}
 
 	std::vector<data::Email> ev;
 	std::vector<data::Contact> cv;
@@ -97,6 +99,9 @@ void Hire::on_btn_hire_clicked()
 	std::string uid;
 	query = "select id from users where personid = '" + pv.at(0).getId() + "')";
 	db::PSQL::getInstance()->get(&query,&uid);
+
+	query = "insert into auth(password, emailid) values ('" + password.toStdString() + "','" + ev.at(0).getId() + "')";
+	db::PSQL::getInstance()->set(&query);
 
 	query = "insert into employee (userid, jobid, branchid, salary) values ( '"+uid+"','"+jv.at(0).getId()+"','"+data::User::getCurrentUser()->getBranchVec().at(ui->cb_branch->currentIndex()).getId()+"'," + salary.toStdString() + " )";
 	if (db::PSQL::getInstance()->set(&query).empty() ) {

@@ -33,11 +33,12 @@ SOURCES += \
     libs/user.cpp \
     main.cpp \
     mainwindow.cpp \
-  widgets/OrganizationTab/hire.cpp \
+	widgets/OrganizationTab/hire.cpp \
 	widgets/StoreTab/available/addproduct.cpp \
 	widgets/StoreTab/available/available.cpp \
 	widgets/StoreTab/available/listavailable.cpp \
 	widgets/StoreTab/available/updateproduct.cpp \
+  widgets/StoreTab/deal/dealtab.cpp \
 	widgets/StoreTab/deal/sell.cpp \
 	widgets/attrvalwdgt.cpp \
     widgets/auth/login.cpp \
@@ -71,6 +72,7 @@ HEADERS += \
 	widgets/StoreTab/available/available.h \
 	widgets/StoreTab/available/listavailable.h \
 	widgets/StoreTab/available/updateproduct.h \
+  widgets/StoreTab/deal/dealtab.h \
 	widgets/StoreTab/deal/sell.h \
 	widgets/attrvalwdgt.h \
     widgets/auth/login.h \
@@ -88,6 +90,7 @@ FORMS += \
 	widgets/StoreTab/available/available.ui \
 	widgets/StoreTab/available/listavailable.ui \
 	widgets/StoreTab/available/updateproduct.ui \
+  widgets/StoreTab/deal/dealtab.ui \
 	widgets/StoreTab/deal/sell.ui \
 	widgets/attrvalwdgt.ui \
     widgets/auth/login.ui \

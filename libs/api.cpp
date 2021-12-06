@@ -73,11 +73,23 @@ std::vector<std::string> &db::PSQL::getAttribs() {
 	return this->attribs;
 }
 
-void db::PSQL::updateAttribs() {
+void db::PSQL::updateAttribs(std::string *branchId) {
 	this->attribs.clear();
-	std::string select, from, where;
-	select = "attrib"; from = "attributes"; where = "";
-	db::PSQL::getInstance()->getVecStr(&select, &from, &where, &this->getAttribs());
+	std::vector<std::string> strVec;
+	std::string select, from, where, q;
+
+	select = "attribid"; from = "attribval"; where = "branchid = '" + *branchId + "' GROUP BY attribid";
+
+//	q = "SELECT attribid FROM attribval WHERE branchid = '" + *branchId + "'";
+	this->getVecStr(&select, &from, &where, &strVec);
+
+	if (strVec.size() < 1) return;
+
+	for (auto c: strVec) {
+		select = "attrib"; from= "attributes"; where = "id = '" + c +"'";
+		QMessageBox::information(0,"c",c.c_str());
+		db::PSQL::getInstance()->getVecStr(&select, &from, &where, &this->getAttribs());
+		}
 }
 
 

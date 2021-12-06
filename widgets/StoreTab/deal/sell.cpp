@@ -148,4 +148,3 @@ void Sell::on_btn_remove_last_clicked()
 	delete this->avwQvec.last();
 	this->avwQvec.removeLast();
 }
-

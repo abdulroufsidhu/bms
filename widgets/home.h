@@ -22,9 +22,13 @@ public:
 private slots:
 	void on_btn_add_attrib_clicked();
 
-	void on_btn_attrib_add_val_clicked();
+	void on_btn_attrib_add_val_clicked(std::string attrib = "");
 
 	void on_cb_branch_list_currentIndexChanged(int index);
+
+	void on_btn_remove_attrib_clicked();
+
+	void on_btn_attrib_remove_val_clicked();
 
 private:
 	Ui::Home *ui;
