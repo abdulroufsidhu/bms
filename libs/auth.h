@@ -51,6 +51,7 @@ public:
 		db::PSQL::getInstance()->get(&select, &from, &where, &per);
 		std::vector<std::string> usr;
 		from = "users";
+		if (per.size() < 1) return;
 		where = "personid = '" + per.at(0).getId() + "'";
 		db::PSQL::getInstance()->getVecStr(&select, &from, &where, &usr);
 		data::User::setCurrentUser(&usr);

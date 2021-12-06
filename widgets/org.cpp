@@ -216,5 +216,6 @@ void Org::on_tabWidget_org_and_branch_currentChanged(int index)
 void Org::on_lw_branches_doubleClicked(const QModelIndex &index)
 {
 	data::User::getCurrentUser()->setBranchIndex(index.row());
+	QMessageBox::information(this, "success", "Current Branched changed to" + QString( ( data::User::getCurrentUser()->getBranchVec().at(data::User::getCurrentUser()->getBranchIndex()).getCode() + data::User::getCurrentUser()->getBranchVec().at(data::User::getCurrentUser()->getBranchIndex()).getName() ).c_str() ));
 }
 

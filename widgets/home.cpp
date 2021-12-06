@@ -7,6 +7,7 @@ Home::Home(QWidget *parent) :
 {
 	ui->setupUi(this);
 
+	if (data::User::getCurrentUser() == NULL) return;
 	if (data::User::getCurrentUser()->getOrganizationVec().size() < 1) return;
 
 	data::User::getCurrentUser()->updataBranchVec();

@@ -23,100 +23,110 @@ Hire::~Hire()
 
 void Hire::on_btn_hire_clicked()
 {
-	QString name, email, cnic, phone, country, city, address, jobTitle, grade, salary, password;
-	name = ui->le_name->text();
-	email = ui->le_email->text();
-	cnic = ui->le_cnic->text();
-	phone = ui->le_phone->text();
-	country = ui->le_country->text();
-	city = ui->le_address->text();
-	address = ui->le_address->text();
-	jobTitle = ui->le_job->text();
-	grade = ui->sb_grade->text();
-	salary = ui->db_salary->text();
-	password = ui->le_password->text();
 
-	if (name.isEmpty()) { QMessageBox::critical(this, "error", "name is not entered"); return;}
-	if (email.isEmpty()) { QMessageBox::critical(this, "error", "email is not entered"); return;}
-	if (cnic.isEmpty()) { QMessageBox::critical(this, "error", "cnic is not entered"); return;}
-	if (phone.isEmpty()) { QMessageBox::critical(this, "error", "phone is not entered"); return;}
-	if (country.isEmpty()) { QMessageBox::critical(this, "error", "country is not entered"); return;}
-	if (city.isEmpty()) { QMessageBox::critical(this, "error", "city is not entered"); return;}
-	if (address.isEmpty()) { QMessageBox::critical(this, "error", "address is not entered"); return;}
-	if (jobTitle.isEmpty()) { QMessageBox::critical(this, "error", "job is not entered"); return;}
-	if (grade.isEmpty()) { QMessageBox::critical(this, "error", "grade is not entered"); return;}
-	if (salary.isEmpty()) { QMessageBox::critical(this, "error", "salary is not entered"); return;}
-	if (password.isEmpty()) { QMessageBox::critical(this, "error", "password is not entered"); return;}
+	try {
 
-	std::vector<data::Email> ev;
-	std::vector<data::Contact> cv;
-	std::vector<data::CNIC> cnicV;
-	std::vector<data::Location> lv;
-	std::vector<data::Person> pv;
-	std::vector<data::Job> jv;
 
-	std::string query, select, from, where;
-	select = "*";
-	query = "insert into emails (email) values ('" + email.toStdString() + "')";
-	db::PSQL::getInstance()->set(&query);
-	query = "insert into contacts (contact) values ('" + phone.toStdString() + "')";
-	db::PSQL::getInstance()->set(&query);
-	query = "insert into cnics (cnic) values ('" + cnic.toStdString() + "')";
-	db::PSQL::getInstance()->set(&query);
-	query = "insert into cities (city) values ('" + city.toStdString() + "')";
-	db::PSQL::getInstance()->set(&query);
-	query = "insert into countries (country) values ('" + country.toStdString() + "')";
-	db::PSQL::getInstance()->set(&query);
-	query = "insert into jobs (designation, grade) values ('" + jobTitle.toStdString() + "','"+ grade.toStdString() +"')";
-	db::PSQL::getInstance()->set(&query);
+		QString name, email, cnic, phone, country, city, address, jobTitle, grade, salary, password;
+		name = ui->le_name->text();
+		email = ui->le_email->text();
+		cnic = ui->le_cnic->text();
+		phone = ui->le_phone->text();
+		country = ui->le_country->text();
+		city = ui->le_address->text();
+		address = ui->le_address->text();
+		jobTitle = ui->le_job->text();
+		grade = ui->sb_grade->text();
+		salary = ui->db_salary->text();
+		password = ui->le_password->text();
 
-	select = "*";
-	from = "locations";
-	where = "city ='"+city.toStdString()+"' and country ='"+country.toStdString()+"' and address = '"+address.toStdString()+"'";
+		if (name.isEmpty()) { QMessageBox::critical(this, "error", "name is not entered"); return;}
+		if (email.isEmpty()) { QMessageBox::critical(this, "error", "email is not entered"); return;}
+		if (cnic.isEmpty()) { QMessageBox::critical(this, "error", "cnic is not entered"); return;}
+		if (phone.isEmpty()) { QMessageBox::critical(this, "error", "phone is not entered"); return;}
+		if (country.isEmpty()) { QMessageBox::critical(this, "error", "country is not entered"); return;}
+		if (city.isEmpty()) { QMessageBox::critical(this, "error", "city is not entered"); return;}
+		if (address.isEmpty()) { QMessageBox::critical(this, "error", "address is not entered"); return;}
+		if (jobTitle.isEmpty()) { QMessageBox::critical(this, "error", "job is not entered"); return;}
+		if (grade.isEmpty()) { QMessageBox::critical(this, "error", "grade is not entered"); return;}
+		if (salary.isEmpty()) { QMessageBox::critical(this, "error", "salary is not entered"); return;}
+		if (password.isEmpty()) { QMessageBox::critical(this, "error", "password is not entered"); return;}
 
-	db::PSQL::getInstance()->get(&select, &from, &where ,&lv);
-	if (lv.size() < 1) {
-			query = "insert into locations(city, country, address) values ('" + city.toStdString() + "','" + country.toStdString() + "','" + address.toStdString() +"')";
-			db::PSQL::getInstance()->set(&query);
-			db::PSQL::getInstance()->get(&select, &from, &where ,&lv);
-		}
-	from = "emails"; where = "email = '" + email.toStdString() + "'";
-	db::PSQL::getInstance()->get(&select, &from, &where ,&ev);
-	from = "contacts"; where = "contact = '" + phone.toStdString() + "'";
-	db::PSQL::getInstance()->get(&select, &from, &where ,&cv);
-	from = "cnics"; where = "cnic = '" + cnic.toStdString() + "'";
-	db::PSQL::getInstance()->get(&select, &from, &where ,&cnicV);
+		std::vector<data::Location> lv;
 
-	query = "insert into persons(emailid, contactid, cnicid, locationid, name) values ('"+ev.at(0).getId()+"','"+cv.at(0).getId()+"','"+cnicV.at(0).getId() + "','" + lv.at(0).getId()+"','" + name.toStdString() + "')";
-	db::PSQL::getInstance()->set(&query);
+		std::string query, select, from, where, personid, jobid, locationid, cnicid, contactid, emailid;
+		select = "*";
+		query = "insert into emails (email) values ('" + email.toStdString() + "')";
+		db::PSQL::getInstance()->set(&query);
+		query = "insert into contacts (contact) values ('" + phone.toStdString() + "')";
+		db::PSQL::getInstance()->set(&query);
+		query = "insert into cnics (cnic) values ('" + cnic.toStdString() + "')";
+		db::PSQL::getInstance()->set(&query);
+		query = "insert into cities (city) values ('" + city.toStdString() + "')";
+		db::PSQL::getInstance()->set(&query);
+		query = "insert into countries (country) values ('" + country.toStdString() + "')";
+		db::PSQL::getInstance()->set(&query);
+		query = "insert into jobs (designation, grade) values ('" + jobTitle.toStdString() + "','"+ grade.toStdString() +"')";
+		db::PSQL::getInstance()->set(&query);
 
-	from = "jobs"; where = "job = '" + jobTitle.toStdString() + "' AND grade = " + grade.toStdString() ;
-	db::PSQL::getInstance()->get(&select, &from, &where ,&jv);
+		select = "*";
+		from = "locations";
+		where = "city ='"+city.toStdString()+"' and country ='"+country.toStdString()+"' and address = '"+address.toStdString()+"'";
 
-	query = "insert into users(personid) values ('" + pv.at(0).getId() + "')";
-	db::PSQL::getInstance()->set(&query);
+		db::PSQL::getInstance()->get(&select, &from, &where ,&lv);
+		if (lv.size() < 1) {
+				query = "insert into locations(city, country, address) values ('" + city.toStdString() + "','" + country.toStdString() + "','" + address.toStdString() +"')";
+				db::PSQL::getInstance()->set(&query);
+				db::PSQL::getInstance()->get(&select, &from, &where ,&lv);
+			}
+		query = "SELECT id FROM emails WHERE email ='" + email.toStdString() + "'";
+		db::PSQL::getInstance()->get(&query, &emailid);
 
-	std::string uid;
-	query = "select id from users where personid = '" + pv.at(0).getId() + "')";
-	db::PSQL::getInstance()->get(&query,&uid);
+		query = "SELECT id FROM contacts WHERE contact ='" + email.toStdString() + "'";
+		db::PSQL::getInstance()->get(&query, &contactid);
 
-	query = "insert into auth(password, emailid) values ('" + password.toStdString() + "','" + ev.at(0).getId() + "')";
-	db::PSQL::getInstance()->set(&query);
+		query = "SELECT id FROM cnics WHERE cnic ='" + cnic.toStdString() + "'";
+		db::PSQL::getInstance()->get(&query, &cnicid);
 
-	query = "insert into employee (userid, jobid, branchid, salary) values ( '"+uid+"','"+jv.at(0).getId()+"','"+data::User::getCurrentUser()->getBranchVec().at(ui->cb_branch->currentIndex()).getId()+"'," + salary.toStdString() + " )";
-	if (db::PSQL::getInstance()->set(&query).empty() ) {
-			ui->le_name->clear();
-			ui->le_email->clear();
-			ui->le_cnic->clear();
-			ui->le_phone->clear();
-			ui->le_country->clear();
-			ui->le_address->clear();
-			ui->le_address->clear();
-			ui->le_job->clear();
-			ui->sb_grade->clear();
-			ui->db_salary->clear();
-			QMessageBox::information(this, "Employee successfully hired", "Employee successfully hired");
-		}
+		query = "insert into persons(emailid, contactid, cnicid, locationid, name) values ('"+emailid+"','"+contactid+"','"+ cnicid + "','" + lv.at(0).getId()+"','" + name.toStdString() + "')";
+		if (db::PSQL::getInstance()->set(&query).length()) throw std::runtime_error( "unable to update person in database" );
+
+		query = "SELECT id FROM persons where contactid ='" + contactid + "'";
+		db::PSQL::getInstance()->get(&query, &personid);
+
+		query = "SELECT id FROM jobs WHERE job ='" + jobTitle.toStdString() + "' AND grade = " + grade.toStdString() ;
+		db::PSQL::getInstance()->get(&query, &jobid);
+
+		query = "insert into users(personid) values ('" + personid + "')";
+		db::PSQL::getInstance()->set(&query);
+
+		std::string uid;
+		query = "select id from users where personid = '" + personid + "')";
+		db::PSQL::getInstance()->get(&query,&uid);
+
+		query = "insert into auth(password, emailid) values ('" + password.toStdString() + "','" + emailid + "')";
+		db::PSQL::getInstance()->set(&query);
+
+		query = "insert into employee (userid, jobid, branchid, salary) values ( '"+uid+"','"+jobid+"','"+data::User::getCurrentUser()->getBranchVec().at(ui->cb_branch->currentIndex()).getId()+"'," + salary.toStdString() + " )";
+
+		if (db::PSQL::getInstance()->set(&query).empty() ) {
+				ui->le_name->clear();
+				ui->le_email->clear();
+				ui->le_cnic->clear();
+				ui->le_phone->clear();
+				ui->le_country->clear();
+				ui->le_address->clear();
+				ui->le_address->clear();
+				ui->le_job->clear();
+				ui->sb_grade->clear();
+				ui->db_salary->clear();
+				QMessageBox::information(this, "Employee successfully hired", "Employee successfully hired");
+			}
+
+
+	}  catch (std::exception &e) {
+		qCritical() << e.what();
+	}
 
 }
 

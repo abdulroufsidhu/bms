@@ -86,7 +86,8 @@ create table employee (
 id uuid default uuid_generate_v4() primary key 
 , userid uuid references users(id) not null
 , jobid uuid references jobs(id)
-, branchid uuid references branches(id)                                        
+, branchid uuid references branches(id)
+, organizationid uuid references organizations(id)
 , salary text default '0' not null
 , active BOOL not null default true	-- use this while getting user for login 
 );

@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
 	ui->tab_main->tabBar()->setStyleSheet(tabbarStylesheet);
 
 	QTimer::singleShot(3000,this, [=]() {
+			if (data::User::getCurrentUser()== NULL) return;
 			ui->tab_main->addTab(new Home(), QIcon(":/icons/icons/home-svgrepo-com.svg"), "HOME");
 			ui->tab_main->addTab(new Store(), QIcon(":/icons/icons/stock-svgrepo-com.svg"), "STORE");
 			ui->tab_main->addTab(new Org(), QIcon(":/icons/icons/organization-administration-svgrepo-com.svg"), "ORGANIZATION");
