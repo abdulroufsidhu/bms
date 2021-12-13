@@ -38,6 +38,7 @@ public:
 		where = "email = '" + *email + "'";
 		std::vector<data::Email> e;
 		db::PSQL::getInstance()->get(&select, &from, &where, &e);
+		if (e.size() < 1) return;
 		this->email = e.at(0);
 
 		std::string query = "select emailid from auth where emailid ='" + e.at(0).getId() + "' and password = '" + *pswd + "' and active ";

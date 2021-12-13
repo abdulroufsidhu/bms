@@ -39,6 +39,7 @@ SOURCES += \
 	widgets/StoreTab/available/listavailable.cpp \
 	widgets/StoreTab/available/updateproduct.cpp \
   widgets/StoreTab/deal/dealtab.cpp \
+    widgets/StoreTab/deal/itemdetails.cpp \
 	widgets/StoreTab/deal/sell.cpp \
 	widgets/attrvalwdgt.cpp \
     widgets/auth/login.cpp \
@@ -73,6 +74,7 @@ HEADERS += \
 	widgets/StoreTab/available/listavailable.h \
 	widgets/StoreTab/available/updateproduct.h \
   widgets/StoreTab/deal/dealtab.h \
+    widgets/StoreTab/deal/itemdetails.h \
 	widgets/StoreTab/deal/sell.h \
 	widgets/attrvalwdgt.h \
     widgets/auth/login.h \
@@ -91,6 +93,7 @@ FORMS += \
 	widgets/StoreTab/available/listavailable.ui \
 	widgets/StoreTab/available/updateproduct.ui \
   widgets/StoreTab/deal/dealtab.ui \
+    widgets/StoreTab/deal/itemdetails.ui \
 	widgets/StoreTab/deal/sell.ui \
 	widgets/attrvalwdgt.ui \
     widgets/auth/login.ui \

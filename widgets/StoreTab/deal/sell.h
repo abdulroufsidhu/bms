@@ -2,7 +2,7 @@
 #define SELL_H
 
 #include <QDialog>
-#include "../../attrvalwdgt.h"
+#include "./itemdetails.h"
 
 namespace Ui {
 	class Sell;
@@ -17,19 +17,15 @@ public:
 	~Sell();
 
 private slots:
-	void on_btn_plus_clicked();
+	void on_btn_sell_clicked();
 
 	void on_pushButton_clicked();
 
-	void on_btn_sell_clicked();
-
-	void on_btn_remove_last_clicked();
+	void on_pushButton_2_clicked();
 
 private:
 	Ui::Sell *ui;
-
-	QVector<AttrValWdgt *> avwQvec ;
-
+	QVector<ItemDetails *> iDetQvec;
 };
 
 #endif // SELL_H

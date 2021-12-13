@@ -14,27 +14,6 @@ Sell::~Sell()
 	delete ui;
 }
 
-void Sell::on_btn_plus_clicked()
-{
-	this->avwQvec.append( new AttrValWdgt());
-	ui->v_layout_tab_selectors->addWidget(this->avwQvec.last());
-}
-
-
-void Sell::on_pushButton_clicked()
-{
-	ui->te_attributes_text->clear();
-	ui->te_attributes_text->toHtml();
-	QString t = QString("<table>");
-	for (auto i : this->avwQvec) {
-			t+=( ("<tr> <td>" + i->attr + " :- </td>" + "<td> " + i->val + "</td></tr> ").c_str() );
-		}
-	t += ("</table>");
-	ui->te_attributes_text->textCursor().insertHtml(t);
-	ui->tab_widget_attributes->setCurrentIndex(1);
-}
-
-
 void Sell::on_btn_sell_clicked()
 {
 	std::string name = ui->le_name->text().toStdString();
@@ -44,107 +23,136 @@ void Sell::on_btn_sell_clicked()
 	std::string country = ui->le_country->text().toStdString();
 	std::string city = ui->le_city->text().toStdString();
 	std::string address = ui->le_address->text().toStdString();
-	std::string serial = ui->le_serial->text().toStdString();
-	std::string price = ui->sb_price->text().toStdString();
+	//	std::string serial = ui->le_serial->text().toStdString();
+	//	std::string price = ui->sb_price->text().toStdString();
 
 	std::string select, from, where;
 
 	if (name.empty()) { QMessageBox::critical(this,"error","Please enter name"); return;}
-	if (email.empty()) { QMessageBox::critical(this,"error","Please enter email");  return;}
-	if (cnic.empty()) { QMessageBox::critical(this,"error","Please enter cnic");   return;}
-	if (cnic.length() != 13) { QMessageBox::critical(this,"error","Please use 13 digits for cnic");   return;}
+	//	if (email.empty()) { QMessageBox::critical(this,"error","Please enter email");  return;}
+	//	if (cnic.empty()) { QMessageBox::critical(this,"error","Please enter cnic");   return;}
+	//	if (cnic.length() != 13) { QMessageBox::critical(this,"error","Please use 13 digits for cnic");   return;}
 	if (contact.empty()) { QMessageBox::critical(this,"error","Please enter contact");  return;}
 	if (country.empty()) { QMessageBox::critical(this,"error","Please enter country");  return;}
 	if (city.empty()) { QMessageBox::critical(this,"error","Please enter city");  return;}
 	if (address.empty()) { QMessageBox::critical(this,"error","Please enter address");  return;}
-	if (serial.empty()) { QMessageBox::critical(this,"error","Please enter serial");  return;}
-	if (price.empty()) { QMessageBox::critical(this,"error","Please enter price");  return;}
-	if (ui->te_attributes_text->toPlainText().isEmpty()) {QMessageBox::critical(this,"error","Please make sure attributes are written in the text box");  return;}
+	//	if (serial.empty()) { QMessageBox::critical(this,"error","Please enter serial");  return;}
+	//	if (price.empty()) { QMessageBox::critical(this,"error","Please enter price");  return;}
+	//	if (ui->te_attributes_text->toPlainText().isEmpty()) {QMessageBox::critical(this,"error","Please make sure attributes are written in the text box");  return;}
 
-	select = "*";
-	from = "inventory"; where="serial ='" + serial + "' and quantity > 0";
-	std::vector<data::Inventory> invVec;
-	db::PSQL::getInstance()->get(&select, &from, &where, &invVec);
+	for (auto item: iDetQvec) {
+		if (item->getSerial().isEmpty()) { QMessageBox::critical(this,"error","Please enter serial");  return;}
+		if (item->getPrice().isEmpty()) {QMessageBox::critical(this,"error","Please enter price");  return;}
+		if (item->getAttributes().isEmpty()) { QMessageBox::critical(this,"error","Please make sure attributes for serial " + item->getSerial() + " are written in the text box");  return;}
 
-	if (invVec.size() < 1) { QMessageBox::critical(this, "ERROR", "item does not exist in inventory"); return; }
+	}
 
-	std::vector<data::Email> e;
-	std::vector<data::Contact> c;
-	std::vector<data::CNIC> cid;
-	std::vector<data::Location> lv;
-	std::vector<data::Person> p;
-	std::string pass;
-	std::string q = "insert into emails(email) values ('" + email +"')";
-	db::PSQL::getInstance()->set(&q);
-	q = " insert into cnics(cnic) values ('"+ cnic +"')";
-	db::PSQL::getInstance()->set(&q);
-	q = "insert into contacts (contact) values ('" + contact + "')";
-	db::PSQL::getInstance()->set(&q);
+	for (auto item : iDetQvec) {
+		select = "*";
+		from = "inventory"; where="serial ='" + item->getSerial().toStdString() + "' and quantity > 0";
+		std::vector<data::Inventory> invVec;
+		db::PSQL::getInstance()->get(&select, &from, &where, &invVec);
 
-	from = "locations";
-	where = "city ='"+city+"' and country ='"+country+"' and address = '"+address+"'";
+		if (invVec.size() < 1) { QMessageBox::critical(this, "ERROR", "Item does not exist."); return; }
 
-	db::PSQL::getInstance()->get(&select, &from, &where ,&lv);
-	if (lv.size() < 1) {
+		if (invVec.at(0).getQuantity() < item->getQuantity().toInt()) { QMessageBox::critical(this, "ERROR", "Quantity for " + item->getSerial() + " does not exist."); return; }
+
+
+		std::string cnicId, contactId, emailId, personId, locationId, pass;
+
+		std::string q = "insert into emails(email) values ('" + email +"')";
+		db::PSQL::getInstance()->set(&q);
+		q = " insert into cnics(cnic) values ('"+ cnic +"')";
+		db::PSQL::getInstance()->set(&q);
+		q = "insert into contacts (contact) values ('" + contact + "')";
+		db::PSQL::getInstance()->set(&q);
+
+		from = "locations";
+		where = "city ='"+city+"' and country ='"+country+"' and address = '"+address+"'";
+
+		//		db::PSQL::getInstance()->get(&select, &from, &where ,&lv);
+		q = "SELECT id FROM locations WHERE city = '" + city + "' AND country = '"+country+"' and address = '"+address+"'";
+		db::PSQL::getInstance()->get(&q, &locationId);
+		if (locationId.empty()) {
 			q = "insert into locations(city, country, address) values ('" + city + "','" + country + "','" + address +"')";
-
 			db::PSQL::getInstance()->set(&q);
-			db::PSQL::getInstance()->get(&select, &from, &where ,&lv);
+
+			q = "SELECT id FROM locations WHERE city = '" + city + "' AND country = '"+country+"' and address = '"+address+"'";
+			db::PSQL::getInstance()->get(&q, &locationId);
 		}
 
-	from = "emails";
-	where = "email ='" + email + "'";
-	db::PSQL::getInstance()->get(&select, &from, &where, &e);
+		q = "SELECT id FROM emails WHERE email = '" + email + "'";
+		db::PSQL::getInstance()->get(&q, &emailId);
 
-	from = "cnics";
-	where = "cnic ='" + cnic + "'";
-	db::PSQL::getInstance()->get(&select, &from, &where, &cid);
+		q = "SELECT id FROM cnics WHERE cnic = '" + cnic + "'";
+		db::PSQL::getInstance()->get(&q, &cnicId);
 
-	from = "contacts";
-	where = "contact ='" + contact + "'";
-	db::PSQL::getInstance()->get(&select, &from, &where, &c);
+		q = "SELECT id FROM contacts WHERE contact = '" + contact + "'";
+		db::PSQL::getInstance()->get(&q, &contactId);
 
-	q = "insert into persons(name,emailid,contactid,cnicid,locationid) values ('"+name+"','"+e.at(0).getId()+"','"+c.at(0).getId()+"','"+cid.at(0).getId()+"','"+lv.at(0).getId()+"')";
-	db::PSQL::getInstance()->set(&q);
+		if (cnicId.empty()) cnicId = "";
+		if (contactId.empty()) return;
 
-	from = "persons";
-	where = "emailid ='" + e.at(0).getId() + "'";
-	db::PSQL::getInstance()->get(&select, &from, &where, &p);
+		q = "insert into persons(name,emailid,contactid,cnicid,locationid) values ('"+name+"','"+emailId+"','"+contactId+"','"+cnicId+"','"+locationId+"')";
+		db::PSQL::getInstance()->set(&q);
 
-	q = "UPDATE inventory SET attributes ='" + ui->te_attributes_text->toPlainText().toStdString() + "', colour ='" + ui->le_colour->text().toStdString() + "', quantity = 0 WHERE id = '" + invVec.at(0).getId() + "' AND quantity > 0";
-	db::PSQL::getInstance()->set(&q);
+		q = "SELECT id FROM persons WHERE emailid = '" + emailId + "'";
+		db::PSQL::getInstance()->get(&q, &personId);
 
-	double profit =  ( ui->sb_price->text().toDouble() - (ui->sb_discount->text().toDouble() * ui->sb_discount->text().toDouble() / 100 ) ) - invVec.at(0).getPrice() ;
 
-	q = "insert into deals (inventoryid, price, discount, personid, userid, branchid, profit) values ( '" + invVec.at(0).getId() + "','" + price + "','" + ui->sb_discount->text().toStdString() + "','" + p.at(0).getId() + "','" + data::User::getCurrentUser()->getId() + "','" + invVec.at(0).getBranch().getId() + "'," + QString::number( profit ).toStdString() + ")";
+		q = "UPDATE inventory SET attributes ='" + item->getAttributes().toStdString() + "', colour ='" + item->getColour().toStdString() + "', quantity = quantity - " + item->getQuantity().toStdString() + " WHERE id = '" + invVec.at(0).getId() + "' AND quantity > 0";
+		db::PSQL::getInstance()->set(&q);
 
-	if (db::PSQL::getInstance()->set(&q).length()) return;
+		double profit =  (( item->getPrice().toDouble() - (item->getDiscount().toDouble() * item->getPrice().toDouble() / 100 ) ) - invVec.at(0).getPrice() ) * item->getQuantity().toLong();
+
+		q = "insert into deals (inventoryid, price, discount, personid, userid, branchid, profit, quantity) values ( '" + invVec.at(0).getId() + "','" + item->getPrice().toStdString() + "','" + item->getDiscount().toStdString() + "','" + personId + "','" + data::User::getCurrentUser()->getId() + "','" + invVec.at(0).getBranch().getId() + "'," + QString::number( profit ).toStdString() + "," + item->getQuantity().toStdString() + ")";
+		db::PSQL::getInstance()->set(&q);
+
+		q = "INSERT INTO reports(profit, branchid) \
+				 SELECT " + QString::number(profit).toStdString() + " , \
+				 '" + invVec.at(0).getBranch().getId() + "' \
+				 WHERE NOT EXISTS (SELECT time FROM reports WHERE to_char(time, 'yyyymm')=to_char(CURRENT_DATE,'yyyymm') ) "	;
+		db::PSQL::getInstance()->set(&q);
+		q = "UPDATE reports SET \
+				 profit = profit + " + QString::number(profit).toStdString() + " \
+				 WHERE to_char(time,'yyyymm')=to_char(CURRENT_DATE,'yyyymm') ";
+		db::PSQL::getInstance()->set(&q);
+	}
+
+	if (iDetQvec.size() > 0) {
 		ui->le_name->clear();
 		ui->le_phone->clear();
 		ui->le_cnic->clear();
 		ui->le_email->clear();
-		ui->le_country->clear();
-		ui->le_city->clear();
 		ui->le_address->clear();
-		ui->le_serial->clear();
-		ui->sb_price->clear();
-		ui->le_colour->clear();
-		ui->sb_discount->clear();
-		db::PSQL::clearLayout(ui->v_layout_tab_selectors);
-		qDeleteAll(avwQvec);
-		avwQvec.clear();
-		ui->te_attributes_text->clear();
+		qDeleteAll (iDetQvec);
+		iDetQvec.clear();
+	}
 
-		q = "UPDATE reports SET profit = profit + " + QString::number(profit).toStdString() + " WHERE branchid = '" + invVec.at(0).getBranch().getId() + "' AND to_char(time, 'yyyymm') = to_char(CURRENT_DATE, 'yyyymm')";
-		if (db::PSQL::getInstance()->set(&q).length()) {
-			q = "insert into reports(branchid, profit) values ('" + invVec.at(0).getBranch().getId() + "'," + QString::number( profit ).toStdString() + ")";
-			db::PSQL::getInstance()->set(&q);
-			}
+
+	//		ui->le_serial->clear();
+	//		ui->sb_price->clear();
+	//		ui->le_colour->clear();
+	//		ui->sb_discount->clear();
+	//		db::PSQL::clearLayout(ui->v_layout_tab_selectors);
+	//		qDeleteAll(avwQvec);
+	//		avwQvec.clear();
+	//		ui->te_attributes_text->clear();
+
 
 }
 
-void Sell::on_btn_remove_last_clicked()
+
+void Sell::on_pushButton_clicked()
 {
-	delete this->avwQvec.last();
-	this->avwQvec.removeLast();
+	iDetQvec.append(new ItemDetails());
+	this->ui->v_layout_item_details->addWidget(iDetQvec.last());
 }
+
+
+void Sell::on_pushButton_2_clicked()
+{
+	delete this->iDetQvec.last();
+	this->iDetQvec.removeLast();
+}
+

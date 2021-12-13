@@ -140,7 +140,7 @@ public:
 			if (!C.is_open()) QMessageBox::critical(0, "error", "unable to connect to database");
 			pqxx::nontransaction N (C);
 			pqxx::result R (N.exec(*query));
-			if (R.size() < 1) QMessageBox::information(0, "caution", "no record found");
+			if (R.size() < 1) QMessageBox::information(0, "caution", "no record found " + QString(query->c_str()));
 			for (auto c: R) {
 					*destination = c[0].as<std::string>();
 				}

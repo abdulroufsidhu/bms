@@ -24,7 +24,7 @@ void AddProduct::on_btn_add_inventory_clicked()
 	if (data::User::getCurrentUser()->getOrganizationVec().size() < 1) return;
 
 	std::string select, from, where, query;
-	QString itemType, name, modal, manufacturer, vendor, serial, version, price;
+	QString itemType, name, modal, manufacturer, vendor, serial, version, price, quantity;
 	itemType = ui->cb_item_type->currentText();
 	name = ui->le_item_name->text();
 	modal = ui->le_modal->text();
@@ -33,6 +33,7 @@ void AddProduct::on_btn_add_inventory_clicked()
 	serial = ui->le_serial->text();
 	price = ui->sb_price->text();
 	version = ui->le_version->text();
+	quantity = ui->sb_quantity->text();
 
 	query = "INSERT INTO items"
 					"(name, company, itemtype, modal, version, vendor)"
@@ -47,7 +48,7 @@ void AddProduct::on_btn_add_inventory_clicked()
 	std::vector<data::Item> iv;
 	db::PSQL::getInstance()->get(&select, &from, &where, &iv);
 
-	query = "INSERT INTO inventory(itemid, serial, branchid, price) values ( '"+iv.at(0).getId()+"','"+serial.toStdString()+"','"+data::User::getCurrentUser()->getBranchVec().at(ui->cb_add_item_branch->currentIndex()).getId()+"'," +price.toStdString()+")" ;
+	query = "INSERT INTO inventory(itemid, serial, branchid, price,quantity) values ( '"+iv.at(0).getId()+"','"+serial.toStdString()+"','"+data::User::getCurrentUser()->getBranchVec().at(ui->cb_add_item_branch->currentIndex()).getId()+"'," +price.toStdString()+ "," + quantity.toStdString() + ")" ;
 
 	std::string err = db::PSQL::getInstance()->set(&query);
 
@@ -64,9 +65,6 @@ void AddProduct::on_btn_add_inventory_clicked()
 	ui->le_serial->clear();
 	ui->sb_price->clear();
 	ui->le_version->clear();
-
-
-
 
 }
 

@@ -8,8 +8,8 @@ AttrValWdgt::AttrValWdgt(QWidget *parent) :
 {
 	ui->setupUi(this);
 	for (auto i: db::PSQL::getInstance()->getAttribs()) {
-			ui->cb_attr->insertItem(0,i.c_str());
-		}
+		ui->cb_attr->insertItem(0,i.c_str());
+	}
 	ui->cb_attr->installEventFilter(this);
 	ui->cb_attr->setCurrentIndex(0);
 }
@@ -32,18 +32,18 @@ void AttrValWdgt::on_cb_attr_currentIndexChanged(const QString &arg1)
 	db::PSQL::getInstance()->getVecStr(&select, &from, &where, &vals);
 	ui->cb_val->clear();
 	for (int i=0; (int) i< (int) vals.size(); i++) {
-			ui->cb_val->insertItem(0, vals.at(i).c_str());
-		}
+		ui->cb_val->insertItem(0, vals.at(i).c_str());
+	}
 	ui->cb_val->setCurrentIndex(0);
 }
 
 void AttrValWdgt::on_cb_val_currentIndexChanged(const QString &arg1)
 {
-		 this->val = arg1.toStdString();
+	this->val = arg1.toStdString();
 }
 
 bool AttrValWdgt::eventFilter(QObject *obj, QEvent *ev) {
 	if (ev->type() == QEvent::Wheel) {
-			ev->ignore();
-		}
+		ev->ignore();
+	}
 }
