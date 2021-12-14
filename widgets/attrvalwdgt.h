@@ -2,6 +2,7 @@
 #define ATTRVALWDGT_H
 
 #include <QDialog>
+#include "../libs/disablemousescroll.h"
 
 namespace Ui {
 	class AttrValWdgt;
@@ -26,9 +27,6 @@ private slots:
 
 private:
 	Ui::AttrValWdgt *ui;
-
-protected:
-	bool eventFilter(QObject *obj, QEvent *ev) override;
 
 };
 

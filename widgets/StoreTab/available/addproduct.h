@@ -1,12 +1,16 @@
 #ifndef ADDPRODUCT_H
 #define ADDPRODUCT_H
 
-#include <QDialog>
 #include <QUuid>
+#include <QDialog>
+#include <QtPrintSupport/QPrinter>
+#include <QtPrintSupport/QPrintDialog>
+
 #include "../../../libs/api.h"
 #include "../../../libs/item.h"
 #include "../../../libs/inventory.h"
 #include "../../../libs/user.h"
+#include "../attributesclass.h"
 
 namespace Ui {
 	class AddProduct;
@@ -25,8 +29,11 @@ private slots:
 
 	void on_btn_generate_uuid_clicked();
 
+	void on_pushButton_clicked();
+
 private:
 	Ui::AddProduct *ui;
+	AttributesClass* ac;
 };
 
 #endif // ADDPRODUCT_H

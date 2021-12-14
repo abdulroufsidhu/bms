@@ -2,10 +2,9 @@
 #define ITEMDETAILS_H
 
 #include <QDialog>
-#include "../../attrvalwdgt.h"
 #include "../../../libs/api.h"
 #include "../../../libs/inventory.h"
-
+#include "../attributesclass.h"
 
 namespace Ui {
 class ItemDetails;
@@ -28,17 +27,10 @@ public:
 	QString getQuantity();
 
 private slots:
-	void on_btn_plus_clicked();
-
-	void on_btn_insert_attrib_clicked();
-
-	void on_btn_remove_last_clicked();
-
 	void on_btn_conf_serial_clicked();
 
 private:
-	QVector<AttrValWdgt *> avwQvec ;
-
+	AttributesClass *ac;
 	Ui::ItemDetails *ui;
 };
 

@@ -10,7 +10,7 @@ AttrValWdgt::AttrValWdgt(QWidget *parent) :
 	for (auto i: db::PSQL::getInstance()->getAttribs()) {
 		ui->cb_attr->insertItem(0,i.c_str());
 	}
-	ui->cb_attr->installEventFilter(this);
+	ui->cb_attr->installEventFilter(new DisableMouseScroll());
 	ui->cb_attr->setCurrentIndex(0);
 }
 
@@ -40,10 +40,4 @@ void AttrValWdgt::on_cb_attr_currentIndexChanged(const QString &arg1)
 void AttrValWdgt::on_cb_val_currentIndexChanged(const QString &arg1)
 {
 	this->val = arg1.toStdString();
-}
-
-bool AttrValWdgt::eventFilter(QObject *obj, QEvent *ev) {
-	if (ev->type() == QEvent::Wheel) {
-		ev->ignore();
-	}
 }

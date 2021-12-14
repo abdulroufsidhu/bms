@@ -1,4 +1,5 @@
-QT       += core gui
+QT       += core gui \
+            printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -21,6 +22,7 @@ SOURCES += \
     libs/cnic.cpp \
     libs/contact.cpp \
     libs/deal.cpp \
+    libs/disablemousescroll.cpp \
     libs/email.cpp \
     libs/expense.cpp \
     libs/inventory.cpp \
@@ -34,6 +36,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
 	widgets/OrganizationTab/hire.cpp \
+    widgets/StoreTab/attributesclass.cpp \
 	widgets/StoreTab/available/addproduct.cpp \
 	widgets/StoreTab/available/available.cpp \
 	widgets/StoreTab/available/listavailable.cpp \
@@ -57,6 +60,7 @@ HEADERS += \
     libs/cnic.h \
     libs/contact.h \
     libs/deal.h \
+    libs/disablemousescroll.h \
     libs/email.h \
     libs/expense.h \
     libs/inventory.h \
@@ -69,6 +73,7 @@ HEADERS += \
     libs/user.h \
     mainwindow.h \
   widgets/OrganizationTab/hire.h \
+    widgets/StoreTab/attributesclass.h \
 	widgets/StoreTab/available/addproduct.h \
 	widgets/StoreTab/available/available.h \
 	widgets/StoreTab/available/listavailable.h \
@@ -88,6 +93,7 @@ HEADERS += \
 FORMS += \
     mainwindow.ui \
   widgets/OrganizationTab/hire.ui \
+    widgets/StoreTab/attributesclass.ui \
 	widgets/StoreTab/available/addproduct.ui \
 	widgets/StoreTab/available/available.ui \
 	widgets/StoreTab/available/listavailable.ui \

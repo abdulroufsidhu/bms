@@ -64,7 +64,7 @@ std::string db::PSQL::set(std::string *query) {
 	}  catch (std::exception& e) {
 		qCritical() << e.what();
 		err = e.what();
-//		QMessageBox::critical(0,"error updating data", e.what());
+		QMessageBox::critical(0,"error updating data", e.what());
 	}
 	return err;
 }

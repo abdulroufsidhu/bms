@@ -11,5 +11,9 @@
         <file>icons/node-plus.svg</file>
         <file>icons/node-minus.svg</file>
         <file>icons/send-check.svg</file>
+        <file>icons/printer.svg</file>
+    </qresource>
+    <qresource prefix="/fonts">
+        <file>fonts/code128.ttf</file>
     </qresource>
 </RCC>
