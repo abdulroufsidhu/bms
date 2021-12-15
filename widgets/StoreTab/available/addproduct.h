@@ -11,6 +11,7 @@
 #include "../../../libs/inventory.h"
 #include "../../../libs/user.h"
 #include "../attributesclass.h"
+#include "../../../libs/barcodegenerator.h"
 
 namespace Ui {
 	class AddProduct;

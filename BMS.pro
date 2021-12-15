@@ -7,7 +7,8 @@ CONFIG += c++17
 
 LIBS += \
     -lpq \
-    -lpqxx
+    -lpqxx \
+    -lqrencode
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -18,6 +19,7 @@ LIBS += \
 SOURCES += \
     libs/api.cpp \
     libs/auth.cpp \
+    libs/barcodegenerator.cpp \
     libs/branch.cpp \
     libs/cnic.cpp \
     libs/contact.cpp \
@@ -56,6 +58,7 @@ SOURCES += \
 HEADERS += \
     libs/api.h \
     libs/auth.h \
+    libs/barcodegenerator.h \
     libs/branch.h \
     libs/cnic.h \
     libs/contact.h \
