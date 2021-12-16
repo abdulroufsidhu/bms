@@ -28,12 +28,12 @@ private:
 	;
 	double price;
 	float discount;
-	int quantity;
-	double profit;
-	data::Person person;
-	data::User user;
-	data::Branch branch;
-	data::Inventory inventory;
+	int quantity = 0;
+	double profit = 0.0;
+	data::Person person ;
+	data::User user ;
+	data::Branch branch ;
+	data::Inventory inventory ;
 public:
 	Deal();
 	Deal(std::vector<std::string> *args);

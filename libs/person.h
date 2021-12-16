@@ -24,6 +24,8 @@ public:
 	Person();
 	Person(std::vector<std::string>* args);
 
+	~Person();
+
 	data::Email& getEmail();
 	data::Contact& getContact();
 	data::CNIC& getCnic();

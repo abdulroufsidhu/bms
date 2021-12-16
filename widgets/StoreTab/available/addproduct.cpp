@@ -112,61 +112,22 @@ void AddProduct::on_pushButton_clicked()
 	QImage barcode(190,30, QImage::Format_Mono);
 	barcode.fill(1);
 
-	double MmToDot = 8; //Printer DPI = 203 => 8 dots per mm FORMULAE IS printerDPI / 25.375 ==> dpi(dots per inch) to dpmm (dots per milimeter)
-	QPainter painter;
-//	painter().begin(&printer);
-
-	QRect barcodeRect = QRect(5*MmToDot,10*MmToDot,67.5*MmToDot,10*MmToDot);
-	QRect barcodeTextRect = QRect(5*MmToDot,20.5*MmToDot,67.5*MmToDot,5*MmToDot);
-
-	QFont barcodefont = QFont("Code 128", 16, QFont::Normal);
-	barcodefont.setLetterSpacing(QFont::AbsoluteSpacing,0.0);
-//	painter.setFont(barcodefont);
+ //Printer DPI = 203 => 8 dots per mm FORMULAE IS printerDPI / 25.375 ==> dpi(dots per inch) to dpmm (dots per milimeter) // its there because it could be helpful in future.
 
 	QString temp = this->ui->le_serial->text();
+	QPainter painter;
 
-//	QRcode *qrcode = QRcode_encodeString(temp.toStdString().c_str(),1,QRecLevel::QR_ECLEVEL_H,QRencodeMode::QR_MODE_8,1);
+	QPixmap qrmap = data::QRCode::genereate_from_str_8_bit(&temp);
 
-	QRcode *qrcode = QRcode_encodeString8bit(temp.toStdString().c_str(),1,QRecLevel::QR_ECLEVEL_H);
-
-	BarcodeGenerator bg = BarcodeGenerator( );
-	QString qstr = bg.generateBarcode( &temp );
-
-	QString arr = qstr;
-//	painter.drawText(barcodeRect, Qt::AlignCenter, arr);
-
-	QPixmap qrmap(100,100);
-
-	painter.begin(&qrmap);
-
-	painter.setPen(Qt::NoPen);
-	painter.setBrush(QColor("white"));
-
-	for (short i = 0; i< qrcode->width; i++) {
-		for (short j=0; j< qrcode->width; j++) {
-			if (qrcode->data[i * qrcode->width + j] & 1) {
-				// draw black at (j,i)
-				const double rx1=(j+1), ry1=(i+1);
-				QRectF r(rx1, ry1, 1, 1 );
-				painter.drawRects(&r,1);
-			} else {
-				// draw white at (j,i)
-			}
-		}
-	}
-
-	painter.end();
 	painter.begin(&printer);
-	QRectF rf(QPointF(0,0),QSizeF(100,100));
+	QRectF rf(QPointF(0,0),QSizeF(qrmap.width() ,qrmap.height() ));
 	painter.drawPixmap(rf,qrmap,qrmap.rect());
-
-	painter.setFont(QFont("PT Sans", 6));
-
-	painter.drawText(barcodeTextRect, Qt::AlignCenter, temp);
+	QFont sys_def(QFont().defaultFamily());
+	sys_def.setPointSize(5);
+	painter.setFont(sys_def);
+	painter.drawText(QPointF(qrmap.width() + sys_def.pointSize(), qrmap.height()/2),temp);
 
 	painter.end();
-
-	QRcode_free(qrcode);
 
 }
 

@@ -66,14 +66,15 @@ public:
 			short int tempindex = 0;
 			for (auto i : R) {
 					std::vector<std::string> str;
-					for (int j=0; j< i.size(); j++) {
+					for (int j=0; j < i.size(); j++) {
 							try {
-								str.insert(str.begin() + j, i[j].as<std::string>());
+								str.insert(str.end(), i[j].as<std::string>());
+								qDebug () << i[j].c_str();
 
 							}  catch (std::exception& e) {
-								qCritical () << e.what();
-								str.insert(str.begin() + j, "");
-								qCritical() << QString(i[j].name()) + " : " + QString(e.what());
+								qDebug() << e.what();
+								str.insert(str.end(), "");
+								qDebug() << QString(i[j].name()) + " : " + QString(e.what());
 							}
 						}
 					d->insert(d->end() , T(&str));
@@ -81,7 +82,7 @@ public:
 				}
 
 		}  catch (std::exception& e) {
-			qCritical() << e.what();
+			qDebug() << e.what();
 //			QMessageBox::critical(0,from->c_str(),e.what());
 		}
 	}

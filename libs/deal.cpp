@@ -8,7 +8,7 @@ data::Deal::Deal(std::vector<std::string> *args) {
 	std::string select, from, where;
 	select = "*";
 	from = "inventory";
-	where = " id ='" + args->at(1);
+	where = " id ='" + args->at(1) + "'";
 	std::vector<data::Inventory> i;
 	db::PSQL::getInstance()->get(&select, &from, &where, &i);
 	this->inventory = i.at(0);
@@ -21,6 +21,7 @@ data::Deal::Deal(std::vector<std::string> *args) {
 	where = "id ='" + args->at(4) + "'";
 	std::vector<data::Person> p;
 	db::PSQL::getInstance()->get(&select, &from, &where, &p);
+	if (p.size() > 0)
 	this->person = p.at(0);
 
 	//         user        at(5)
@@ -52,3 +53,7 @@ float& data::Deal::getDiscount() { return this->discount; }
 int& data::Deal::getQuantity() { return this->quantity; }
 double& data::Deal::getProfit() { return this->profit; }
 
+data::Inventory& data::Deal::getInventory() { return this->inventory; }
+data::Person& data::Deal::getPerson() { return this->person; }
+data::User& data::Deal::getUser() { return this->user; }
+data::Branch& data::Deal::getBranch() { return this->branch; }

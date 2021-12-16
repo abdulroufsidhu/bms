@@ -9,7 +9,7 @@ DealTab::DealTab(QWidget *parent) :
 	ui->tab_widget_deals->tabBar()->setStyle(new CustomTabStyle);
 	ui->tab_widget_deals->tabBar()->setStyleSheet("background-color: transparent");
 	ui->tab_widget_deals->addTab(new Sell(), "SELL");
-	ui->tab_widget_deals->addTab(new Sell(), "LIST");
+	ui->tab_widget_deals->addTab(new ListDeals(), "LIST");
 }
 
 DealTab::~DealTab()

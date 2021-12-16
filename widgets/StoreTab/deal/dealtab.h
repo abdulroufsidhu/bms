@@ -4,6 +4,7 @@
 #include <QDialog>
 #include "../../../libs/api.h"
 #include "./sell.h"
+#include "./listdeals.h"
 
 namespace Ui {
 	class DealTab;

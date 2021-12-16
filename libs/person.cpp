@@ -2,7 +2,9 @@
 
 data::Person::Person() { }
 
-data::Person::Person(std::vector<std::string>* args) { 
+data::Person::~Person() {}
+
+data::Person::Person(std::vector<std::string>* args) {
 	this->id = args->at(0);
 	std::string select, from, where;
 	select = "*";

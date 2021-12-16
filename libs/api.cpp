@@ -87,7 +87,8 @@ void db::PSQL::updateAttribs(std::string *branchId) {
 
 	for (auto c: strVec) {
 		select = "attrib"; from= "attributes"; where = "id = '" + c +"'";
-		QMessageBox::information(0,"c",c.c_str());
+//		QMessageBox::information(0,"c",c.c_str());
+		qInfo() << c.c_str();
 		db::PSQL::getInstance()->getVecStr(&select, &from, &where, &this->getAttribs());
 		}
 }

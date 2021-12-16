@@ -41,13 +41,11 @@ void Home::on_btn_add_attrib_clicked()
 {
 	std::string query = "insert into attributes(attrib) values ('" + ui->le_add_attrib->text().toStdString() + "')";
 	ui->le_add_attrib->setStyleSheet("");
-	if (db::PSQL::getInstance()->set(&query).empty()) {
-		ui->le_add_attrib->clear();
-	}	else {
+	if (!db::PSQL::getInstance()->set(&query).empty())
 		ui->le_add_attrib->setStyleSheet("color: #F00");
-	}
 	this->on_btn_attrib_add_val_clicked(ui->le_add_attrib->text().toStdString());
 	this->updateCBattribAddVal();
+	ui->le_add_attrib->clear();
 }
 
 void Home::on_btn_attrib_add_val_clicked(std::string attrib)
@@ -58,7 +56,7 @@ void Home::on_btn_attrib_add_val_clicked(std::string attrib)
 	QString val = ui->le_attrib_add_val->text();
 	if (val.isEmpty()) val = " Choose Your Value Sire";
 
-	QMessageBox::information(this, "attrib", attrib.c_str());
+//	QMessageBox::information(this, "attrib", attrib.c_str());
 	if (attrib.empty()){ attrib = ui->cb_attrib_add_val->currentText().toStdString(); }
 
 	std::string query, attribid;
@@ -66,8 +64,6 @@ void Home::on_btn_attrib_add_val_clicked(std::string attrib)
 	db::PSQL::getInstance()->get(&query, &attribid);
 
 //	db::PSQL::getInstance()->getVecStr(new std::string("id"), new std::string("attributes"), new std::string("attrib = '"+ attrib + "'"), &attribVec);
-
-	//	query = "insert into attribval(attribid, val, branchid) values ('" + attribVec.at(0) + "','" + ui->le_attrib_add_val->text().toStdString() + "','" + data::User::getCurrentUser()->getBranchVec().at(ui->cb_branch->currentIndex()).getId() + "')";
 
 	query = "INSERT INTO attribval (attribid, val, branchid) SELECT '" + attribid + "','" + val.toStdString() + "','" + data::User::getCurrentUser()->getBranchVec().at(ui->cb_branch->currentIndex()).getId() + "' WHERE NOT EXISTS (SELECT attribid, val, branchid FROM attribval WHERE attribid='" + attribid + "' AND val ='" + val.toStdString() + "' AND branchid ='" + data::User::getCurrentUser()->getBranchVec().at(ui->cb_branch->currentIndex()).getId() + "')";
 

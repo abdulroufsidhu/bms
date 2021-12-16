@@ -8,6 +8,7 @@
 #include "./widgets/store.h"
 #include "./widgets/org.h"
 #include "./widgets/personal.h"
+#include "./libs/disablemousescroll.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -23,12 +24,24 @@ public:
 
 private slots:
 
+	void on_tab_main_currentChanged(int index);
+
 private:
 	Ui::MainWindow *ui;
-	Home* h = NULL;
-	Store* s = NULL;
-	Org* o = NULL;
-	Personal* p = NULL;
+	Home* h = nullptr;
+	Store* s = nullptr;
+	Org* o = nullptr;
+	Personal* p = nullptr;
+
+	QGridLayout *hl;
+	QGridLayout *sl;
+	QGridLayout *ol;
+	QGridLayout *pl;
+
+	QWidget* hw = new QWidget();
+	QWidget* sw = new QWidget();
+	QWidget* ow = new QWidget();
+	QWidget* pw = new QWidget();
 
 
 };

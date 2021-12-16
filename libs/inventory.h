@@ -19,7 +19,7 @@ private:
 	, colour
 	, serial
 	//, branch
-	//                , quantity
+	//, quantity
 	//, price
 	;
 	data::Item item;

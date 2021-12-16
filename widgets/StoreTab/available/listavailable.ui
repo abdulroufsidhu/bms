@@ -34,17 +34,17 @@
          </item>
          <item>
           <property name="text">
+           <string>version</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
            <string>company</string>
           </property>
          </item>
          <item>
           <property name="text">
            <string>vendor</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>version</string>
           </property>
          </item>
         </widget>

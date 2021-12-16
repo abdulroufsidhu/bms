@@ -19,7 +19,6 @@ LIBS += \
 SOURCES += \
     libs/api.cpp \
     libs/auth.cpp \
-    libs/barcodegenerator.cpp \
     libs/branch.cpp \
     libs/cnic.cpp \
     libs/contact.cpp \
@@ -33,6 +32,7 @@ SOURCES += \
     libs/location.cpp \
     libs/organization.cpp \
     libs/person.cpp \
+    libs/qrcode.cpp \
     libs/report.cpp \
     libs/user.cpp \
     main.cpp \
@@ -45,6 +45,7 @@ SOURCES += \
 	widgets/StoreTab/available/updateproduct.cpp \
   widgets/StoreTab/deal/dealtab.cpp \
     widgets/StoreTab/deal/itemdetails.cpp \
+    widgets/StoreTab/deal/listdeals.cpp \
 	widgets/StoreTab/deal/sell.cpp \
 	widgets/attrvalwdgt.cpp \
     widgets/auth/login.cpp \
@@ -58,7 +59,6 @@ SOURCES += \
 HEADERS += \
     libs/api.h \
     libs/auth.h \
-    libs/barcodegenerator.h \
     libs/branch.h \
     libs/cnic.h \
     libs/contact.h \
@@ -72,6 +72,7 @@ HEADERS += \
     libs/location.h \
     libs/organization.h \
     libs/person.h \
+    libs/qrcode.h \
     libs/report.h \
     libs/user.h \
     mainwindow.h \
@@ -83,6 +84,7 @@ HEADERS += \
 	widgets/StoreTab/available/updateproduct.h \
   widgets/StoreTab/deal/dealtab.h \
     widgets/StoreTab/deal/itemdetails.h \
+    widgets/StoreTab/deal/listdeals.h \
 	widgets/StoreTab/deal/sell.h \
 	widgets/attrvalwdgt.h \
     widgets/auth/login.h \
@@ -103,6 +105,7 @@ FORMS += \
 	widgets/StoreTab/available/updateproduct.ui \
   widgets/StoreTab/deal/dealtab.ui \
     widgets/StoreTab/deal/itemdetails.ui \
+    widgets/StoreTab/deal/listdeals.ui \
 	widgets/StoreTab/deal/sell.ui \
 	widgets/attrvalwdgt.ui \
     widgets/auth/login.ui \
