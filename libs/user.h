@@ -50,12 +50,13 @@ public:
 	int& getBranchIndex();
 	void setBranchIndex( int i);
 
-	void updataBranchVec();
+	void updateBranchVecBusiness();
 
 	QStringList& getBranchesNamesList();
 	void updateBranchesNamesList();
 
 	void updateOrgVecBusiness();
+	void updateOrgVecEmployee();
 };
 
 #endif // USER_H

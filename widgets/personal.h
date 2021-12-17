@@ -16,6 +16,11 @@ public:
 	explicit Personal (QWidget *parent = nullptr);
 	~Personal ();
 
+private slots:
+	void on_btn_return_to_business_clicked();
+
+	void on_btn_return_to_job_clicked();
+
 private:
 	Ui::Person *ui;
 };

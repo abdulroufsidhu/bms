@@ -18,7 +18,7 @@ id uuid default uuid_generate_v4() primary key
 create table auth (
 id uuid default uuid_generate_v4() primary key
 , password text not null
-, emailid uuid references emails(id) 
+, emailid uuid references emails(id) unique
 , active boolean default true not null
 );
 

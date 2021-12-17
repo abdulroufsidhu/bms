@@ -24,3 +24,15 @@ Personal::~Personal()
 	//    QMessageBox::information(this,"destroying", "personal destroyed");
 	delete ui;
 }
+
+void Personal::on_btn_return_to_business_clicked()
+{
+	data::User::getCurrentUser()->updateOrgVecBusiness();
+	data::User::getCurrentUser()->updateBranchVecBusiness();
+}
+
+void Personal::on_btn_return_to_job_clicked()
+{
+	data::User::getCurrentUser()->updateOrgVecEmployee();
+}
+

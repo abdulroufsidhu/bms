@@ -27,7 +27,7 @@ data::User::User(std::vector<std::string>* args) {
 			db::PSQL::getInstance()->get(&select, &from, &where, &p);
 			this->person = p.at(0);
 		}
-	//job
+//job
 //	if (!args->at(2).empty()) {
 //			from = "jobs";
 //			where = "id = '" + args->at(2) + "'";
@@ -66,6 +66,27 @@ void data::User::updateOrgVecBusiness() {
 	db::PSQL::getInstance()->get(&select, &from, &where, &this->getOrganizationVec());
 }
 
+void data::User::updateOrgVecEmployee() {
+	std::string select="organizationid", from = "employee", where ="userid = '" + data::User::getCurrentUser()->getId() + "'";
+	std::vector<std::string> orgIds, branchIds;
+	db::PSQL::getInstance()->getVecStr(&select, &from, &where, &orgIds);
+
+	select = "branchid";
+	db::PSQL::getInstance()->getVecStr(&select, &from, &where, &branchIds);
+
+	select = "*";
+	from = "organizations";
+	for (auto orgId : orgIds) {
+		where = "id = '" + orgId + "'";
+		db::PSQL::getInstance()->get(&select, &from, &where, &this->getOrganizationVec());
+	}
+	from = "branches";
+	for (auto branchId : branchIds) {
+		where = "id = '" + branchId + "'";
+		db::PSQL::getInstance()->get(&select, &from, &where, &this->getBranchVec());
+	}
+}
+
 int& data::User::getOrgIndex() { return this->org_index; }
 void data::User::setOrgIndex(int i) { this->org_index = i; }
 
@@ -76,7 +97,7 @@ int& data::User::getBranchIndex() { return this->branc_index; }
 
 void data::User::setBranchIndex(int i) { this->branc_index = i; }
 
-void data::User::updataBranchVec() {
+void data::User::updateBranchVecBusiness() {
 	if (this->getOrganizationVec().size() < 1) return;
 	std::vector<data::Branch> bv;
 	std::string select, from ,where, query;

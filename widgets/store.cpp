@@ -10,7 +10,6 @@ Store::Store(QWidget *parent) :
 	ui->setupUi(this);
 	if (data::User::getCurrentUser() == NULL) return;
 
-	data::User::getCurrentUser()->updataBranchVec();
 	data::User::getCurrentUser()->updateBranchesNamesList();
 
 	available = new Available ();

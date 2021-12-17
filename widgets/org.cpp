@@ -124,7 +124,7 @@ void Org::on_btn_add_branch_clicked()
 			ui->le_add_branch_contact->setText("");
 			ui->le_add_branch_email->setText("");
 			QMessageBox::information(this, "success", "successfully added new Branch");
-			data::User::getCurrentUser()->updataBranchVec();
+			data::User::getCurrentUser()->updateBranchVecBusiness();
 			data::User::getCurrentUser()->updateBranchesNamesList();
 		}
 }

@@ -10,8 +10,9 @@ Home::Home(QWidget *parent) :
 	if (data::User::getCurrentUser() == NULL) return;
 	if (data::User::getCurrentUser()->getOrganizationVec().size() < 1) return;
 
-	data::User::getCurrentUser()->updataBranchVec();
+	data::User::getCurrentUser()->updateBranchVecBusiness();
 	data::User::getCurrentUser()->updateBranchesNamesList();
+
 	ui->cb_branch->clear();
 	ui->cb_branch->addItems(data::User::getCurrentUser()->getBranchesNamesList());
 	ui->cb_branch_list->clear();

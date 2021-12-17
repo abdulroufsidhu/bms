@@ -88,7 +88,7 @@ void AddProduct::on_btn_generate_uuid_clicked()
 	//0 default for uuid enclosed in curly braces with dashes 1 for with dashes without curly braces and 3 for without dashes as well this 3rd cannot be reused with QUuid class
 	ui->le_serial->setVisible(true);
 //	ui->le_serial->setText(uid.toString(QUuid::StringFormat(1)));
-	std::string qstr = uid.toString(QUuid::StringFormat(3)).toStdString();
+	std::string qstr = uid.toString(QUuid::StringFormat(1)).toStdString();
 
 	ui->le_serial->setText(qstr.c_str());
 

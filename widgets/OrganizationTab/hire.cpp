@@ -24,7 +24,7 @@ Hire::~Hire()
 void Hire::on_btn_hire_clicked()
 {
 
-	try {
+//	try {
 
 
 		QString name, email, cnic, phone, country, city, address, jobTitle, grade, salary, password;
@@ -52,8 +52,6 @@ void Hire::on_btn_hire_clicked()
 		if (salary.isEmpty()) { QMessageBox::critical(this, "error", "salary is not entered"); return;}
 		if (password.isEmpty()) { QMessageBox::critical(this, "error", "password is not entered"); return;}
 
-		std::vector<data::Location> lv;
-
 		std::string query, select, from, where, personid, jobid, locationid, cnicid, contactid, emailid;
 		select = "*";
 		query = "insert into emails (email) values ('" + email.toStdString() + "')";
@@ -69,27 +67,27 @@ void Hire::on_btn_hire_clicked()
 		query = "insert into jobs (designation, grade) values ('" + jobTitle.toStdString() + "','"+ grade.toStdString() +"')";
 		db::PSQL::getInstance()->set(&query);
 
-		select = "*";
-		from = "locations";
-		where = "city ='"+city.toStdString()+"' and country ='"+country.toStdString()+"' and address = '"+address.toStdString()+"'";
+		query = "INSERT INTO locations (city, country, address) SELECT \
+							'" + city.toStdString() + "','" + country.toStdString() + "','" + address.toStdString() + "' \
+							 WHERE NOT EXISTS ( SELECT * FROM locations \
+										WHERE city = '"+ city.toStdString() +"' AND \
+													country = '" + country.toStdString() + "' AND \
+													address = '"+address.toStdString()+"' \
+										)";
+		db::PSQL::getInstance()->set(&query);
+		query = "SELECT id FROM locations WHERE city = '"+ city.toStdString() +"' AND country = '" + country.toStdString() + "' AND address = '"+address.toStdString()+"'";
 
-		db::PSQL::getInstance()->get(&select, &from, &where ,&lv);
-		if (lv.size() < 1) {
-				query = "insert into locations(city, country, address) values ('" + city.toStdString() + "','" + country.toStdString() + "','" + address.toStdString() +"')";
-				db::PSQL::getInstance()->set(&query);
-				db::PSQL::getInstance()->get(&select, &from, &where ,&lv);
-			}
 		query = "SELECT id FROM emails WHERE email ='" + email.toStdString() + "'";
 		db::PSQL::getInstance()->get(&query, &emailid);
 
-		query = "SELECT id FROM contacts WHERE contact ='" + email.toStdString() + "'";
+		query = "SELECT id FROM contacts WHERE contact ='" + phone.toStdString() + "'";
 		db::PSQL::getInstance()->get(&query, &contactid);
 
 		query = "SELECT id FROM cnics WHERE cnic ='" + cnic.toStdString() + "'";
 		db::PSQL::getInstance()->get(&query, &cnicid);
 
-		query = "insert into persons(emailid, contactid, cnicid, locationid, name) values ('"+emailid+"','"+contactid+"','"+ cnicid + "','" + lv.at(0).getId()+"','" + name.toStdString() + "')";
-		if (db::PSQL::getInstance()->set(&query).length()) throw std::runtime_error( "unable to update person in database" );
+		query = "insert into persons(emailid, contactid, cnicid, locationid, name) values ('"+emailid+"','"+contactid+"','"+ cnicid + "','" + locationid +"','" + name.toStdString() + "')";
+		if (!db::PSQL::getInstance()->set(&query).empty()) qDebug() << "unable to add person";
 
 		query = "SELECT id FROM persons where contactid ='" + contactid + "'";
 		db::PSQL::getInstance()->get(&query, &personid);
@@ -124,9 +122,9 @@ void Hire::on_btn_hire_clicked()
 			}
 
 
-	}  catch (std::exception &e) {
-		qCritical() << e.what();
-	}
+//	}  catch (std::exception &e) {
+//		qDebug() << e.what();
+//	}
 
 }
 
