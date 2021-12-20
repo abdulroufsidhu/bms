@@ -14,6 +14,10 @@ Hire::Hire(QWidget *parent) :
 	data::User::getCurrentUser()->updateBranchesNamesList();
 	ui->cb_branch->addItems(data::User::getCurrentUser()->getBranchesNamesList());
 
+	ui->cb_branch->installEventFilter(new DisableMouseScroll());
+	ui->sb_grade->installEventFilter(new DisableMouseScroll());
+	ui->db_salary->installEventFilter(new DisableMouseScroll());
+
 }
 
 Hire::~Hire()
@@ -52,7 +56,7 @@ void Hire::on_btn_hire_clicked()
 		if (salary.isEmpty()) { QMessageBox::critical(this, "error", "salary is not entered"); return;}
 		if (password.isEmpty()) { QMessageBox::critical(this, "error", "password is not entered"); return;}
 
-		std::string query, select, from, where, personid, jobid, locationid, cnicid, contactid, emailid;
+		std::string query, select, from, where, personid, jobid, locationid, cnicid, contactid, emailid, uid;
 		select = "*";
 		query = "insert into emails (email) values ('" + email.toStdString() + "')";
 		db::PSQL::getInstance()->set(&query);
@@ -75,7 +79,10 @@ void Hire::on_btn_hire_clicked()
 													address = '"+address.toStdString()+"' \
 										)";
 		db::PSQL::getInstance()->set(&query);
+
+		qDebug() << "LOCATION ID IS:";
 		query = "SELECT id FROM locations WHERE city = '"+ city.toStdString() +"' AND country = '" + country.toStdString() + "' AND address = '"+address.toStdString()+"'";
+		db::PSQL::getInstance()->get(&query,&locationid);
 
 		query = "SELECT id FROM emails WHERE email ='" + email.toStdString() + "'";
 		db::PSQL::getInstance()->get(&query, &emailid);
@@ -92,14 +99,13 @@ void Hire::on_btn_hire_clicked()
 		query = "SELECT id FROM persons where contactid ='" + contactid + "'";
 		db::PSQL::getInstance()->get(&query, &personid);
 
-		query = "SELECT id FROM jobs WHERE job ='" + jobTitle.toStdString() + "' AND grade = " + grade.toStdString() ;
+		query = "SELECT id FROM jobs WHERE designation ='" + jobTitle.toStdString() + "'" ;
 		db::PSQL::getInstance()->get(&query, &jobid);
 
 		query = "insert into users(personid) values ('" + personid + "')";
 		db::PSQL::getInstance()->set(&query);
 
-		std::string uid;
-		query = "select id from users where personid = '" + personid + "')";
+		query = "select id from users where personid = '" + personid + "'";
 		db::PSQL::getInstance()->get(&query,&uid);
 
 		query = "insert into auth(password, emailid) values ('" + password.toStdString() + "','" + emailid + "')";

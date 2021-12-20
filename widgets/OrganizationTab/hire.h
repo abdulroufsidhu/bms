@@ -6,6 +6,7 @@
 #include "../../libs/person.h"
 #include "../../libs/job.h"
 #include "../../libs/user.h"
+#include "../../libs/disablemousescroll.h"
 
 namespace Ui {
 	class Hire;

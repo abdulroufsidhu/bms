@@ -11,19 +11,9 @@ Home::Home(QWidget *parent) :
 	if (data::User::getCurrentUser()->getOrganizationVec().size() < 1) return;
 
 	data::User::getCurrentUser()->updateBranchVecBusiness();
-	data::User::getCurrentUser()->updateBranchesNamesList();
 
-	ui->cb_branch->clear();
-	ui->cb_branch->addItems(data::User::getCurrentUser()->getBranchesNamesList());
-	ui->cb_branch_list->clear();
-	ui->cb_branch_list->addItems(data::User::getCurrentUser()->getBranchesNamesList());
-	ui->cb_branches_remove_attr->clear();
-	ui->cb_branches_remove_attr->addItems(data::User::getCurrentUser()->getBranchesNamesList());
-	ui->cb_branches_remove_attr_val->clear();
-	ui->cb_branches_remove_attr_val->addItems(data::User::getCurrentUser()->getBranchesNamesList());
-	ui->cb_branch_add_attribs->clear();
-	ui->cb_branch_add_attribs->addItems(data::User::getCurrentUser()->getBranchesNamesList());
-	this->updateCBattribAddVal();
+	this->on_pushButton_clicked();
+
 }
 
 void Home::updateCBattribAddVal() {
@@ -75,6 +65,8 @@ void Home::on_btn_attrib_add_val_clicked(std::string attrib)
 
 void Home::on_cb_branch_list_currentIndexChanged(int index)
 {
+	if (index < 0)
+		return;
 	std::string p, q;
 //	select = "profit"; from = "reports"; where = "branchid = '" + data::User::getCurrentUser()->getBranchVec().at(index).getId() + "' and to_char(time,'yyyymm') = to_char(CURRENT_DATE,'yyyymm') ";
 	q = "SELECT profit FROM reports WHERE branchid ='" + data::User::getCurrentUser()->getBranchVec().at(index).getId() + "' and to_char(time,'yyyymm') = to_char(CURRENT_DATE,'yyyymm') ";
@@ -99,6 +91,22 @@ void Home::on_btn_attrib_remove_val_clicked()
 	q = "SELECT id FROM attributes WHERE attrib = '" + ui->le_remove_attrib->text().toStdString() + "'";
 	db::PSQL::getInstance()->get(&q, &attr);
 	q = "DELETE * FROM attribval WHERE attribid = '" + attr + "' AND branchid = '" + data::User::getCurrentUser()->getBranchVec().at(ui->cb_branches_remove_attr_val->currentIndex()).getId() + "' AND val ='" + ui->le_attrib_remove_val->text().toStdString() + "'";
+	this->updateCBattribAddVal();
+}
+
+
+void Home::on_pushButton_clicked()
+{
+	ui->cb_branch->clear();
+	ui->cb_branch->addItems(data::User::getCurrentUser()->getBranchesNamesList());
+	ui->cb_branch_list->clear();
+	ui->cb_branch_list->addItems(data::User::getCurrentUser()->getBranchesNamesList());
+	ui->cb_branches_remove_attr->clear();
+	ui->cb_branches_remove_attr->addItems(data::User::getCurrentUser()->getBranchesNamesList());
+	ui->cb_branches_remove_attr_val->clear();
+	ui->cb_branches_remove_attr_val->addItems(data::User::getCurrentUser()->getBranchesNamesList());
+	ui->cb_branch_add_attribs->clear();
+	ui->cb_branch_add_attribs->addItems(data::User::getCurrentUser()->getBranchesNamesList());
 	this->updateCBattribAddVal();
 }
 

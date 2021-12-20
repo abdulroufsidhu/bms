@@ -30,6 +30,8 @@ private slots:
 
 	void on_btn_attrib_remove_val_clicked();
 
+	void on_pushButton_clicked();
+
 private:
 	Ui::Home *ui;
 };

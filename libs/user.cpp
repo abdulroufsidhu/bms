@@ -81,10 +81,12 @@ void data::User::updateOrgVecEmployee() {
 		db::PSQL::getInstance()->get(&select, &from, &where, &this->getOrganizationVec());
 	}
 	from = "branches";
+	this->getBranchVec().clear();
 	for (auto branchId : branchIds) {
 		where = "id = '" + branchId + "'";
 		db::PSQL::getInstance()->get(&select, &from, &where, &this->getBranchVec());
 	}
+	this->updateBranchesNamesList();
 }
 
 int& data::User::getOrgIndex() { return this->org_index; }
@@ -99,13 +101,13 @@ void data::User::setBranchIndex(int i) { this->branc_index = i; }
 
 void data::User::updateBranchVecBusiness() {
 	if (this->getOrganizationVec().size() < 1) return;
-	std::vector<data::Branch> bv;
 	std::string select, from ,where, query;
+	this->getBranchVec().clear();
 	select = "*";
 	from = "branches";
 	where = "organizationid = '" + this->getOrganizationVec().at( this->getOrgIndex() ).getId() + "' AND active";
-	db::PSQL::getInstance()->get(&select, &from, &where, &bv);
-	this->setBranchVec(&bv);
+	db::PSQL::getInstance()->get(&select, &from, &where, &this->getBranchVec());
+	updateBranchesNamesList();
 }
 
 QStringList &data::User::getBranchesNamesList() { return this->branchesNamesList; }

@@ -17,7 +17,12 @@ AuthScreen::AuthScreen(QWidget *parent) :
 	db::PSQL::getInstance()->set(&query);
 	query = "create table emails (id uuid default uuid_generate_v4() primary key, email text unique)";
 	db::PSQL::getInstance()->set(&query);
-	query = "create table auth (id uuid default uuid_generate_v4() primary key, password text not null, emailid uuid references emails(id) unique, active boolean default true not null)";
+	query = "create table auth (\
+							id uuid default uuid_generate_v4() primary key, \
+							password text not null, \
+							emailid uuid references emails(id) unique, \
+							active boolean default true not null\
+							)";
 	db::PSQL::getInstance()->set(&query);
 	query = "create table jobs (id uuid default uuid_generate_v4() primary key, designation text not null unique, grade integer not null)";
 	db::PSQL::getInstance()->set(&query);

@@ -60,7 +60,7 @@ std::string db::PSQL::set(std::string *query) {
 		pqxx::work W(C);
 		W.exec(query->c_str());
 		W.commit();
-		qInfo() << "operation successfull";
+		qInfo() <<  " SUCESS: " + QString(query->c_str()) ;
 	}  catch (std::exception& e) {
 		qCritical() << e.what();
 		err = e.what();

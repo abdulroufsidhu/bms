@@ -69,7 +69,7 @@ public:
 					for (int j=0; j < i.size(); j++) {
 							try {
 								str.insert(str.end(), i[j].as<std::string>());
-								qDebug () << i[j].c_str();
+//								qDebug () << i[j].c_str();
 
 							}  catch (std::exception& e) {
 								qDebug() << e.what();
@@ -144,6 +144,7 @@ public:
 			if (R.size() < 1) QMessageBox::information(0, "caution", "no record found " + QString(query->c_str()));
 			for (auto c: R) {
 					*destination = c[0].as<std::string>();
+					qDebug() << QString(c[0].name()) + QString(c[0].c_str());
 				}
 
 		}  catch (std::exception &e) {
