@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>icons/Polygon 1.svg</file>
+        <file>icons/sell-label 1.svg</file>
+        <file>icons/view 1.svg</file>
+    </qresource>
+</RCC>

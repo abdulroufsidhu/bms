@@ -1,0 +1,52 @@
+﻿import QtQuick 2.0
+import QtQuick.Controls 2.15
+import QtGraphicalEffects 1.0
+import QtQuick.Layouts 1.12
+import "../buttons"
+
+Item {
+	anchors {
+		centerIn: parent
+	}
+	width: rootWindow.width/1.5
+	height: rootWindow.height/2
+	Rectangle {
+		id: auth_rect
+		width: parent.width -65
+		height: parent.height - 65
+		anchors.centerIn: parent
+		color: rootWindow.primary_color
+		radius: 20
+
+		Column {
+			spacing: 10
+			anchors {
+				fill: parent
+				margins: rootWindow.width/30
+			}
+
+			EditText{ hint: "email@example.com" }
+			EditText{ hint: "Password" }
+			MyButton{
+				btn_text: "Login";
+				btn_text_color: rootWindow.opaque_black_color;
+				width: parent.width/2 ;
+				height: rootWindow.height/40*3
+				anchors.right: parent.right
+			}
+		}
+
+
+
+	}
+
+	DropShadow {
+		anchors.fill: auth_rect
+		source: auth_rect
+		samples: 65
+		radius: 32
+		spread: 0
+		color: "#cc000000"
+	}
+}
+
