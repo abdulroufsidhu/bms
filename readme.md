@@ -1,2 +1,4 @@
 ### REWRITING FOR BETTER ARCHITECTURE AND NICE FEATURES.
-in qt quick and c++
+#UI in QML
+
+#Backend in C++
