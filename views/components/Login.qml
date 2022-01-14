@@ -26,10 +26,12 @@ Rectangle {
 			}
 
 			MyEditText{
+				id: login_email
 				hint: "email@example.com";
 				width: 17*rootWindow.pixel_font_size_24
 			}
 			MyEditText{
+				id: login_password
 				hint: "Password";
 				echo_mode: TextInput.Password;
 				width: 17*rootWindow.pixel_font_size_24
@@ -41,8 +43,9 @@ Rectangle {
 				MouseArea {
 					anchors.fill: parent
 					onClicked: {
-						stack.pop(signup_screen);
-						stack.pop(auth_screen);
+						stack.pop();
+						login_email.text_data = ""
+						login_password.text_data = ""
 						stack.push(s_v_component);
 					}
 				}

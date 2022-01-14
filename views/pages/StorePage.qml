@@ -24,17 +24,7 @@ Page {
 
 		spacing: 10
 		MyComboBox {
-			model_data_array: [
-				qsTr("Item ID")
-			, qsTr("Item Menufecturer")
-			, qsTr("Item Vendor")
-			, qsTr("Item Serial")
-			, qsTr("Item Price")
-			, qsTr("Item Name")
-			, qsTr("Customer Name")
-			, qsTr("Customer Contact")
-			, qsTr("Customer National ID")
-			]
+			model_data_array: _row_to_search
 			cb_width: rootWindow.wr * 280
 			height: et_search.height
 		}

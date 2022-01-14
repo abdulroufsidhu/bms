@@ -65,8 +65,9 @@ ComboBox {
 		font: cb.font
 		color: rootWindow.primary_text_color
 		verticalAlignment: Text.AlignVCenter
-		horizontalAlignment: Text.AlignHCenter
+		horizontalAlignment: Text.AlignLeft
 		elide: Text.ElideRight
+		leftPadding: pixel_font_size_24
 	}
 
 	//the list of elements and their style when the combobox is open

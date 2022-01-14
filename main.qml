@@ -58,7 +58,6 @@ ApplicationWindow {
 				}
 			}
 		}
-
 	}
 
 // without auth clicking login button is changing stacks which shall not be done.

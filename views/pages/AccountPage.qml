@@ -5,6 +5,7 @@ import "../"
 import "../basicComponents/buttons"
 
 Page {
+	clip: true
 	onFocusChanged: {
 		if (focus) title_bar.window_title = " 👤 Account"
 	}

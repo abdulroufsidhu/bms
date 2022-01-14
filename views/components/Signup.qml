@@ -6,6 +6,7 @@ import "../basicComponents/buttons"
 import "../basicComponents/inputs"
 
 Page {
+	clip: true
 	background: Rectangle{anchors.fill: parent; color: secondary_color}
 	ScrollView {
 		anchors.fill: parent
@@ -15,7 +16,8 @@ Page {
 			width: rootWindow.width - pixel_font_size_24*2
 
 			MyEditText {
-				hint: "Name"
+				id: signup_full_name
+				hint: "Full Name"
 				Layout.alignment: Layout.Center
 				Layout.fillWidth: true
 			}
@@ -50,12 +52,12 @@ Page {
 				font.pixelSize: pixel_font_size_24
 			}
 
-			MyEditText {
+			MyComboBox {
 				id: signup_perm_country
-				hint: "Country"
-				Layout.alignment: Layout.Center
 				Layout.fillWidth: true
+				model_data_array: _country_list
 			}
+
 			MyEditText {
 				id: signup_perm_city
 				hint: "City"
@@ -79,12 +81,12 @@ Page {
 				font.pixelSize: pixel_font_size_24
 			}
 
-			MyEditText {
+			MyComboBox {
 				id: signup_temp_country
-				hint: "Country"
-				Layout.alignment: Layout.Center
+				model_data_array: _country_list
 				Layout.fillWidth: true
 			}
+
 			MyEditText {
 				id: signup_temp_city
 				hint: "City"
@@ -125,13 +127,25 @@ Page {
 				MouseArea {
 					anchors.fill: parent
 					onClicked: {
-						output.text = _db.insert("INSERT INTO CONTACTS(name) VALUES( " + signup_contact.text_data + ");" )
+						output.text = _db.signup(
+									signup_full_name.text_data,
+									signup_email.text_data,
+									signup_contact.text_data,
+									signup_cnic.text_data,
+									signup_password.text_data,
+									signup_conf_password.text_data,
+									signup_perm_country.currentValue,
+									signup_perm_city.text_data,
+									signup_perm_address.text_data,
+									signup_temp_country.currentValue,
+									signup_temp_city.text_data,
+									signup_temp_address.text_data
+									);
+
 					}
 				}
 			}
-
 		}
-
 	}
 }
 

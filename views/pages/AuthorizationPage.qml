@@ -7,6 +7,7 @@ import "../../"
 import "../components"
 
 Page {
+	clip: true
 	onFocusChanged: {
 		if (focus) title_bar.window_title = "Authorization"
 	}

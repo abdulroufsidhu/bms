@@ -20,12 +20,16 @@ Rectangle {
 	TextField {
 		id: textField
 		placeholderText: qsTr(hint)
+		text: text_data
 		anchors.verticalCenter: parent.verticalCenter
 		font.pixelSize: rootWindow.pixel_font_size_24
 		width: parent.width
 		height: parent.height
 		placeholderTextColor: rootWindow.secondary_text_color
-		background: Rectangle { anchors.fill: parent; color: rootWindow.transparent_color }
+		background: Rectangle {
+			anchors.fill: parent;
+			color: rootWindow.transparent_color
+		}
 		color: rootWindow.primary_text_color
 		echoMode: echo_mode
 

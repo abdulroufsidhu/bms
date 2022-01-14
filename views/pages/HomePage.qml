@@ -3,6 +3,7 @@ import QtQuick.Controls 2.15
 import "../"
 
 Page {
+	clip: true
 	onFocusChanged: {
 		if (focus) title_bar.window_title = "Home"
 	}
