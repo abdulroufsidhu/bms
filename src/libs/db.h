@@ -2,26 +2,42 @@
 #define DB_H
 
 #include <QObject>
-#include <QtWidgets/QWidget>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QVariant>
+#include <QSqlError>
 
-class DB : public QObject {
+class Database : public QObject {
 	Q_OBJECT
 
-private:
-	static DB* instance;
-
-private:
-	inline DB (QObject *parent = 0) : QObject(parent) { }
 public:
-	DB* getInstance() {
-		if (DB::instance == nullptr) {
-			DB::instance = new DB();
-		}
-		return DB::instance;
+	inline Database(QObject *parent = 0) : QObject(parent) {}
+	inline ~Database() {}
+
+	inline Q_INVOKABLE QString insert(QString query) {
+		open_connection();
+		if (!db.isOpen()) return "unable to connect to database";
+		QSqlQuery q(db);
+		q.exec(query);
+		close_connection();
+		return q.lastError().text();
 	}
 
-};
+	inline Q_INVOKABLE void close_connection() {
+		db.close();
+	}
 
-DB *instance = nullptr;
+	inline Q_INVOKABLE bool open_connection() {
+		db.setHostName("127.0.0.1");
+		db.setDatabaseName("bmst");
+		db.setUserName("abdul");
+		db.setPassword("allah");
+		return db.open();
+	}
+
+private:
+	QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL");
+
+};
 
 #endif // DB_H

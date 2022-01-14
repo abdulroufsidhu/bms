@@ -1,5 +1,8 @@
 QT += quick \
-      core gui
+      core gui \
+      sql
+
+LIBS += -lpq
 
 CONFIG += c++17
 

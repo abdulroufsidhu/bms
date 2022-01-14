@@ -55,9 +55,16 @@ Page {
 				MouseArea {
 					anchors.fill: parent
 					cursorShape: "PointingHandCursor"
+					onClicked: {
+						stack.push(signup_screen);
+					}
 				}
 			}
 
+			Component{
+				id: signup_screen
+				Signup{}
+			}
 
 	}
 

@@ -1,5 +1,8 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <qqml.h>
+#include <QQmlContext>
+#include "./src/libs/db.h"
 
 int main(int argc, char *argv[])
 {
@@ -17,6 +20,9 @@ int main(int argc, char *argv[])
 			QCoreApplication::exit(-1);
 	}, Qt::QueuedConnection);
 	engine.load(url);
+
+	Database db;
+	engine.rootContext()->setContextProperty("_db",&db);
 
 	return app.exec();
 }

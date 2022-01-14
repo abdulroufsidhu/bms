@@ -1,4 +1,4 @@
-﻿import QtQuick 2.0
+﻿import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtGraphicalEffects 1.0
 import QtQuick.Layouts 1.12
@@ -38,6 +38,14 @@ Rectangle {
 				btn_text: "Login";
 				btn_text_color: rootWindow.secondary_text_color;
 				btn_font_pixel_size: rootWindow.pixel_font_size_24
+				MouseArea {
+					anchors.fill: parent
+					onClicked: {
+						stack.pop(signup_screen);
+						stack.pop(auth_screen);
+						stack.push(s_v_component);
+					}
+				}
 			}
 		}
 	}

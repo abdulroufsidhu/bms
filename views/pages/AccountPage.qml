@@ -27,7 +27,7 @@ Page {
 			right: img_profite_acc.right
 			bottom: img_profite_acc.bottom
 		}
-		color: rootWindow.secondary_button_color
+		color: rootWindow.opaque_white
 		add_width: 32
 		add_height: 0
 		btn_text: "📷︎"

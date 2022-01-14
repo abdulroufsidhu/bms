@@ -5,6 +5,7 @@ Rectangle {
 
 	property string hint: "text input"
 	property int echo_mode: TextInput.Normal
+	property string text_data: ""
 
 	implicitWidth: textField.implicitWidth
 	implicitHeight: textField.implicitHeight
@@ -27,6 +28,11 @@ Rectangle {
 		background: Rectangle { anchors.fill: parent; color: rootWindow.transparent_color }
 		color: rootWindow.primary_text_color
 		echoMode: echo_mode
+
+		onTextChanged: {
+			text_data = text
+		}
+
 	}
 
 }

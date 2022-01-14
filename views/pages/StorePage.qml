@@ -40,7 +40,10 @@ Page {
 		}
 
 		MyComboBox {
-			model_data_array: [ qsTr("Inventory"), qsTr("Sold") ]
+			model_data_array: [
+				qsTr("Inventory"),
+				qsTr("Sold")
+			]
 			height: et_search.height
 		}
 

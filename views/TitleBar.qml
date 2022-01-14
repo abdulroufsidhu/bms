@@ -6,7 +6,6 @@ Rectangle {
 	property string window_title: ""
 
 	x: 0; y: 0
-	width: parent.width
 	height: titlebar_height
 	color: rootWindow.primary_color
 
@@ -76,6 +75,10 @@ Rectangle {
 				} else {
 					rootWindow.visibility = 5;
 				}
+
+//			--_datanase object comming from cpp
+//				var v = _db.insert("insert into person(name, age) values('Abdul',33); ");
+//				v += _db.insert("insert into person(name, age) values('ABR',22); ");
 			}
 		}
 
