@@ -50,31 +50,30 @@ ApplicationWindow {
 			btn_text: "⮌"
 			btn_font_pixel_size: pixel_font_size_24
 			btn_text_color: secondary_text_color
-			color: secondary_button_color
+			color: back_btn_col()
 			MouseArea{
 				anchors.fill: parent
 				onClicked: {
 					stack.pop()
 				}
 			}
+			function back_btn_col() {
+				if (stack.depth < 2) return rootWindow.opaque_white;
+				return secondary_button_color;
+			}
 		}
 	}
-
 // without auth clicking login button is changing stacks which shall not be done.
 	StackView {
 		id: stack
 		anchors.fill: parent
-		initialItem: auth_screen
-	}
-
-	Component {
-		id: auth_screen
-		AuthorizationPage{}
+		initialItem: AuthorizationPage{ StackView.onRemoved: destroy() }
 	}
 
 	Component {
 		id: s_v_component
 		SwipeView {
+			StackView.onRemoved: destroy();
 			readonly property bool show_tab_bar: true
 			interactive: false
 			id: swipe_view;

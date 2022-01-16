@@ -43,9 +43,7 @@ Rectangle {
 				MouseArea {
 					anchors.fill: parent
 					onClicked: {
-						stack.pop();
-						login_email.text_data = ""
-						login_password.text_data = ""
+						stack.pop(null);
 						stack.push(s_v_component);
 					}
 				}

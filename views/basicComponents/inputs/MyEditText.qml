@@ -5,6 +5,7 @@ Rectangle {
 
 	property string hint: "text input"
 	property int echo_mode: TextInput.Normal
+	property int input_type: Qt.ImhSensitiveData
 	property string text_data: ""
 
 	implicitWidth: textField.implicitWidth
@@ -20,7 +21,11 @@ Rectangle {
 	TextField {
 		id: textField
 		placeholderText: qsTr(hint)
+		inputMethodHints: input_type
 		text: text_data
+		selectByMouse: true
+		selectionColor: primary_text_color
+		selectedTextColor: secondary_text_color
 		anchors.verticalCenter: parent.verticalCenter
 		font.pixelSize: rootWindow.pixel_font_size_24
 		width: parent.width

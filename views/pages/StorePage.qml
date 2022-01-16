@@ -15,18 +15,19 @@ Page {
 
 	padding: pixel_font_size *10
 
-	Row {
+	RowLayout {
 		id: row_search_params
 		anchors{
 			top: parent.top
-			horizontalCenter: parent.horizontalCenter
+			left: parent.left
+			right: parent.right
 		}
 
-		spacing: 10
+		spacing: pixel_font_size*10
 		MyComboBox {
 			model_data_array: _row_to_search
-			cb_width: rootWindow.wr * 280
-			height: et_search.height
+			Layout.fillWidth: true
+			Layout.minimumHeight:  et_search.height
 		}
 
 		MyComboBox {
@@ -34,12 +35,13 @@ Page {
 				qsTr("Inventory"),
 				qsTr("Sold")
 			]
-			height: et_search.height
+			Layout.fillWidth: true
+			Layout.minimumHeight: et_search.height
 		}
 
 		MyEditText {
 			id: et_search
-			width: rootWindow.wr * 150
+			Layout.minimumWidth: rootWindow.wr * 150
 		}
 
 		MyCircularButton {
@@ -48,7 +50,6 @@ Page {
 			btn_text_color: rootWindow.primary_button_color
 			btn_text_font_size: rootWindow.pixel_font_size_24*1.5
 			color: rootWindow.primary_color
-			anchors.verticalCenter: parent.verticalCenter
 			border {
 				color: primary_button_color
 				width: rootWindow.pixel_font_size*2

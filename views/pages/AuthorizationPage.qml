@@ -64,7 +64,9 @@ Page {
 
 			Component{
 				id: signup_screen
-				Signup{}
+				Signup{
+					StackView.onRemoved: destroy();
+				}
 			}
 
 	}

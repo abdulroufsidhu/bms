@@ -23,20 +23,22 @@ Page {
 			}
 			MyEditText {
 				id: signup_contact
+				input_type: Qt.ImhDigitsOnly
 				hint: "Contact"
 				Layout.alignment: Layout.Center
 				Layout.fillWidth: true
 			}
 			MyEditText {
 				id: signup_email
+				input_type: Qt.ImhEmailCharactersOnly
 				hint: "Email"
 				Layout.alignment: Layout.Center
 				Layout.fillWidth: true
 			}
 			MyEditText {
-
 				id: signup_cnic
-				hint: "National Identity"
+				input_type: Qt.ImhDigitsOnly
+				hint: "National Identity Number"
 				Layout.alignment: Layout.Center
 				Layout.fillWidth: true
 			}
@@ -81,19 +83,29 @@ Page {
 				font.pixelSize: pixel_font_size_24
 			}
 
+			CheckBox {
+				id: t_addr_same_as_p
+				text: qsTr("Same as above")
+				font.pixelSize: pixel_font_size_24
+
+			}
+
 			MyComboBox {
+				visible: !t_addr_same_as_p.checked
 				id: signup_temp_country
 				model_data_array: _country_list
 				Layout.fillWidth: true
 			}
 
 			MyEditText {
+				visible: !t_addr_same_as_p.checked
 				id: signup_temp_city
 				hint: "City"
 				Layout.alignment: Layout.Center
 				Layout.fillWidth: true
 			}
 			MyEditText {
+				visible: !t_addr_same_as_p.checked
 				id: signup_temp_address
 				hint: "Address"
 				Layout.alignment: Layout.Center
@@ -127,19 +139,33 @@ Page {
 				MouseArea {
 					anchors.fill: parent
 					onClicked: {
-						output.text = _db.signup(
+						var t_city, t_country, t_address, p_city, p_country, p_address;
+						p_city = signup_perm_city.text_data;
+						p_country = signup_perm_country.currentValue;
+						p_address = signup_perm_address.text_data;
+						t_city = signup_temp_city.text_data;
+						t_country = signup_temp_country.currentValue;
+						t_address = signup_temp_address.text_data;
+						if (t_addr_same_as_p.checked) {
+							t_address = p_address;
+							t_city = p_city;
+							t_country = p_country;
+						}
+
+						output.text = "";
+						output.text = _auth.signup(
 									signup_full_name.text_data,
 									signup_email.text_data,
 									signup_contact.text_data,
 									signup_cnic.text_data,
 									signup_password.text_data,
 									signup_conf_password.text_data,
-									signup_perm_country.currentValue,
-									signup_perm_city.text_data,
-									signup_perm_address.text_data,
-									signup_temp_country.currentValue,
-									signup_temp_city.text_data,
-									signup_temp_address.text_data
+									p_country,
+									p_city,
+									p_address,
+									t_country,
+									t_city,
+									t_address
 									);
 
 					}

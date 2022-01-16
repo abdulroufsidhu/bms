@@ -1,5 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import QtGraphicalEffects 1.0
 
 ComboBox {
 
@@ -38,9 +39,9 @@ ComboBox {
 		}
 
 		background: Rectangle {
-			radius: rootWindow.wr*5
-			color: parent.hovered? rootWindow.secondary_color:rootWindow.primary_color;
 			anchors.fill: parent
+			color: parent.hovered? rootWindow.secondary_color:rootWindow.primary_color;
+			radius: rootWindow.wr*5
 			border.color: rootWindow.primary_color
 			border.width: parent.hovered? rootWindow.wr*2:0
 		}
@@ -87,11 +88,22 @@ ComboBox {
 		}
 
 		background: Rectangle {
-			radius: rootWindow.wr*5
 			anchors.fill: parent
-			color: rootWindow.primary_color
-			border.color: rootWindow.primary_color
-			border.width: rootWindow.wr
+			color: transparent_color
+			Rectangle {
+				id: cb_bg
+				anchors.fill: parent
+				border.color: rootWindow.primary_color
+				radius: rootWindow.wr*5
+				border.width: rootWindow.wr
+				color: primary_color
+			}
+			DropShadow {
+				source: cb_bg
+				anchors.fill: cb_bg
+				radius: 16
+				samples: 33
+			}
 		}
 	}
 
