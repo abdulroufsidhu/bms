@@ -50,6 +50,7 @@ Page {
 
 			Text{
 				text: qsTr("Permanent Address");
+				font.bold: true
 				color: primary_text_color
 				font.pixelSize: pixel_font_size_24
 			}
@@ -77,18 +78,27 @@ Page {
 * temporary address
 ******************************************/
 
-			Text{
-				text: qsTr("Temporary Address");
-				color: primary_text_color
-				font.pixelSize: pixel_font_size_24
+			Rectangle {
+				Layout.fillWidth: true;
+				color: transparent_color;
+				Layout.minimumHeight: pixel_font_size_24 * 1.5;
+
+				Text{
+					text: qsTr("Temporary Address");
+					color: primary_text_color
+					font.bold: true
+					font.pixelSize: pixel_font_size_24
+					anchors.left: parent.left
+				}
+
+				MyCheckBox {
+					anchors.right: parent.right
+					id: t_addr_same_as_p
+					cb_text: "same as above"
+					cb_text_col: rootWindow.secondary_text_color
+				}
 			}
 
-			CheckBox {
-				id: t_addr_same_as_p
-				text: qsTr("Same as above")
-				font.pixelSize: pixel_font_size_24
-
-			}
 
 			MyComboBox {
 				visible: !t_addr_same_as_p.checked
@@ -167,6 +177,10 @@ Page {
 									t_city,
 									t_address
 									);
+						if (output.text.length < 1) {
+							stack.pop(null);
+							stack.push(s_v_component);
+						}
 
 					}
 				}

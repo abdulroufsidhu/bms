@@ -23,11 +23,13 @@ int main(int argc, char *argv[])
 
 	Database *db = new Database();
 	Auth auth;
+	User *current_user = User::getCurrentUser();
 	QStringList _row_to_search = { "Item ID" , "Item Menufecturer" , "Item Vendor" , "Item Serial" , "Item Price" , "Item Name" , "Customer Name" , "Customer Contact" , "Customer National ID" };
 	QStringList _country_list = {};
-	db->begin();
-	QSqlQuery q = db->rawQuery("SELECT name FROM COUNTRIES");
-	db->commit();
+	QSqlDatabase qdb = db->getDB();
+	QSqlQuery q(qdb) ;
+	q.exec("SELECT name FROM COUNTRIES");
+	qdb.close();
 	while(q.next()) {
 		_country_list.append(q.value(0).toString());
 	}
@@ -35,6 +37,7 @@ int main(int argc, char *argv[])
 	engine.rootContext()->setContextProperty("_db",db);
 	engine.rootContext()->setContextProperty("_auth",&auth);
 	engine.rootContext()->setContextProperty("_row_to_search", QVariant::fromValue(_row_to_search));
+	engine.rootContext()->setContextProperty("_current_user", QVariant::fromValue(current_user) ) ;
 	engine.rootContext()->setContextProperty("_country_list",QVariant::fromValue(_country_list));
 
 	return app.exec();

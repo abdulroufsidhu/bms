@@ -17,6 +17,8 @@ class Database : public QObject {
 public:
 	inline Database(QObject *parent = 0) : QObject(parent) {
 //		db_thread.start();
+		open_connection();
+		close_connection();
 	}
 	inline ~Database() {
 //		db_thread.quit();db_thread.wait();
@@ -30,37 +32,19 @@ public:
 		return q.lastError().text();
 	}
 
-	inline void begin() {
-		if (db.isOpen()) return;
-		open_connection();
-		QSqlQuery q("BEGIN;", db);
-	}
-
-	inline QString commit() {
-		QSqlQuery q("COMMIT;", db);
-		if (!q.isValid()) {
-			q.exec("ROLLBACK;");
-		}
-		if (db.isOpen()) close_connection();
-		return q.lastError().text();
-
-	}
-
-	inline QSqlQuery rawQuery(QString query) {
+	inline static QSqlQuery rawQuery(QString query) {
+		if (db.isOpen()) db.close();
+		db.open();
 		QSqlQuery q(db);
 		q.exec(query);
+		db.close();
 		return q;
 	}
 
 	inline static QSqlDatabase& getDB() {
-		if (!db.isOpen()) {
-			db.setHostName("127.0.0.1");
-			db.setDatabaseName("bmst");
-			db.setUserName("abdul");
-			db.setPassword("allah");
-			db.open();
-		}
-		return db;
+		if (db.isOpen()) db.close();
+		db.open();
+		return Database::db;
 	}
 
 private:

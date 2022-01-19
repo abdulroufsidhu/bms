@@ -55,7 +55,7 @@ Page {
 
 		Text {
 			id: txt_email_acc
-			text: qsTr("user@example.com")
+			text: qsTr("e-Mail: " + _current_user.person.getEmail())
 			color: primary_text_color
 			font.pixelSize: pixel_font_size_24
 			Layout.alignment: Layout.Center

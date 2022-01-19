@@ -36,6 +36,10 @@ Rectangle {
 				echo_mode: TextInput.Password;
 				width: 17*rootWindow.pixel_font_size_24
 			}
+			Text {
+				id: output
+				text: qsTr("output");
+			}
 			MyButton{
 				btn_text: "Login";
 				btn_text_color: rootWindow.secondary_text_color;
@@ -43,8 +47,11 @@ Rectangle {
 				MouseArea {
 					anchors.fill: parent
 					onClicked: {
-						stack.pop(null);
-						stack.push(s_v_component);
+						output.text = _auth.login(login_email.text_data,login_password.text_data);
+						if (!output.text.length) {
+							stack.pop(null);
+							stack.push(s_v_component);
+						}
 					}
 				}
 			}

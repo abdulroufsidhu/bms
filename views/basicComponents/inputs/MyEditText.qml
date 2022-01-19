@@ -30,6 +30,7 @@ Rectangle {
 		font.pixelSize: rootWindow.pixel_font_size_24
 		width: parent.width
 		height: parent.height
+//		validator: validator_prop
 		placeholderTextColor: rootWindow.secondary_text_color
 		background: Rectangle {
 			anchors.fill: parent;

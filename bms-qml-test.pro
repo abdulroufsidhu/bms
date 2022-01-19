@@ -14,7 +14,8 @@ HEADERS += \
     src/libs/address.h \
     src/libs/auth.h \
     src/libs/db.h \
-    src/libs/person.h
+    src/libs/person.h \
+    src/libs/user.h
 
 SOURCES += \
         main.cpp

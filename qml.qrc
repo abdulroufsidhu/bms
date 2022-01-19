@@ -15,5 +15,6 @@
         <file>views/basicComponents/inputs/MyComboBox.qml</file>
         <file>views/components/MyListView.qml</file>
         <file>views/components/Signup.qml</file>
+        <file>views/basicComponents/inputs/MyCheckBox.qml</file>
     </qresource>
 </RCC>
