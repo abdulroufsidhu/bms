@@ -38,7 +38,9 @@ Rectangle {
 			}
 			Text {
 				id: output
-				text: qsTr("output");
+				text: qsTr("");
+				color: rootWindow.critical_button_color;
+				font.pixelSize: pixel_font_size_24
 			}
 			MyButton{
 				btn_text: "Login";
@@ -47,11 +49,14 @@ Rectangle {
 				MouseArea {
 					anchors.fill: parent
 					onClicked: {
+//						going to next screen without auth for testing purposes
 						output.text = _auth.login(login_email.text_data,login_password.text_data);
 						if (!output.text.length) {
 							stack.pop(null);
 							stack.push(s_v_component);
 						}
+//						stack.pop(null);
+//						stack.push(s_v_component);
 					}
 				}
 			}

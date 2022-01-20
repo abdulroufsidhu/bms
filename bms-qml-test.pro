@@ -1,6 +1,7 @@
 QT += quick \
       core gui \
-      sql
+	  sql \
+	  widgets
 
 LIBS += -lpq
 

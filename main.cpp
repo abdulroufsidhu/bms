@@ -33,7 +33,6 @@ int main(int argc, char *argv[])
 	while(q.next()) {
 		_country_list.append(q.value(0).toString());
 	}
-
 	engine.rootContext()->setContextProperty("_db",db);
 	engine.rootContext()->setContextProperty("_auth",&auth);
 	engine.rootContext()->setContextProperty("_row_to_search", QVariant::fromValue(_row_to_search));

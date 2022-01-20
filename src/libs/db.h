@@ -9,10 +9,14 @@
 #include <QVariant>
 #include <QThread>
 #include <QSqlError>
+#include <QFile>
+#include <QImage>
+#include <QImageReader>
+#include <QImageWriter>
 
 class Database : public QObject {
 	Q_OBJECT
-//	QThread db_thread;
+//	QThread db_thread; // does not integrate well with the data handeling so making auth, branch, organization and user separate threaded instead
 
 public:
 	inline Database(QObject *parent = 0) : QObject(parent) {
@@ -56,7 +60,7 @@ private:
 	inline Q_INVOKABLE bool open_connection() {
 		db.setHostName("127.0.0.1");
 		db.setDatabaseName("bmst");
-		db.setUserName("abdul");
+		db.setUserName("bmst_user");
 		db.setPassword("allah");
 		return db.open();
 	}

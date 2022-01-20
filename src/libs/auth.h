@@ -13,7 +13,9 @@ public:
 	Q_INVOKABLE QString signup(QString name, QString email, QString contact, QString cnic, QString password, QString conf_password, QString p_country, QString p_city, QString p_address, QString t_country, QString t_city, QString t_address );
 };
 inline QString Auth::login(QString email, QString password) {
-	return User::getCurrentUser()->updateByEmail(email,password);
+	QString err = User::getCurrentUser()->updateByEmail(email,password);
+	qCritical() << User::getCurrentUser()->getId();
+	return err;
 }
 
 inline QString Auth::signup(QString name, QString email, QString contact, QString cnic, QString password, QString conf_password, QString p_country, QString p_city, QString p_address, QString t_country, QString t_city, QString t_address ) {

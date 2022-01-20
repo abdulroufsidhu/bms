@@ -1,9 +1,13 @@
 #pragma once
 #include "address.h"
+#include <QMetaType>
+#include <QMetaObject>
 
 #ifndef EMAIL_H
 #define EMAIL_H
 class Email {
+	Q_GADGET
+	Q_PROPERTY(QString text READ getText )
 private:
 	QString id, text;
 public:
@@ -14,21 +18,16 @@ public:
 	QString update( QString& email);
 	QString updateById(QString& id);
 	void copy(Email& e);
-	void setText(const QString &newText);
 };
 inline QString Email::getId() const { return this->id; }
 inline QString Email::getText() const { return this->text; }
-inline void Email::setText(const QString &newText) {
-	if (this->text == newText) return;
-	this->text = newText;
-}
 inline void Email::copy(Email &e) { this->id = e.id; this->text = e.text; }
 inline QString Email::update(QString& email) {
 	QSqlQuery q = Database::rawQuery( QString("SELECT id, name FROM EMAILS WHERE name = '%1' ;").arg(email) );
 	if (!q.lastError().text().isEmpty() ) return "invalid email ";
 	while (q.next()) {
-		this->id = q.value(0).toString();
-		this->text = q.value(1).toString();
+		this->id = q.value("id").toString();
+		this->text = q.value("name").toString();
 	}
 	return q.lastError().text();
 }
@@ -47,7 +46,7 @@ inline QString Email::updateById(QString& id) {
 #define CNIC_H
 class CNIC {
 	Q_GADGET
-	Q_PROPERTY(QString text READ getText WRITE setText)
+	Q_PROPERTY(QString text READ getText)
 private:
 	QString id, text;
 public:
@@ -58,12 +57,7 @@ public:
 	QString update(QString & number);
 	QString updateById(QString& id);
 	void copy(CNIC& e);
-	void setText(const QString &newText);
 };
-inline void CNIC::setText(const QString &newText) {
-	if (this->text == newText) return;
-	this->text = newText;
-}
 inline QString& CNIC::getId() { return this->id; }
 inline QString& CNIC::getText() { return this->text; }
 inline void CNIC::copy(CNIC &e) { this->id = e.id; this->text = e.text; }
@@ -90,6 +84,8 @@ inline QString CNIC::updateById(QString &id) {
 #ifndef CONTACT_H
 #define CONTACT_H
 class Contact {
+	Q_GADGET
+	Q_PROPERTY(QString text READ getText)
 private:
 	QString id, text;
 public:
@@ -100,14 +96,9 @@ public:
 	QString update(QString& contact);
 	QString updateById(QString& id);
 	void copy(Contact& e);
-	void setText(const QString &newText);
 };
 inline QString& Contact::getId() { return this->id; }
 inline QString& Contact::getText() { return this->text; }
-inline void Contact::setText(const QString &newText) {
-	if (this->text == newText) return;
-	this->text = newText;
-}
 inline void Contact::copy(Contact &e) { this->id = e.id; this->text = e.text; }
 inline QString Contact::update(QString& number) {
 	QSqlQuery q = Database::rawQuery( QString("SELECT id, name FROM CONTACTS WHERE name = '%1' ;").arg(number) );
@@ -133,6 +124,13 @@ inline QString Contact::updateById(QString &id) {
 #define PERSON_H
 class Person {
 Q_GADGET
+Q_PROPERTY(QString id READ getId)
+Q_PROPERTY(QString name READ getName)
+Q_PROPERTY(Email email READ getEmail)
+Q_PROPERTY(CNIC cnic READ getCNIC)
+Q_PROPERTY(Contact contact READ getContact)
+Q_PROPERTY(Address permanent_addr READ getPermanentAddr)
+Q_PROPERTY(Address temprary_addr READ getTempraryAddr)
 private:
 	QString id, name;
 	Email email = Email();
@@ -144,11 +142,13 @@ private:
 public:
 	inline Person() {};
 	inline ~Person () {}
-	Q_INVOKABLE QString& getId();
-	Q_INVOKABLE QString& getName();
-	Q_INVOKABLE CNIC& getCNIC();
-	Q_INVOKABLE Contact& getContact();
-	Q_INVOKABLE Email& getEmail();
+	QString& getId();
+	QString& getName();
+	CNIC& getCNIC();
+	Contact& getContact();
+	Email& getEmail();
+	Address &getPermanentAddr() ;
+	Address &getTempraryAddr() ;
 
 	QString insert ( QString& name,
 									 QString& email,
@@ -161,52 +161,15 @@ public:
 	QString updateById(QString id);
 	void copy(Person& p);
 
-	void setName(const QString &newName);
-	void setCNIC( CNIC &newCnic);
-	void setEmail( Email &newEmail);
-	void setContact( Contact &newContact);
-	Address &getPermanentAddr() ;
-	void setPermanent_addr( Address &newPermanent_addr);
-	Address &getTempraryAddr() ;
-	void setTemprary_addr( Address &newTemprary_addr);
-
 };
+
 inline Address& Person::getTempraryAddr() { return this->temprary_addr;}
-inline void Person::setTemprary_addr(Address &newTemprary_addr) {
-	if (newTemprary_addr.getId().isEmpty()) return;
-	if (this->temprary_addr.getId() == newTemprary_addr.getId()) return;
-	this->temprary_addr.copy(newTemprary_addr);
-}
 inline Address& Person::getPermanentAddr() { return this->permanent_addr;}
-inline void Person::setPermanent_addr(Address &newPermanent_addr) {
-	if (newPermanent_addr.getId().isEmpty()) return;
-	if (this->permanent_addr.getId() == newPermanent_addr.getId()) return;
-	this->permanent_addr.copy(newPermanent_addr);
-}
 inline QString& Person::getId() { return this->id; }
 inline QString& Person::getName() { return this->name; }
-inline void Person::setName(const QString &newName) {
-	if (this->name == newName) return;
-	this->name = newName;
-}
-inline void Person::setCNIC( CNIC &newCnic) {
-	if (newCnic.getId().isEmpty() || newCnic.getText().isEmpty()) return;
-	if (this->cnic.getText() == newCnic.getText() ) return;
-	this->cnic.copy(newCnic);
-}
 inline CNIC& Person::getCNIC() { return this->cnic; }
 inline Contact& Person::getContact() { return this->contact; }
-inline void Person::setContact(Contact &newContact) {
-	if (newContact.getId().isEmpty() || newContact.getText().isEmpty()) return;
-	if (this->contact.getText() == newContact.getText()) return;
-	this->contact.copy(newContact);
-}
 inline Email& Person::getEmail() { return this->email; }
-inline void Person::setEmail(Email &newEmail) {
-	if (newEmail.getId().isEmpty() || newEmail.getText().isEmpty()) return;
-	if(this->email.getText() == newEmail.getText()) return;
-	this->email.copy(newEmail);
-}
 inline void Person::copy(Person &p) {
 	this->id = p.id;
 	this->name = p.name;
@@ -245,7 +208,7 @@ inline QString Person::updateByEmail(QString email) {
 	if (e.getId().isEmpty()) qCritical() << "Update person email id is empty";
 	QString err = "", cid = "", pid = "", eid = "", t_l = "", p_l = "" ;
 	QSqlQuery q = Database::rawQuery( QString("SELECT * FROM PERSONS WHERE email_id = '%1' ;").arg(e.getId()) );
-	if (!q.isValid()) qCritical() << "update persone by email query is not valid" ;
+	if (!q.isValid()) qCritical() << "update person by email query is not valid" ;
 	if (q.lastError().text().length()) return q.lastError().text();
 	if (q.size() < 1) return "No record found for person having this email";
 	while (q.next()) {
@@ -349,5 +312,10 @@ inline QString Person::insert(
 // ----------------------------------------------
 	return err;
 }
+
+Q_DECLARE_METATYPE(Person);
+Q_DECLARE_METATYPE(Email);
+Q_DECLARE_METATYPE(CNIC);
+Q_DECLARE_METATYPE(Contact);
 
 #endif //PERSON_H

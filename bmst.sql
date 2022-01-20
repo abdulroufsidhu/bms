@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS LOCATIONS (
 -- creating contacts table
 CREATE TABLE IF NOT EXISTS CONTACTS (
 	id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-  name BIG INTEGER UNIQUE
+  name VARCHAR(16) UNIQUE NOT NULL
 );
 
 -- creating emails table
@@ -68,11 +68,19 @@ CREATE TABLE IF NOT EXISTS USERS (
   time_stamp TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL
 ); 
 
--- IMAGE TABLE which will be replaced with img_user_id, img_organizatio_id respectively
-CREATE TABLE IF NOT EXISTS IMG (
-	image BYTEA,
+CREATE TABLE IF NOT EXISTS IMAGES (
+	id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+	data BYTEA NOT NULL,
+	owmer_id VARCHAR(40) not null, -- cannot have unique or refrence because they could vary based on user organization or task soo whoever owns it is different.
 	time_stamp TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
+
+
+--IMAGE TABLE which will be replaced with img_user_id, img_organizatio_id respectively
+--CREATE TABLE IF NOT EXISTS IMG (
+--	image BYTEA,
+--	time_stamp TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL
+--);
 
 -- creating organizations table
 CREATE TABLE IF NOT EXISTS ORGANIZATIONS (

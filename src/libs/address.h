@@ -5,6 +5,7 @@
 #define COUNTRY_H
 class Country {
 	Q_GADGET
+	Q_PROPERTY(QString name READ getName)
 private:
 	QString id, name;
 public:
@@ -43,6 +44,9 @@ inline QString Country::updateById(QString &id) {
 #ifndef CITY_H
 #define CITY_H
 class City {
+	Q_GADGET
+	Q_PROPERTY(QString name READ getName)
+	Q_PROPERTY(Country country READ getCountry)
 private:
 	QString id, name; Country country = Country();
 public:
@@ -100,6 +104,8 @@ inline QString City::insert(QString &country, QString &city) {
 #define ADDRESS_H
 class Address {
 	Q_GADGET
+	Q_PROPERTY(QString name READ getName)
+	Q_PROPERTY(City city  READ getCity)
 private:
 	QString id,name; City city = City();
 public:
@@ -158,6 +164,10 @@ inline QString Address::insert(QString &country, QString &city, QString &address
 	this->name = address;
 	return "";
 }
+
+Q_DECLARE_METATYPE(Country)
+Q_DECLARE_METATYPE(City)
+Q_DECLARE_METATYPE(Address)
 
 #endif //ADDRESS_H
 

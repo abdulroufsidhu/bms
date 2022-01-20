@@ -16,5 +16,7 @@
         <file>views/components/MyListView.qml</file>
         <file>views/components/Signup.qml</file>
         <file>views/basicComponents/inputs/MyCheckBox.qml</file>
+        <file>views/basicComponents/dialogues/MyFileDialogue.qml</file>
+        <file>views/basicComponents/graphics/MyImage.qml</file>
     </qresource>
 </RCC>
