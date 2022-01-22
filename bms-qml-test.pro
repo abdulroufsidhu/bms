@@ -15,6 +15,7 @@ HEADERS += \
     src/libs/address.h \
     src/libs/auth.h \
     src/libs/db.h \
+    src/libs/employee.h \
     src/libs/image.h \
     src/libs/person.h \
     src/libs/user.h

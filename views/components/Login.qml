@@ -50,13 +50,15 @@ Rectangle {
 					anchors.fill: parent
 					onClicked: {
 //						going to next screen without auth for testing purposes
-						output.text = _auth.login(login_email.text_data,login_password.text_data);
-						if (!output.text.length) {
-							stack.pop(null);
-							stack.push(s_v_component);
-						}
-//						stack.pop(null);
-//						stack.push(s_v_component);
+//						output.text = _auth.login(login_email.text_data,login_password.text_data);
+//						if (!output.text.length) {
+//							login_email.text_data = "";
+//							login_password.text_data = "";
+//							stack.pop(null);
+//							stack.push(s_v_component);
+//						}
+						stack.pop(null);
+						stack.push(s_v_component);
 					}
 				}
 			}

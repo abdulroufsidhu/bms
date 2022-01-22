@@ -3,6 +3,7 @@ import QtQuick.Controls 2.15
 import QtGraphicalEffects 1.0
 import "../"
 import "../components"
+import "../components/organizations/"
 import "../basicComponents/buttons"
 
 Page {
@@ -39,6 +40,19 @@ Page {
 			leftMargin: rootWindow.pixel_font_size*20
 			right: parent.right
 		}
+
+		MouseArea {
+			anchors.fill: parent
+			onClicked: {
+				stack.push(add_org_comp)
+			}
+		}
+
+	}
+
+	Component {
+		id: add_org_comp
+		AddOrganization {}
 	}
 
 	Rectangle {

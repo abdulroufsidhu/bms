@@ -59,11 +59,7 @@ Page {
 				nameFilters: [ "Image files (*.png *.jpg)"]
 				//					nameFilters: [ "Image files (*.jpg *.png *.jpeg *.svg)"]
 				onAccepted: {
-					title_bar.window_title =  _current_user.setImage(image_picker.fileUrl)
-				}
-
-				onRejected: {
-					title_bar.window_title = "fd.rejected()";
+					rootWindow.txt_notification_text =  _current_user.setImage(image_picker.fileUrl)
 				}
 			}
 
@@ -71,12 +67,6 @@ Page {
 			ColumnLayout{
 				spacing: rootWindow.pixel_font_size*3
 				Layout.alignment: Layout.Center
-				//				anchors{
-				//					horizontalCenter: parent.horizontalCenter
-				//					top: img_profite_acc.bottom
-				//					margins: pixel_font_size_24
-				//				}
-
 
 				Text {
 					id: txt_name_acc
