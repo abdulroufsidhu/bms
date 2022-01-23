@@ -11,7 +11,10 @@ public:
 	inline ~Auth () { auth_thread.quit(); auth_thread.wait(); }
 	Q_INVOKABLE QString login(QString email, QString password);
 	Q_INVOKABLE QString signup(QString name, QString email, QString contact, QString cnic, QString password, QString conf_password, QString p_country, QString p_city, QString p_address, QString t_country, QString t_city, QString t_address );
+	Q_INVOKABLE QString register_organization(QString user_id, QString name, QString email, QString contact, QString regNum, QString country, QString city, QString address, QUrl url);
+
 };
+
 inline QString Auth::login(QString email, QString password) {
 	QString err = User::getCurrentUser()->updateByEmail(email,password);
 	qCritical() << User::getCurrentUser()->getId();
@@ -51,6 +54,14 @@ inline QString Auth::signup(QString name, QString email, QString contact, QStrin
 
 }
 
+inline QString Auth::register_organization(QString user_id, QString name, QString email, QString contact, QString regNum, QString country, QString city, QString address, QUrl url) {
+	qCritical () << "setting up address";
+	Address a;
+	QString err = a.insert(country, city, address);
+	qCritical() << a.getId();
+	if (a.getId().isEmpty()) return err;
+	return Organization::insert(user_id,name,email,contact,regNum,a, url);
+}
 
 
 #endif // AUTH_H

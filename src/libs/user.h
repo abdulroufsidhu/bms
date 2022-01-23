@@ -1,4 +1,5 @@
 #include "person.h"
+#include "employee.h"
 #include "image.h"
 
 #ifndef USER_H

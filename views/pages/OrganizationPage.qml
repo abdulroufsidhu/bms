@@ -14,7 +14,7 @@ Page {
 	padding: rootWindow.pixel_font_size*10
 	MyListView{
 		id: lv_orgs
-		lv_model: 6
+		lv_model: _organization_list
 		sell_btn_item: true
 		anchors {
 			top: parent.top;

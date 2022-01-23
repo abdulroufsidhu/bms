@@ -100,10 +100,20 @@ Page {
 					anchors.fill: parent
 					onClicked: {
 						if (image_picker.logourl.length < 1) {
-							txt_notification_text = "Your must select logo"
+							txt_notification_text = "You must choose logo"
 							return
 						}
-						txt_notification_text = image_picker.logourl
+						//register_organization(QString name, QString email, QString contact, QString regNum, QString country, QString city, QString address, QUrl url)
+						txt_notification_text = _auth.register_organization(
+																				_current_user.id,
+																				reg_org_name_et.text_data,
+																				reg_org_email_et.text_data,
+																				reg_org_contact_et.text_data,
+																				reg_org_reg_number_et.text_data,
+																				reg_org_country_cb.currentValue,
+																				reg_org_city_et.text_data,
+																				reg_org_address_et.text_data,
+																				image_picker.logourl);
 					}
 				}
 			}

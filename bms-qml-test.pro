@@ -18,7 +18,8 @@ HEADERS += \
     src/libs/employee.h \
     src/libs/image.h \
     src/libs/person.h \
-    src/libs/user.h
+    src/libs/user.h \
+    src/models/organization_list.h
 
 SOURCES += \
         main.cpp
