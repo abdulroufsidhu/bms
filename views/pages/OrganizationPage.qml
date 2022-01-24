@@ -12,17 +12,24 @@ Page {
 	}
 	background: Rectangle { anchors.fill: parent; color: rootWindow.secondary_color }
 	padding: rootWindow.pixel_font_size*10
-	MyListView{
+
+	Rectangle {
 		id: lv_orgs
-		required lv_model;
-		lv_model: _organization_list.data
-		sell_btn_item: true
 		anchors {
 			top: parent.top;
 			left: parent.left;
 			bottom: org_branch_separator.top
 		}
 		width: rootWindow.width * 0.7
+		color: primary_color
+		radius: rootWindow.pixel_font_size * 10
+
+		MyListView{
+			model: _organization_list
+			sell_btn_item: true
+			anchors.fill: parent
+		}
+
 	}
 
 	DropShadow {
@@ -73,18 +80,24 @@ Page {
 		color: rootWindow.primary_color
 	}
 
-	MyListView{
+	Rectangle {
 		id: lv_branches
-		lv_model: 60
-		sell_btn_item: true
 		anchors {
-			top: org_branch_separator.top;
+			top: org_branch_separator.bottom;
 			left: parent.left;
 			bottom: parent.bottom;
 			topMargin: pixel_font_size*20
 			bottomMargin: pixel_font_size*20
 		}
 		width: rootWindow.width * 0.7
+		color: primary_color
+		radius: rootWindow.pixel_font_size * 10
+
+		MyListView{
+			anchors.fill: parent
+			model: 1000
+			sell_btn_item: true
+		}
 	}
 
 	DropShadow {

@@ -72,16 +72,24 @@ Page {
 		}
 	}
 
-	MyListView {
+	Rectangle {
 		id: mlv_store
-		lv_model: 10000
-		anchors.horizontalCenter: row_search_params.horizontalCenter
 		anchors.top: btn_add_item.bottom
+		anchors.bottom: parent.bottom
 		anchors.margins: rootWindow.pixel_font_size*20
-		sell_btn_item: true
-		view_btn_item: true
+		anchors.horizontalCenter: row_search_params.horizontalCenter
 		width: rootWindow.width - rootWindow.pixel_font_size*100
+		color: primary_color
+		radius: rootWindow.pixel_font_size * 10
+		MyListView {
+			model: _organization_list
+			sell_btn_item: true
+			view_btn_item: true
+			anchors.fill: parent
+		}
+
 	}
+
 
 	DropShadow {
 		anchors.fill: mlv_store

@@ -1,28 +1,29 @@
-import QtQuick 2.0
+import QtQuick 2.15
 import QtQuick.Controls 2.15
 
-Rectangle {
-	property var lv_model
-	property bool view_btn_item: false
-	property bool sell_btn_item: false
+//Rectangle {
+//	property var lv_model
+//	property bool view_btn_item: false
+//	property bool sell_btn_item: false
 
-	color: rootWindow.primary_color
-	radius: rootWindow.pixel_font_size * 10
-	width: rootWindow.pixel_font_size * 540
-	anchors{
-		bottom:  parent.bottom
-		bottomMargin: rootWindow.pixel_font_size*20
-	}
+//	color: rootWindow.primary_color
+//	radius: rootWindow.pixel_font_size * 10
+//	width: rootWindow.pixel_font_size * 540
+//	anchors{
+//		bottom:  parent.bottom
+//		bottomMargin: rootWindow.pixel_font_size*20
+//	}
 
 	ListView {
+		property bool view_btn_item: false
+		property bool sell_btn_item: false
+
 		id: lv
-		anchors.fill: parent
 		anchors.topMargin: rootWindow.pixel_font_size * 20
 		anchors.bottomMargin: rootWindow.pixel_font_size * 20
 		cacheBuffer: rootWindow.pixel_font_size * 40
 		spacing: rootWindow.pixel_font_size*6
 		clip: true
-		model: _organization_list
 
 		ScrollBar.vertical: ScrollBar{  }
 
@@ -76,6 +77,6 @@ Rectangle {
 
 	}
 
-}
+//}
 
 
