@@ -17,7 +17,6 @@ public:
 
 inline QString Auth::login(QString email, QString password) {
 	QString err = User::getCurrentUser()->updateByEmail(email,password);
-	qCritical() << User::getCurrentUser()->getId();
 	return err;
 }
 

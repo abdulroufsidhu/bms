@@ -56,6 +56,7 @@ Rectangle {
 							login_password.text_data = "";
 							stack.pop(null);
 							stack.push(s_v_component);
+							txt_notification_text = _organization_list.update();
 						}
 //						stack.pop(null);
 //						stack.push(s_v_component);

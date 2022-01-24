@@ -15,14 +15,14 @@ Rectangle {
 	}
 
 	ListView {
+		id: lv
 		anchors.fill: parent
 		anchors.topMargin: rootWindow.pixel_font_size * 20
 		anchors.bottomMargin: rootWindow.pixel_font_size * 20
 		cacheBuffer: rootWindow.pixel_font_size * 40
-		id: lv
 		spacing: rootWindow.pixel_font_size*6
 		clip: true
-		model: lv_model
+		model: _organization_list
 
 		ScrollBar.vertical: ScrollBar{  }
 
@@ -40,7 +40,7 @@ Rectangle {
 					readonly property int sibtnw: sell_item_btn.visible ? sell_item_btn.sibw : 0
 					width: lv.width - vibtnw - sibtnw - 100*rootWindow.pixel_font_size
 					height: parent.height
-					text: model.index
+					text: model.name
 					font.pixelSize: rootWindow.pixel_font_size_24
 					elide: Text.ElideLeft
 					verticalAlignment: Text.AlignVCenter

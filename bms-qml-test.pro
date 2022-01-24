@@ -1,4 +1,5 @@
-QT += quick \
+QT += core \
+      quick \
       core gui \
 	  sql \
 	  widgets

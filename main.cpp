@@ -3,6 +3,7 @@
 #include <qqml.h>
 #include <QQmlContext>
 #include "./src/libs/auth.h"
+#include "./src/models/organization_list.h"
 
 int main(int argc, char *argv[])
 {
@@ -23,12 +24,13 @@ int main(int argc, char *argv[])
 
 	Database *db = new Database();
 	Auth auth;
+	OrganizationListModel olm;
 	User *current_user = User::getCurrentUser();
 	QStringList _row_to_search = { "Item ID" , "Item Menufecturer" , "Item Vendor" , "Item Serial" , "Item Price" , "Item Name" , "Customer Name" , "Customer Contact" , "Customer National ID" };
 	QStringList _country_list = {};
 	QSqlDatabase qdb = db->getDB();
 	QSqlQuery q(qdb) ;
-	q.exec("SELECT name FROM COUNTRIES");
+	q.exec("SELECT name FROM COUNTRIES ORDER BY name;");
 	qdb.close();
 	while(q.next()) {
 		_country_list.append(q.value(0).toString());
@@ -38,6 +40,7 @@ int main(int argc, char *argv[])
 	engine.rootContext()->setContextProperty("_row_to_search", QVariant::fromValue(_row_to_search));
 	engine.rootContext()->setContextProperty("_current_user", QVariant::fromValue(current_user) ) ;
 	engine.rootContext()->setContextProperty("_country_list",QVariant::fromValue(_country_list));
+	engine.rootContext()->setContextProperty("_organization_list",&olm);
 
 	return app.exec();
 }

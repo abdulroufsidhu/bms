@@ -13,16 +13,16 @@ private:
 public:
 	inline Email () {}
 	inline ~Email () {}
-	QString getId() const;
-	QString getText() const;
-	QString update( QString& email);
-	QString updateById(QString& id);
+	const QString& getId() const;
+	const QString& getText() const;
+	QString update(const QString& email);
+	QString updateById(const QString& id);
 	void copy(Email& e);
 };
-inline QString Email::getId() const { return this->id; }
-inline QString Email::getText() const { return this->text; }
+inline const QString& Email::getId() const { return this->id; }
+inline const QString& Email::getText() const { return this->text; }
 inline void Email::copy(Email &e) { this->id = e.id; this->text = e.text; }
-inline QString Email::update(QString& email) {
+inline QString Email::update(const QString& email) {
 	QSqlQuery q = Database::rawQuery( QString("SELECT id, name FROM EMAILS WHERE name = '%1' ;").arg(email) );
 	if (!q.lastError().text().isEmpty() ) return "invalid email ";
 	while (q.next()) {
@@ -31,7 +31,7 @@ inline QString Email::update(QString& email) {
 	}
 	return q.lastError().text();
 }
-inline QString Email::updateById(QString& id) {
+inline QString Email::updateById(const QString& id) {
 	QSqlQuery q = Database::rawQuery( QString("SELECT name FROM EMAILS WHERE id = '%1';").arg(id) );
 	if (!q.lastError().text().isEmpty()) return q.lastError().text();
 	this->id = id;
@@ -40,6 +40,8 @@ inline QString Email::updateById(QString& id) {
 	}
 	return "";
 }
+
+Q_DECLARE_METATYPE(Email);
 #endif //EMAIL_H
 
 #ifndef CNIC_H
@@ -52,16 +54,16 @@ private:
 public:
 	inline CNIC () {}
 	inline ~CNIC () {}
-	QString& getId();
-	QString& getText();
-	QString update(QString & number);
-	QString updateById(QString& id);
+	const QString& getId()const ;
+	const QString& getText()const ;
+	QString update(const QString & number);
+	QString updateById(const QString& id);
 	void copy(CNIC& e);
 };
-inline QString& CNIC::getId() { return this->id; }
-inline QString& CNIC::getText() { return this->text; }
+inline const QString& CNIC::getId()const  { return this->id; }
+inline const QString& CNIC::getText()const  { return this->text; }
 inline void CNIC::copy(CNIC &e) { this->id = e.id; this->text = e.text; }
-inline QString CNIC::update(QString& number) {
+inline QString CNIC::update(const QString& number) {
 	QSqlQuery q = Database::rawQuery( QString("SELECT id, name FROM CNICS WHERE name = '%1' ;").arg(number) );
 	if (!q.isValid() || !q.lastError().text().isEmpty() ) return "invalid cnic ";
 	while (q.next()) {
@@ -70,7 +72,7 @@ inline QString CNIC::update(QString& number) {
 	}
 	return q.lastError().text();
 }
-inline QString CNIC::updateById(QString &id) {
+inline QString CNIC::updateById(const QString &id) {
 	QSqlQuery q = Database::rawQuery( QString("SELECT name FROM CNICS WHERE id = '%1'").arg(id) );
 	if (!q.lastError().text().isEmpty()) return q.lastError().text();
 	this->id = id;
@@ -79,6 +81,8 @@ inline QString CNIC::updateById(QString &id) {
 	}
 	return "";
 }
+
+Q_DECLARE_METATYPE(CNIC);
 #endif //CNIC_H
 
 #ifndef CONTACT_H
@@ -91,16 +95,16 @@ private:
 public:
 	inline Contact () {}
 	inline ~Contact () {}
-	QString& getId();
-	QString& getText();
-	QString update(QString& contact);
-	QString updateById(QString& id);
+	const QString& getId()const ;
+	const QString& getText()const ;
+	QString update(const QString& contact);
+	QString updateById(const QString& id);
 	void copy(Contact& e);
 };
-inline QString& Contact::getId() { return this->id; }
-inline QString& Contact::getText() { return this->text; }
+inline const QString& Contact::getId()const  { return this->id; }
+inline const QString& Contact::getText()const  { return this->text; }
 inline void Contact::copy(Contact &e) { this->id = e.id; this->text = e.text; }
-inline QString Contact::update(QString& number) {
+inline QString Contact::update(const QString& number) {
 	QSqlQuery q = Database::rawQuery( QString("SELECT id, name FROM CONTACTS WHERE name = '%1' ;").arg(number) );
 	if (!q.isValid() || !q.lastError().text().isEmpty() ) return "invalid contact ";
 	while (q.next()) {
@@ -109,7 +113,7 @@ inline QString Contact::update(QString& number) {
 	}
 	return q.lastError().text();
 }
-inline QString Contact::updateById(QString &id) {
+inline QString Contact::updateById(const QString &id) {
 	QSqlQuery q = Database::rawQuery( QString("SELECT name FROM CONTACTS WHERE id = '%1';").arg(id) );
 	if (!q.lastError().text().isEmpty()) return q.lastError().text();
 	this->id = id;
@@ -118,6 +122,8 @@ inline QString Contact::updateById(QString &id) {
 	}
 	return "";
 }
+
+Q_DECLARE_METATYPE(Contact);
 #endif //CONTACT_H
 
 #ifndef PERSON_H
@@ -142,34 +148,34 @@ private:
 public:
 	inline Person() {};
 	inline ~Person () {}
-	QString& getId();
-	QString& getName();
-	CNIC& getCNIC();
-	Contact& getContact();
-	Email& getEmail();
-	Address &getPermanentAddr() ;
-	Address &getTempraryAddr() ;
+	const QString& getId()const ;
+	const QString& getName()const ;
+	const CNIC& getCNIC()const ;
+	const Contact& getContact()const ;
+	const Email& getEmail()const ;
+	const Address &getPermanentAddr()const  ;
+	const Address &getTempraryAddr()const  ;
 
-	QString insert ( QString& name,
-									 QString& email,
-									 QString& cnic,
-									 QString& contact,
-									 Address& p_addr,
-									 Address& t_addr
+	QString insert (const  QString& name,
+									const  QString& email,
+									const  QString& cnic,
+									const  QString& contact,
+									const  Address& p_addr,
+									const  Address& t_addr
 									 );
-	QString updateByEmail(QString email);
-	QString updateById(QString id);
+	QString updateByEmail(const QString& email);
+	QString updateById(const QString& id);
 	void copy(Person& p);
 
 };
 
-inline Address& Person::getTempraryAddr() { return this->temprary_addr;}
-inline Address& Person::getPermanentAddr() { return this->permanent_addr;}
-inline QString& Person::getId() { return this->id; }
-inline QString& Person::getName() { return this->name; }
-inline CNIC& Person::getCNIC() { return this->cnic; }
-inline Contact& Person::getContact() { return this->contact; }
-inline Email& Person::getEmail() { return this->email; }
+inline const Address& Person::getTempraryAddr()const  { return this->temprary_addr;}
+inline const Address& Person::getPermanentAddr()const  { return this->permanent_addr;}
+inline const QString& Person::getId()const  { return this->id; }
+inline const QString& Person::getName()const  { return this->name; }
+inline const CNIC& Person::getCNIC()const  { return this->cnic; }
+inline const Contact& Person::getContact()const  { return this->contact; }
+inline const Email& Person::getEmail()const  { return this->email; }
 inline void Person::copy(Person &p) {
 	this->id = p.id;
 	this->name = p.name;
@@ -177,7 +183,7 @@ inline void Person::copy(Person &p) {
 	this->cnic.copy(p.cnic);
 	this->contact.copy(p.contact);
 }
-inline QString Person::updateById(QString id) {
+inline QString Person::updateById(const QString& id) {
 	QString err = "";
 	QString cid = "", pid = "", eid = "", t_l = "", p_l = "";
 	QSqlQuery q = Database::rawQuery( QString("SELECT * FROM PERSONS WHERE id = '%1';").arg(id) );
@@ -202,7 +208,7 @@ inline QString Person::updateById(QString id) {
 	err = this->permanent_addr.updateById(p_l);
 	return err;
 }
-inline QString Person::updateByEmail(QString email) {
+inline QString Person::updateByEmail(const QString& email) {
 	Email e;
 	e.update(email);
 	if (e.getId().isEmpty()) qCritical() << "Update person email id is empty";
@@ -232,12 +238,12 @@ inline QString Person::updateByEmail(QString email) {
 	return err;
 }
 inline QString Person::insert(
-		QString& name,
-		QString& email,
-		QString& cnic,
-		QString& contact,
-		Address& p_addr,
-		Address& t_addr
+		const QString& name,
+		const QString& email,
+		const QString& cnic,
+		const QString& contact,
+		const Address& p_addr,
+		const Address& t_addr
 		) {
 // data checks
 	if (name.isEmpty()) return "Please enter a name";
@@ -314,8 +320,5 @@ inline QString Person::insert(
 }
 
 Q_DECLARE_METATYPE(Person);
-Q_DECLARE_METATYPE(Email);
-Q_DECLARE_METATYPE(CNIC);
-Q_DECLARE_METATYPE(Contact);
 
 #endif //PERSON_H

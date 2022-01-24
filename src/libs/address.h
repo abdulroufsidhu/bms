@@ -12,16 +12,16 @@ public:
 	inline Country() {}
 	inline ~Country() {}
 	QString updateById(QString& id);
-	QString& getId();
-	QString& getName();
-	QString update(QString &country);
+	const QString& getId() const ;
+	const QString& getName() const ;
+	QString update(const QString &country);
 	void copy(Country& c);
 };
 
-inline QString& Country::getId() { return this->id; }
-inline QString& Country::getName() { return this->name; }
+inline const QString& Country::getId()const  { return this->id; }
+inline const QString& Country::getName()const  { return this->name; }
 inline void Country::copy(Country& c) { this->id = c.id; this->name = c.name; }
-inline QString Country::update(QString &country) {
+inline QString Country::update(const QString &country) {
 	QSqlQuery q = Database::rawQuery( QString("SELECT id, name FROM COUNTRIES WHERE name = '%1';").arg(country));
 	if (!q.lastError().text().isEmpty()) return q.lastError().text();
 	while (q.next()) {
@@ -52,24 +52,24 @@ private:
 public:
 	inline City() {}
 	inline ~City() {}
-	QString& getId();
-	QString& getName();
-	Country& getCountry();
-	QString update(QString& country, QString& city);
-	QString updateById(QString& id);
+	const QString& getId() const ;
+	const QString& getName() const ;
+	const Country& getCountry() const ;
+	QString update(const QString& country, QString& city);
+	QString updateById(const QString& id);
 	QString insert(QString& country, QString& city);
 	void copy(City& c);
 };
 
-inline QString& City::getId() { return this->id; }
-inline QString& City::getName() { return this->name; }
-inline Country& City::getCountry() { return this->country; }
+inline const QString& City::getId()const  { return this->id; }
+inline const QString& City::getName()const  { return this->name; }
+inline const Country& City::getCountry()const  { return this->country; }
 inline void City::copy(City &c) {
 	this->id = c.id;
 	this->name = c.name;
 	this->country.copy(c.country);
 }
-inline QString City::update(QString &country, QString &city) {
+inline QString City::update(const QString &country, QString &city) {
 	this->country.update(country);
 	QSqlQuery q = Database::rawQuery( QString("SELECT id, name FROM CITIES WHERE name = '%1' AND country_id = '%2';").arg(city, this->country.getId() ) );
 	if (!q.lastError().text().isEmpty()) return q.lastError().text();
@@ -79,7 +79,7 @@ inline QString City::update(QString &country, QString &city) {
 	}
 	return "";
 }
-inline QString City::updateById(QString &id) {
+inline QString City::updateById(const QString &id) {
 	QSqlDatabase db = Database::getDB();
 	QSqlQuery q(db);
 	q.exec( QString("SELECT name, country_id FROM CITIES WHERE id = '%1'").arg(id) );
@@ -111,24 +111,24 @@ private:
 public:
 	inline Address() {}
 	inline ~Address() {}
-	QString& getId();
-	QString& getName();
-	City& getCity();
+	const QString& getId() const;
+	const QString& getName() const;
+	const City& getCity() const ;
 	void copy(Address& a);
-	QString update(QString& country, QString& city, QString& address);
-	QString updateById(QString& id);
+	QString update(const QString& country, QString& city, QString& address);
+	QString updateById(const QString& id);
 	QString insert(QString& country, QString& city, QString& address);
 };
 
-inline QString& Address::getId() { return this->id; }
-inline QString& Address::getName() { return this->name; }
-inline City& Address::getCity() { return this->city; }
+inline const QString& Address::getId() const { return this->id; }
+inline const QString& Address::getName() const  { return this->name; }
+inline const City& Address::getCity() const  { return this->city; }
 inline void Address::copy(Address &a) {
 	this->id = a.id;
 	this->name = a.name;
 	this->city.copy(a.city);
 }
-inline QString Address::update(QString &country, QString &city, QString &address) {
+inline QString Address::update(const QString &country, QString &city, QString &address) {
 	this->city.update(country,city);
 	QSqlQuery q = Database::rawQuery( QString( "SELECT id, name FROM LOCATIONS WHERE name = '%1' AND city_id = '%2';").arg(address, this->city.getId() ) );
 	if (!q.isValid() || !q.lastError().text().isEmpty()) return q.lastError().text();
@@ -138,7 +138,7 @@ inline QString Address::update(QString &country, QString &city, QString &address
 	}
 	return "";
 }
-inline QString Address::updateById(QString &id) {
+inline QString Address::updateById(const QString &id) {
 	QString cid = "";
 	QSqlQuery q = Database::rawQuery( QString ("SELECT name, city_id FROM LOCATIONS WHERE id = '%1';").arg(id) );
 	if (!q.lastError().text().isEmpty()) return q.lastError().text();
