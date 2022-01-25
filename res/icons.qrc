@@ -4,5 +4,6 @@
         <file>icons/sell-label 1.svg</file>
         <file>icons/view 1.svg</file>
         <file>icons/user-profile 1.svg</file>
+        <file>icons/process.svg</file>
     </qresource>
 </RCC>

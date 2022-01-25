@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtGraphicalEffects 1.0
 
@@ -11,7 +11,8 @@ Rectangle {
 
 	implicitWidth: mbt.implicitWidth + add_width
 	implicitHeight: mbt.implicitHeight + add_height
-	color: rootWindow.primary_button_color
+	activeFocusOnTab: true
+	color: activeFocus ? skyblue_color : rootWindow.primary_button_color
 	radius: 5
 
 	Text {
@@ -26,6 +27,7 @@ Rectangle {
 	MouseArea {
 		anchors.fill: parent
 		cursorShape: "PointingHandCursor"
+		onClicked: parent.forceActiveFocus();
 	}
 
 }

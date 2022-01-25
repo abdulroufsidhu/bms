@@ -42,25 +42,32 @@ Rectangle {
 				color: rootWindow.critical_button_color;
 				font.pixelSize: pixel_font_size_24
 			}
+
 			MyButton{
 				btn_text: "Login";
 				btn_text_color: rootWindow.secondary_text_color;
-				btn_font_pixel_size: rootWindow.pixel_font_size_24
+				btn_font_pixel_size: rootWindow.pixel_font_size_24;
+				Keys.onEnterPressed: {
+					login();
+				}
 				MouseArea {
 					anchors.fill: parent
 					onClicked: {
-//						going to next screen without auth for testing purposes
-						output.text = _auth.login(login_email.text_data,login_password.text_data);
-						if (!output.text.length) {
-							login_email.text_data = "";
-							login_password.text_data = "";
-							stack.pop(null);
-							stack.push(s_v_component);
-							txt_notification_text = _organization_list.update();
-						}
-//						stack.pop(null);
-//						stack.push(s_v_component);
+						parent.login();
 					}
+				}
+				function login() {
+					// going to next screen without auth for testing purposes
+					output.text = _auth.login(login_email.text_data,login_password.text_data);
+					if (!output.text.length) {
+						login_email.text_data = "";
+						login_password.text_data = "";
+						stack.pop(null);
+						stack.push(s_v_component);
+						txt_notification_text = _organization_list.refresh();
+					}
+					// stack.pop(null);
+					// stack.push(s_v_component);
 				}
 			}
 		}
@@ -76,3 +83,9 @@ Rectangle {
 	}
 }
 
+
+/*##^##
+Designer {
+		D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/

@@ -20,7 +20,7 @@ HEADERS += \
     src/libs/image.h \
     src/libs/person.h \
     src/libs/user.h \
-    src/models/organization_list.h
+    src/models/list_models.h
 
 SOURCES += \
         main.cpp

@@ -5,7 +5,7 @@
 
 #ifndef EMAIL_H
 #define EMAIL_H
-class Email {
+struct Email {
 	Q_GADGET
 	Q_PROPERTY(QString text READ getText )
 private:
@@ -46,7 +46,7 @@ Q_DECLARE_METATYPE(Email);
 
 #ifndef CNIC_H
 #define CNIC_H
-class CNIC {
+struct CNIC {
 	Q_GADGET
 	Q_PROPERTY(QString text READ getText)
 private:
@@ -87,7 +87,7 @@ Q_DECLARE_METATYPE(CNIC);
 
 #ifndef CONTACT_H
 #define CONTACT_H
-class Contact {
+struct Contact {
 	Q_GADGET
 	Q_PROPERTY(QString text READ getText)
 private:
@@ -128,7 +128,7 @@ Q_DECLARE_METATYPE(Contact);
 
 #ifndef PERSON_H
 #define PERSON_H
-class Person {
+struct Person {
 Q_GADGET
 Q_PROPERTY(QString id READ getId)
 Q_PROPERTY(QString name READ getName)

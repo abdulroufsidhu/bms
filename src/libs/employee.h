@@ -138,7 +138,15 @@ inline QString Organization::insert(const QString &user_id, const QString &name,
 
 Q_DECLARE_METATYPE(Organization)
 
-#endif //ORGANIZATION_H
+#endif // ORGANIZATION_H
+
+#ifndef BRANCH_H
+#define BRANCH_H
+struct Branch {
+
+};
+
+#endif // BRANCH_H
 
 #ifndef EMPLOYEE_H
 #define EMPLOYEE_H

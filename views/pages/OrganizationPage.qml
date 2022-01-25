@@ -20,13 +20,16 @@ Page {
 			left: parent.left;
 			bottom: org_branch_separator.top
 		}
+		anchors.bottomMargin: pixel_font_size_24
 		width: rootWindow.width * 0.7
 		color: primary_color
 		radius: rootWindow.pixel_font_size * 10
 
 		MyListView{
 			model: _organization_list
+			manage_btn_org: true
 			sell_btn_item: true
+			view_btn_item: true
 			anchors.fill: parent
 		}
 
@@ -86,8 +89,8 @@ Page {
 			top: org_branch_separator.bottom;
 			left: parent.left;
 			bottom: parent.bottom;
-			topMargin: pixel_font_size*20
-			bottomMargin: pixel_font_size*20
+			topMargin: pixel_font_size_24
+			bottomMargin: pixel_font_size_24
 		}
 		width: rootWindow.width * 0.7
 		color: primary_color

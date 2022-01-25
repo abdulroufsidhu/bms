@@ -3,7 +3,7 @@
 
 #ifndef COUNTRY_H
 #define COUNTRY_H
-class Country {
+struct Country {
 	Q_GADGET
 	Q_PROPERTY(QString name READ getName)
 private:
@@ -43,7 +43,7 @@ inline QString Country::updateById(QString &id) {
 
 #ifndef CITY_H
 #define CITY_H
-class City {
+struct City {
 	Q_GADGET
 	Q_PROPERTY(QString name READ getName)
 	Q_PROPERTY(Country country READ getCountry)
@@ -60,7 +60,6 @@ public:
 	QString insert(QString& country, QString& city);
 	void copy(City& c);
 };
-
 inline const QString& City::getId()const  { return this->id; }
 inline const QString& City::getName()const  { return this->name; }
 inline const Country& City::getCountry()const  { return this->country; }
@@ -102,7 +101,7 @@ inline QString City::insert(QString &country, QString &city) {
 
 #ifndef ADDRESS_H
 #define ADDRESS_H
-class Address {
+struct Address {
 	Q_GADGET
 	Q_PROPERTY(QString name READ getName)
 	Q_PROPERTY(City city  READ getCity)

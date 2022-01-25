@@ -3,7 +3,7 @@
 #include <qqml.h>
 #include <QQmlContext>
 #include "./src/libs/auth.h"
-#include "./src/models/organization_list.h"
+#include "./src/models/list_models.h"
 
 int main(int argc, char *argv[])
 {
