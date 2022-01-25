@@ -20,6 +20,10 @@ import QtQuick.Controls 2.15
 		property bool manage_btn_org: false
 		property int total_btns: 0;
 
+		property bool orgList: false
+		property bool branchList: false
+		property bool itemsList: false
+
 		onView_btn_itemChanged: {
 			if (view_btn_item == true) ++total_btns;
 			if (view_btn_item == false) --total_btns;
@@ -54,7 +58,7 @@ import QtQuick.Controls 2.15
 				Text {
 					id: lv_txt_delegate
 					width: lv.width -( view_item_btn.width + sell_item_btn.width + manage_org_btn.width + parent.spacing*(total_btns) )
-					text: "Name: " + model.name + "\ne-Mail: " + model.email + "\nContact: " + model.contact
+					text: parent.fetchTextPattern()
 					font.pixelSize: rootWindow.pixel_font_size_24
 					elide: Text.ElideLeft
 					verticalAlignment: Text.AlignVCenter
@@ -68,6 +72,12 @@ import QtQuick.Controls 2.15
 					width: visible ? rootWindow.pixel_font_size * sourceSize.width/3.56 : 0
 					height: rootWindow.pixel_font_size * sourceSize.height/3.56
 					anchors.verticalCenter: lvd_row.verticalCenter
+					MouseArea {
+						anchors.fill: parent
+						onClicked: {
+							_branch_list.refresh(model.id);
+						}
+					}
 				}
 
 				Image {
@@ -86,6 +96,13 @@ import QtQuick.Controls 2.15
 					height: rootWindow.pixel_font_size * sourceSize.height/2
 					anchors.verticalCenter: lvd_row.verticalCenter
 				}
+
+				function fetchTextPattern() {
+					if (orgList) return "Org Name: " + model.name + "\ne-Mail: " + model.email + "\nContact: " + model.contact;
+					else if (branchList) return "Branch Name: " + model.name + "\ne-Mail: " + model.email + "\nContact: " + model.contact
+					else if (itemsList) return "Item Name: " + model.name + "\ne-Mail: " + model.email + "\nContact: " + model.contact
+				}
+
 			}
 
 			hoverEnabled: true

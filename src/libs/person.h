@@ -15,8 +15,8 @@ public:
 	inline ~Email () {}
 	const QString& getId() const;
 	const QString& getText() const;
-	QString update(const QString& email);
-	QString updateById(const QString& id);
+	QString update(const QString& email) ;
+	QString updateById(const QString& id)  ;
 	void copy(Email& e);
 };
 inline const QString& Email::getId() const { return this->id; }

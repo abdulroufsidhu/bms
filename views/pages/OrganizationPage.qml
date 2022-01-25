@@ -31,6 +31,7 @@ Page {
 			sell_btn_item: true
 			view_btn_item: true
 			anchors.fill: parent
+			orgList: true
 		}
 
 	}
@@ -98,8 +99,9 @@ Page {
 
 		MyListView{
 			anchors.fill: parent
-			model: 1000
+			model: _branch_list
 			sell_btn_item: true
+			branchList: true
 		}
 	}
 

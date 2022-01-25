@@ -86,6 +86,7 @@ Page {
 			sell_btn_item: true
 			view_btn_item: true
 			anchors.fill: parent
+			itemsList: true
 		}
 
 	}

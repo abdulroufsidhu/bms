@@ -6,6 +6,8 @@
 #include <QDebug>
 #include <QSqlDatabase>
 #include <QSqlQuery>
+#include <QSqlRecord>
+#include <QSqlField>
 #include <QVariant>
 #include <QThread>
 #include <QSqlError>

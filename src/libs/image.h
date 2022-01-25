@@ -54,15 +54,11 @@ inline bool Image::uploadImage(const QString &pathToFile, QString &owner_id) {
 		return false;
 	}
 	db.close();
-	this->loadImage(owner_id);
+	qCritical() << "image processed successfully";
 
 	return true;
 }
-
-inline QByteArray& Image::getData() {
-	return this->data;
-}
-
+inline QByteArray& Image::getData() { return this->data; }
 inline void Image::loadImage(QString& owner_id) {
 	QSqlQuery q = Database::rawQuery( QString("SELECT data FROM IMAGES WHERE owner_id = '%1';").arg(owner_id) );
 	if (q.lastError().text().length() || q.size() < 1) {

@@ -103,6 +103,8 @@ CREATE TABLE IF NOT EXISTS BRANCHES /*will be dynamicaaly created by organizatio
 	organization_id UUID REFERENCES ORGANIZATIONS (id) NOT NULL ,
 	name varchar(150) NOT NULL,
 	code varchar(13) NOT NULL,
+	location_id UUID REFERENCES LOCATIONS(id) NOT NULL,
+	active BOOLEAN NOT NULL DEFAULT TRUE,
 	UNIQUE (organization_id, name, code),
   time_stamp TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
@@ -131,7 +133,8 @@ CREATE TABLE IF NOT EXISTS EMPLOYEES /*will be dynamically created by organizati
 	job_id UUID REFERENCES JOBS (id) NOT NULL,
 	salary NUMERIC NOT NULL DEFAULT 0,
 	currency_id UUID REFERENCES CURRENCY (id) NOT NULL DEFAULT SELECT id FROM CURRENCY c WHERE name = 'Pakistani Rupees',
-  time_stamp TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL
+  time_stamp TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  UNIQUE (user_id, branch_id, job_id)
 );
 
 -- creating permissions table

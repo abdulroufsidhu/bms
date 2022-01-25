@@ -31,8 +31,8 @@ public:
 	}
 	inline ~Organization () {};
 
-	QString getById(QString& id);
-	QString getByEmail(QString& email);
+	QString getById( const QString& id) ;
+	QString getByEmail( const QString& email) ;
 
 	const QString& getId() const ;
 	const QString& getName() const ;
@@ -54,6 +54,21 @@ inline const Contact& Organization::getContact() const { return this->contact; }
 inline const Address& Organization::getAddress() const { return this->address; }
 inline const Email& Organization::getEmail() const { return this->email; }
 inline const Image& Organization::getLogo() const { return this->logo; }
+
+inline QString Organization::getById(const QString &id) {
+	QSqlQuery q = Database::rawQuery( QString("SELECT name, email_id, contact_id, location_id, gov_reg_num FROM ORGANIZATIONS WHERE id = '%1';").arg(id) );
+	if (q.lastError().text().length()) return q.lastError().text();
+	this->id = id;
+	while (q.next()) {
+		this->email.updateById(q.value("email_id").toString());
+		this->contact.updateById(q.value("contact_id").toString());
+		this->address.updateById(q.value("location_id").toString());
+		this->name = q.value("name").toString();
+		this->gov_reg_num = q.value("gov_reg_num").toString();
+	}
+	return "";
+}
+
 inline QString Organization::insert(const QString &user_id, const QString &name, const QString &email_id, const QString &contact_id, const QString &reg_num, Address addr, const QUrl &urlToLocalFile) {
 	return Organization::insert(user_id,name,email_id,contact_id,reg_num,addr,urlToLocalFile.toLocalFile());
 }
@@ -143,8 +158,98 @@ Q_DECLARE_METATYPE(Organization)
 #ifndef BRANCH_H
 #define BRANCH_H
 struct Branch {
+private:
+	QString id, name, code;
+	Contact contact;
+	Address address;
+	Email email;
+	Image image;
+	Organization organization;
+
+public:
+	inline Branch() {};
+	inline Branch(QString id, QString name, QString code, Contact contact, Address addr, Email email, Organization organization ) {
+		this->id = id;
+		this->name = name;
+		this->code = code;
+		this->contact.copy(contact);
+		this->address.copy(addr);
+		this->email.copy(email);
+		this->organization = organization;
+	}
+	inline const QString& getId() const { return this->id; }
+	inline const QString& getName() const { return this->name; }
+	inline const QString& getCode() const { return this->code; }
+	inline const Contact& getContact() const { return this->contact; }
+	inline const Address& getAddress() const { return this->address; }
+	inline const Email& getEmail() const { return this->email; }
+	inline const Image& getImage() const { return this->image; }
+	inline const Organization& getOrg() const { return this->organization; }
+
+	QString getById(const QString& id) ;
+	QString getByEmail(const QString& email);
+
+	QString insert(const Organization& org, const QString& name, const QString& code, const QString& email, const QString& contact, const Address& address, const QUrl& urlToLocalFile);
+		QString insert(const Organization& org, const QString& name, const QString& code, const QString& email, const QString& contact, const Address& address, const QString& pathToLocalFile);
 
 };
+
+inline QString Branch::insert(const Organization& org, const QString &name, const QString &code, const QString &email, const QString &contact, const Address &address, const QUrl &urlToLocalFile) {
+	return this->insert(org,name,code,email,contact,address,urlToLocalFile.toLocalFile());
+}
+inline QString Branch::insert(const Organization& org, const QString &name, const QString &code, const QString &email, const QString &contact, const Address &address, const QString &pathToLocalFile) {
+	QString id, pid, eid;
+	QSqlDatabase db = Database::getDB();
+	QSqlQuery q(db);
+	if (!q.exec("BEGIN;") || q.lastError().text().length()) {
+		db.close();
+		qCritical() << q.lastError().text();
+		return q.lastError().text();
+	}
+	qCritical() << "Starting transaction to register branch";
+	qCritical() << "inserting contact";
+	if (!q.exec(QString("INSERT INTO CONTACTS (name) VALUES ('%1') RETURNING id;").arg(contact) ) || q.lastError().text().length() ) {
+		q.exec("ROLLBACK;");
+		db.close();
+		qCritical() << q.lastError().text();
+		return q.lastError().text();
+	}
+	while(q.next()) {
+		pid = q.value("id").toString();
+	}
+	qCritical() << "inserting email";
+	if (!q.exec( QString("INSERT INTO EMAILS (name) VALUES ('%1') RETURNING id;").arg(email) ) || q.lastError().text().length() ) {
+		q.exec("ROLLBACK;");
+		db.close();
+		qCritical() << q.lastError().text();
+		return q.lastError().text();
+	}
+	while (q.next()) {
+		eid = q.value("id").toString();
+	}
+
+	qCritical() << "inserting branch";
+	if (!q.exec( QString("INSERT INTO BRANCHES(name, code, email_id, contact_id, organization_id ) VALUES ( '%1','%2','%3','%4','%5' ) RETURNING id ; ").arg(name,code,eid,pid,org.getId()) ) || q.lastError().text().length() ) {
+		q.exec("ROLLBACK;");
+		db.close();
+		qCritical() << q.lastError().text();
+		return q.lastError().text();
+	}
+	while (q.next()) {
+		id = q.value("id").toString();
+	}
+	if (!q.exec("COMMIT;") || q.lastError().text().length() ) {
+		q.exec("ROLLBACK;");
+		db.close();
+		qCritical() << q.lastError().text();
+		return q.lastError().text();
+	}
+	db.close();
+	this->image.uploadImage(pathToLocalFile,id);
+	qCritical() << "operation successfully completed";
+
+	return "";
+}
 
 #endif // BRANCH_H
 
