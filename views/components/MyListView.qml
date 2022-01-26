@@ -75,7 +75,7 @@ import QtQuick.Controls 2.15
 					MouseArea {
 						anchors.fill: parent
 						onClicked: {
-							_branch_list.refresh(model.id);
+							txt_notification_text = _branch_list.refresh(model.id);
 						}
 					}
 				}
@@ -98,7 +98,7 @@ import QtQuick.Controls 2.15
 				}
 
 				function fetchTextPattern() {
-					if (orgList) return "Org Name: " + model.name + "\ne-Mail: " + model.email + "\nContact: " + model.contact;
+					if (orgList) return "Org Name: " + name + "\ne-Mail: " + email + "\nContact: " + contact;
 					else if (branchList) return "Branch Name: " + model.name + "\ne-Mail: " + model.email + "\nContact: " + model.contact
 					else if (itemsList) return "Item Name: " + model.name + "\ne-Mail: " + model.email + "\nContact: " + model.contact
 				}

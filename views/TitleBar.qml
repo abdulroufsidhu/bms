@@ -38,7 +38,7 @@ Rectangle {
 			anchors.fill: parent
 			onClicked: {
 				if (rootWindow.flags == Qt.FramelessWindowHint) {
-					rootWindow.flags = Qt.BypassWindowManagerHint
+					rootWindow.flags = Qt.Window
 				} else {
 					rootWindow.flags = Qt.FramelessWindowHint
 				}
@@ -64,9 +64,9 @@ Rectangle {
 			rightMargin: 5
 		}
 		rect_diameter: 32
+		visible: {rootWindow.flags === Qt.FramelessWindowHint? true:false}
 		rect_color: rootWindow.primary_button_color
 		btn_text_font_size: 24
-
 		MouseArea {
 			anchors.fill: parent
 			onClicked: {
@@ -76,7 +76,7 @@ Rectangle {
 					rootWindow.visibility = 5;
 				}
 
-//			--_datanase object comming from cpp
+//			--_database object comming from cpp
 //				var v = _db.insert("insert into person(name, age) values('Abdul',33); ");
 //				v += _db.insert("insert into person(name, age) values('ABR',22); ");
 			}
@@ -94,6 +94,7 @@ Rectangle {
 		rect_color: rootWindow.critical_button_color
 		btn_text: "<b>X</b>"
 		btn_text_font_size: 24
+		visible: {rootWindow.flags === Qt.FramelessWindowHint? true:false}
 
 		MouseArea {
 			anchors.fill: parent

@@ -1,215 +1,161 @@
 #include "../libs/user.h"
-#include <QAbstractListModel>
+#include <QSqlQueryModel>
+#include <QHash>
 
 #ifndef ORGANIZATION_LIST_H
 #define ORGANIZATION_LIST_H
-class OrganizationListModel : public QAbstractListModel {
+class OrganizationListModel : public QSqlQueryModel {
 	Q_OBJECT
-	Q_ENUMS(Roles)
 	QThread orgListThread;
 public:
-	enum Roles {
-		NameRole = Qt::UserRole,
-		IdRole,
-		GovRegNumRole,
-		EmailRole,
-		ContactRole,
-		CountryRole,
-		CityRole,
-		AddressRole
-	};
-	inline explicit OrganizationListModel(QObject *parent = nullptr) : QAbstractListModel (parent) {
+	inline explicit OrganizationListModel(QObject *parent = nullptr) : QSqlQueryModel (parent) {
 		orgListThread.start();
+		roleNames();
 		this->refresh();
 	}
 	inline ~OrganizationListModel() {orgListThread.quit(); orgListThread.wait();}
-	int rowCount(const QModelIndex& parent) const override;
 	QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const override;
 	QHash<int, QByteArray> roleNames() const override;
 public slots:
-	QString refresh();
+	void refresh();
 private: //members
-	QHash<int,QByteArray> hash {
-		{NameRole, "name"},
-		{IdRole, "id"},
-		{GovRegNumRole, "govRegNum"},
-		{EmailRole, "email"},
-		{ContactRole, "contact"},
-		{CountryRole, "Country"},
-		{CityRole, "city"},
-		{AddressRole, "address"}
-	};
-	QVector<Organization> o_data;
+	inline static const char* COLUMN_NAMES[] = { "id", "name", "email", "contact", "gov_reg_num", "country", "city", "address" };
+	inline static QString SQL_SELECT = QString( " \
+SELECT \
+		o.id as id, o.name as name, email.name as email, contact.name as contact, \
+		o.gov_reg_num as gov_reg_num, c.name as country, city.name as city, l.name as address \
+FROM \
+		organizations o, branches b, contacts contact, emails email, locations l, \
+		cities city, countries c, employees e \
+WHERE \
+		e.user_id = '%1' \
+		AND b.id = e.branch_id \
+		AND contact.id = o.contact_id \
+		AND email.id = o.email_id\
+		AND o.id = b.organization_id AND \
+		l.id = o.location_id \
+		AND city.id = l.city_id \
+		AND c.id = city.country_id \
+		; ").arg(User::getCurrentUser()->getId()) ;
 
 };
 
-inline QHash<int, QByteArray> OrganizationListModel::roleNames()const { return this->hash; }
-inline int OrganizationListModel::rowCount(const QModelIndex &parent)const {
-	if (parent.isValid())
-		return 0;
-	return o_data.count();
+inline QHash<int, QByteArray> OrganizationListModel::roleNames()const {
+	int idx = 0;
+	QHash<int, QByteArray> hash;
+	while( COLUMN_NAMES[idx]) {
+		 hash[Qt::UserRole + idx + 1] = COLUMN_NAMES[idx];
+		 idx++;
+	}
+	return hash;
 }
 inline QVariant OrganizationListModel::data(const QModelIndex &index, int role)const {
-	if ( !index.isValid() )
+	QVariant value = QSqlQueryModel::data(index, role);
+	if(!index.isValid())
+	{
 		return QVariant();
-
-	const Organization& org = o_data.at(index.row() );
-	if ( role == NameRole )
-		return org.getName() ;
-	else if ( role == IdRole )
-		return org.getId();
-	else if ( role == GovRegNumRole )
-		return org.getGovRegNum();
-	else if ( role == EmailRole )
-		return org.getEmail().getText();
-	else if ( role == AddressRole )
-		return org.getAddress().getName();
-	else if ( role == ContactRole )
-		return org.getContact().getText();
-	else if ( role == CountryRole )
-		return org.getAddress().getCity().getCountry().getName();
-	else
-		return QVariant();
-}
-inline QString OrganizationListModel::refresh() {
-	QSqlQuery q = Database::rawQuery( QString("SELECT o.* FROM EMPLOYEES e, BRANCHES b, ORGANIZATIONS o WHERE e.user_id = '%1' AND e.branch_id = b.id AND b.organization_id = o.id;").arg(User::getCurrentUser()->getId()) );
-	if (q.lastError().text().length()) return q.lastError().text();
-
-	beginRemoveRows(QModelIndex(), 0, o_data.count());
-	this->o_data.clear();
-	endRemoveRows();
-
-	int row = 0;
-	while (q.next()) {
-		Email e;
-		Address a;
-		Contact c;
-		QString id, name, reg_num;
-		id = q.value("id").toString();
-		name = q.value("name").toString();
-		reg_num = q.value("gov_reg_num").toString();
-		c.updateById(q.value("contact_id").toString());
-		a.updateById(q.value("location_id").toString());
-		e.updateById(q.value("email_id").toString());
-		this->o_data << (Organization(id,name,reg_num,c,e,a));
-
-		beginInsertRows(QModelIndex(), row, row);
-		o_data.insert(row, o_data.last() );
-		endInsertRows();
-		++row;
-		qCritical() << this->o_data.last().getName()
-								<< this->o_data.last().getEmail().getText();
 	}
-	return "";
+	if ( role < Qt::UserRole ) {
+		value = QSqlQueryModel::data(index, role);
+	}
+	else
+	{
+		int columnIdx = role - Qt::UserRole - 1;
+		QModelIndex modelIndex = this->index(index.row(), columnIdx);
+		value = QSqlQueryModel::data(modelIndex, Qt::DisplayRole);
+		qCritical() << Qt::DisplayRole ;
+	}
+	qCritical() << index << ":-:" << role << ":-:" << value;
+	return value;
+}
+inline void OrganizationListModel::refresh() {
+	SQL_SELECT = QString( "SELECT o.id as id, o.name as name, email.name as email, contact.name as contact,  o.gov_reg_num as gov_reg_num, c.name as country, city.name as city, l.name as address  FROM  organizations o, branches b, contacts contact, emails email, locations l,  cities city, countries c, employees e  WHERE  e.user_id = '%1'  AND b.id = e.branch_id  AND contact.id = o.contact_id  AND email.id = o.email_id AND o.id = b.organization_id AND  l.id = o.location_id  AND city.id = l.city_id  AND c.id = city.country_id  ; ").arg(User::getCurrentUser()->getId()) ;
+
+	this->roleNames();
+	this->setQuery(SQL_SELECT,Database::getDB());
 }
 
 #endif // LIST_MODELS_H
 
 #ifndef BRANCH_LIST_H
 #define BRANCH_LIST_H
-class BranchListModel : public QAbstractListModel {
-Q_OBJECT
-Q_ENUMS(Roles)
-QThread branchListThread;
+class BranchListModel : public QSqlQueryModel {
+	Q_OBJECT
+	QThread branchListThread;
 public:
-enum Roles {
-	NameRole = Qt::UserRole,
-	IdRole,
-	CodeRole,
-	EmailRole,
-	ContactRole,
-	CountryRole,
-	CityRole,
-	AddressRole
-};
-inline explicit BranchListModel(QObject *parent = nullptr) : QAbstractListModel (parent) {
-	branchListThread.start();
-}
-inline ~BranchListModel() {branchListThread.quit(); branchListThread.wait();}
-int rowCount(const QModelIndex& parent) const override;
-QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const override;
-QHash<int, QByteArray> roleNames() const override;
-public slots:
-QString refresh( const QString& id );
-private: //members
-	QHash<int,QByteArray> hash {
-		{NameRole, "name"},
-		{IdRole, "id"},
-		{CodeRole, "code"},
-		{EmailRole, "email"},
-		{ContactRole, "contact"},
-		{CountryRole, "Country"},
-		{CityRole, "city"},
-		{AddressRole, "address"}
-	};
-	QVector<Branch> b_data;
-
-};
-
-inline QHash<int, QByteArray> BranchListModel::roleNames() const { return this->hash; }
-inline int BranchListModel::rowCount(const QModelIndex &parent) const {
-	if (parent.isValid())
-		return 0;
-	return b_data.size();
-}
-inline QVariant BranchListModel::data(const QModelIndex &index, int role) const {
-	if ( !index.isValid() )
-		return QVariant();
-
-	const Branch& org = b_data.at(index.row() );
-	if ( role == NameRole )
-		return org.getName() ;
-	else if ( role == IdRole )
-		return org.getId();
-	else if ( role == CodeRole )
-		return org.getCode();
-	else if ( role == EmailRole )
-		return org.getEmail().getText();
-	else if ( role == AddressRole )
-		return org.getAddress().getName();
-	else if ( role == ContactRole )
-		return org.getContact().getText();
-	else if ( role == CountryRole )
-		return org.getAddress().getCity().getCountry().getName();
-	else
-		return QVariant();
-}
-inline QString BranchListModel::refresh( const QString& id ) {
-	QSqlQuery q = Database::rawQuery( QString("SELECT b.* FROM EMPLOYEES e, BRANCHES b, ORGANIZATIONS o WHERE e.user_id = '%1' AND e.branch_id = b.id AND b.organization_id = '%2';").arg(User::getCurrentUser()->getId(), id /** ,User::getCurrentUser->getEmployee().getBranch().getOrg().getId() **/ ) );
-	if (q.lastError().text().length()) return q.lastError().text();
-
-	beginRemoveRows(QModelIndex(), 0, b_data.size());
-	this->b_data.clear();
-	endRemoveRows();
-
-	int row = 0;
-
-	while (q.next()) {
-		Email e;
-		Address a;
-		Contact c;
-		Organization o;
-		QString bid, name, code;
-		bid = q.value("id").toString();
-		name = q.value("name").toString();
-		code = q.value("code").toString();
-		c.updateById(q.value("contact_id").toString());
-		e.updateById(q.value("email_id").toString());
-		o.getById(q.value("organization_id").toString());
-		this->b_data << ( Branch(bid,name,code,c,a,e,o) );
-
-		const Branch data = b_data.last();
-		const int rowOfInsert = row;
-
-		beginInsertRows(QModelIndex(), rowOfInsert, rowOfInsert);
-		b_data.insert(rowOfInsert, data);
-		endInsertRows();
-		++row;
-		qCritical() << this->b_data.last().getName()
-								<< this->b_data.last().getEmail().getText();
+	inline explicit BranchListModel(QObject *parent = nullptr) : QSqlQueryModel (parent) {
+		branchListThread.start();
 	}
-	qCritical() << q.size();
-	qCritical() << this->b_data.count();
+	inline ~BranchListModel() {branchListThread.quit(); branchListThread.wait();}
+	QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const override;
+	QHash<int, QByteArray> roleNames() const override;
+public slots:
+	QString refresh( const QString& id );
+private: //members
+	inline static const char* COLUMN_NAMES[] = { "id", "name", "email", "contact", "organization" };
+	inline static QString SQL_SELECT = QString( "SELECT \
+b.id as id, b.name as name,  email.name as email, c.name as contact, o.name as organization \
+FROM \
+		EMPLOYEES emp \
+LEFT JOIN BRANCHES b ON emp.branch_id = b.id \
+LEFT JOIN ORGANIZATIONS o ON b.organization_id = o.id \
+LEFT JOIN CONTACTS c ON b.contact_id = c.id \
+LEFT JOIN EMAILS email ON b.email_id = email.id \
+WHERE \
+		emp.user_id = '%1' \
+		AND b.organization_id = '%2' \
+		; ").arg(User::getCurrentUser()->getId(), "") ;
+
+};
+
+inline QHash<int, QByteArray> BranchListModel::roleNames()const {
+	int idx = 0;
+	QHash<int, QByteArray> hash;
+	while( COLUMN_NAMES[idx]) {
+		 hash[Qt::UserRole + idx + 1] = COLUMN_NAMES[idx];
+		 idx++;
+	}
+	return hash;
+}
+inline QVariant BranchListModel::data(const QModelIndex &index, int role)const {
+	QVariant value = QSqlQueryModel::data(index, role);
+	if(!index.isValid())
+	{
+		return QVariant();
+	}
+	if ( role < Qt::UserRole ) {
+		value = QSqlQueryModel::data(index, role);
+	}
+	else
+	{
+		int columnIdx = role - Qt::UserRole - 1;
+		QModelIndex modelIndex = this->index(index.row(), columnIdx);
+		value = QSqlQueryModel::data(modelIndex, Qt::DisplayRole);
+		qCritical() << Qt::DisplayRole ;
+	}
+	qCritical() << index << ":-:" << role << ":-:" << value;
+	return value;
+}
+inline QString BranchListModel::refresh( const QString& oid ) {
+	SQL_SELECT = QString( "SELECT \
+	b.id as id, b.name as name, email.name as email, c.name as contact, o.name as organization \
+	FROM \
+			EMPLOYEES emp \
+	LEFT JOIN BRANCHES b ON emp.branch_id = b.id \
+	LEFT JOIN ORGANIZATIONS o ON b.organization_id = o.id \
+	LEFT JOIN CONTACTS c ON b.contact_id = c.id \
+	LEFT JOIN EMAILS email ON b.email_id = email.id \
+	WHERE \
+			emp.user_id = '%1' \
+			AND b.organization_id = '%2' \
+			; ").arg(User::getCurrentUser()->getId(), oid) ;
+	this->roleNames();
+	this->setQuery(SQL_SELECT,Database::getDB());
+	qCritical() << SQL_SELECT;
+	if (this->query().lastError().text().length()) {
+		return this->query().lastError().text();
+	}
 	return "";
 }
+
 #endif

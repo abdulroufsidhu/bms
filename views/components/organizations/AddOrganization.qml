@@ -101,7 +101,6 @@ Page {
 					onClicked: {
 						if (image_picker.logourl.length < 1) {
 							txt_notification_text = "You must choose logo"
-							txt_notification_text = _organization_list.refresh();
 							return
 						}
 						//register_organization(QString name, QString email, QString contact, QString regNum, QString country, QString city, QString address, QUrl url)
@@ -115,6 +114,7 @@ Page {
 																				reg_org_city_et.text_data,
 																				reg_org_address_et.text_data,
 																				image_picker.logourl);
+						txt_notification_text = _organization_list.refresh();
 					}
 				}
 			}

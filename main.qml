@@ -15,7 +15,8 @@ ApplicationWindow {
 	minimumWidth: 640
 	minimumHeight: 480
 	visible: true
-	flags: "FramelessWindowHint"
+	flags: Qt.Window
+//	flags: Qt.FramelessWindowHint
 	title: qsTr("Business Management System")
 	color: secondary_color
 
@@ -57,7 +58,6 @@ ApplicationWindow {
 			Layout.fillWidth: true;
 			spacing: pixel_font_size_24
 			MyButton {
-				readonly property string logedin: _current_user.name
 				btn_text: back_btn_txt
 				btn_font_pixel_size: pixel_font_size_24
 				btn_text_color: back_btn_font_col
@@ -79,6 +79,7 @@ ApplicationWindow {
 				clip: true;
 				rightPadding: pixel_font_size_24
 				ScrollBar.horizontal.policy: ScrollBar.AlwaysOn
+				ScrollBar.vertical.policy: ScrollBar.AlwaysOn
 				Text {
 					id: txt_notification
 					text: qsTr(txt_notification_text)

@@ -12,7 +12,12 @@ Rectangle {
 	implicitWidth: mbt.implicitWidth + add_width
 	implicitHeight: mbt.implicitHeight + add_height
 	activeFocusOnTab: true
-	color: activeFocus ? skyblue_color : rootWindow.primary_button_color
+	color: rootWindow.primary_button_color
+
+	onActiveFocusChanged: {
+		opacity = activeFocus ? 0.8: 1
+	}
+
 	radius: 5
 
 	Text {
@@ -27,7 +32,13 @@ Rectangle {
 	MouseArea {
 		anchors.fill: parent
 		cursorShape: "PointingHandCursor"
-		onClicked: parent.forceActiveFocus();
+		hoverEnabled: true
+		onEntered: {
+			parent.opacity = 0.8
+		}
+		onExited: {
+			parent.opacity = 1
+		}
 	}
 
 }

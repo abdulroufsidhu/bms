@@ -82,7 +82,7 @@ Page {
 		color: primary_color
 		radius: rootWindow.pixel_font_size * 10
 		MyListView {
-			model: _organization_list
+			model: 6
 			sell_btn_item: true
 			view_btn_item: true
 			anchors.fill: parent

@@ -68,7 +68,6 @@ inline QString Organization::getById(const QString &id) {
 	}
 	return "";
 }
-
 inline QString Organization::insert(const QString &user_id, const QString &name, const QString &email_id, const QString &contact_id, const QString &reg_num, Address addr, const QUrl &urlToLocalFile) {
 	return Organization::insert(user_id,name,email_id,contact_id,reg_num,addr,urlToLocalFile.toLocalFile());
 }
@@ -150,8 +149,6 @@ inline QString Organization::insert(const QString &user_id, const QString &name,
 
 	return "";
 }
-
-Q_DECLARE_METATYPE(Organization)
 
 #endif // ORGANIZATION_H
 
@@ -251,10 +248,47 @@ inline QString Branch::insert(const Organization& org, const QString &name, cons
 	return "";
 }
 
+
 #endif // BRANCH_H
 
 #ifndef EMPLOYEE_H
 #define EMPLOYEE_H
+
+struct Job {
+private:
+	QString id, name;
+public:
+	Job() {}
+	Job(QString id, QString name) : id(id), name(name) {}
+
+	const QString& getId() const { return this->id; }
+	const QString& getName() const { return this->name; }
+
+	static QString upload(const QString& name);
+	QString getByName(const QString& name);
+	QString getById(const QString& id);
+
+};
+inline QString Job::upload(const QString &name) {
+	QSqlQuery q = Database::rawQuery( QString("INSERT INTO JOBS (name) VALUES ('%1');").arg(name) );
+	if (q.lastError().text().length()) {
+		qCritical() << q.lastError().text();
+		return q.lastError().text();
+	}
+	return "";
+}
+inline QString Job::getById(const QString &id) {
+	QSqlQuery q = Database::rawQuery( QString("SELECT name FROM JOBS WHERE id = '%1'; ").arg(id) );
+	if (q.lastError().text().length() || q.size() < 1) {
+		qCritical() <<"unable to retrieve job data" + q.lastError().text();
+		return "unable to retrieve job data: " + q.lastError().text();
+	}
+	this->id = id;
+	while (q.next()) {
+		this->name = q.value("name").toString();
+	}
+	return "";
+}
 
 #endif // EMPLOYEE_H
 

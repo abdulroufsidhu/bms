@@ -22,4 +22,7 @@ TabButton {
 		verticalAlignment: Text.AlignVCenter
 		elide: Text.ElideRight
 	}
+	hoverEnabled: true
+	opacity: hovered ? 0.8: 1
+
 }

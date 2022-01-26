@@ -24,8 +24,8 @@ int main(int argc, char *argv[])
 
 	Database *db = new Database();
 	Auth auth;
-	OrganizationListModel olm;
-	BranchListModel blm;
+	OrganizationListModel organization_list;
+	BranchListModel branch_list;
 	User *current_user = User::getCurrentUser();
 	QStringList _row_to_search = { "Item ID" , "Item Menufecturer" , "Item Vendor" , "Item Serial" , "Item Price" , "Item Name" , "Customer Name" , "Customer Contact" , "Customer National ID" };
 	QStringList _country_list = {};
@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
 	engine.rootContext()->setContextProperty("_row_to_search", QVariant::fromValue(_row_to_search));
 	engine.rootContext()->setContextProperty("_current_user", QVariant::fromValue(current_user) ) ;
 	engine.rootContext()->setContextProperty("_country_list",QVariant::fromValue(_country_list));
-	engine.rootContext()->setContextProperty("_organization_list",&olm);
-	engine.rootContext()->setContextProperty("_branch_list",&blm);
+	engine.rootContext()->setContextProperty("_organization_list",&organization_list);
+	engine.rootContext()->setContextProperty("_branch_list",&branch_list);
 	return app.exec();
 }
