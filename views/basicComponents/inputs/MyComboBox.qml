@@ -11,7 +11,7 @@ ComboBox {
 	id:cb
 	width: cb_width
 	height: cb_height
-	font.pixelSize: rootWindow.pixel_font_size_24
+	font.family: rootWindow.font.family
 	model: model_data_array
 
 	//the background of the combobox

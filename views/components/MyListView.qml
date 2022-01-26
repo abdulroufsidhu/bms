@@ -18,6 +18,7 @@ import QtQuick.Controls 2.15
 		property bool view_btn_item: false
 		property bool sell_btn_item: false
 		property bool manage_btn_org: false
+		property bool select_btn: false
 		property int total_btns: 0;
 
 		property bool orgList: false
@@ -57,9 +58,9 @@ import QtQuick.Controls 2.15
 				spacing: rootWindow.pixel_font_size * 10
 				Text {
 					id: lv_txt_delegate
-					width: lv.width -( view_item_btn.width + sell_item_btn.width + manage_org_btn.width + parent.spacing*(total_btns) )
+					width: lv.width -( view_item_btn.width + sell_item_btn.width + manage_org_btn.width + btn_select.width + parent.spacing*(total_btns) )
 					text: parent.fetchTextPattern()
-					font.pixelSize: rootWindow.pixel_font_size_24
+					font: rootWindow.font
 					elide: Text.ElideLeft
 					verticalAlignment: Text.AlignVCenter
 					horizontalAlignment: Text.AlignLeft
@@ -72,12 +73,6 @@ import QtQuick.Controls 2.15
 					width: visible ? rootWindow.pixel_font_size * sourceSize.width/3.56 : 0
 					height: rootWindow.pixel_font_size * sourceSize.height/3.56
 					anchors.verticalCenter: lvd_row.verticalCenter
-					MouseArea {
-						anchors.fill: parent
-						onClicked: {
-							txt_notification_text = _branch_list.refresh(model.id);
-						}
-					}
 				}
 
 				Image {
@@ -96,11 +91,30 @@ import QtQuick.Controls 2.15
 					height: rootWindow.pixel_font_size * sourceSize.height/2
 					anchors.verticalCenter: lvd_row.verticalCenter
 				}
+				Image {
+					id: btn_select
+					source: "qrc:/icons/icons/SelectButton.svg"
+					visible: select_btn;
+					width: visible ? rootWindow.pixel_font_size * sourceSize.width/2:0;
+					height: visible ? rootWindow.pixel_font_size * sourceSize.height/2:0;
+					anchors.verticalCenter: lvd_row.verticalCenter
+					MouseArea {
+						anchors.fill: parent
+						onClicked: parent.parent.selectButtonClicked();
+					}
+				}
+
+				function selectButtonClicked() {
+					if (orgList) {
+						txt_notification_text = _branch_list.refresh(model.id);
+						return
+					}
+				}
 
 				function fetchTextPattern() {
-					if (orgList) return "Org Name: " + name + "\ne-Mail: " + email + "\nContact: " + contact;
-					else if (branchList) return "Branch Name: " + model.name + "\ne-Mail: " + model.email + "\nContact: " + model.contact
-					else if (itemsList) return "Item Name: " + model.name + "\ne-Mail: " + model.email + "\nContact: " + model.contact
+					if (orgList) return "Name: " + model.name + "®️\n📧: " + model.email + "\n📞: " + model.contact + "\nBusiness Number: " + model.gov_reg_num;
+					else if (branchList) return "Name: " + model.name + "®️\n📧: " + model.email + "\n📞: " + model.contact + "\nBranch Code: " + model.code;
+					else if (itemsList) return "Item Name: " + model.name + "\n📧: " + model.email + "\n📞: " + model.contact
 				}
 
 			}

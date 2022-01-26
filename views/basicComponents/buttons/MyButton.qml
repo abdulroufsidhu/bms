@@ -25,6 +25,7 @@ Rectangle {
 		text: qsTr(btn_text)
 		color: btn_text_color
 		anchors.centerIn: parent
+		font.family: rootWindow.font.family
 		font.pixelSize: btn_font_pixel_size
 		font.bold: true
 	}

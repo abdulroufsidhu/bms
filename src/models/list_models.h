@@ -63,9 +63,8 @@ inline QVariant OrganizationListModel::data(const QModelIndex &index, int role)c
 		int columnIdx = role - Qt::UserRole - 1;
 		QModelIndex modelIndex = this->index(index.row(), columnIdx);
 		value = QSqlQueryModel::data(modelIndex, Qt::DisplayRole);
-		qCritical() << Qt::DisplayRole ;
 	}
-	qCritical() << index << ":-:" << role << ":-:" << value;
+//	qCritical() << value;
 	return value;
 }
 inline void OrganizationListModel::refresh() {
@@ -92,15 +91,15 @@ public:
 public slots:
 	QString refresh( const QString& id );
 private: //members
-	inline static const char* COLUMN_NAMES[] = { "id", "name", "email", "contact", "organization" };
+	inline static const char* COLUMN_NAMES[] = { "id", "name", "code", "email", "contact", "organization" };
 	inline static QString SQL_SELECT = QString( "SELECT \
-b.id as id, b.name as name,  email.name as email, c.name as contact, o.name as organization \
+b.id as id, b.name as name, b.code as code, email.name as email, c.name as contact, o.name as organization \
 FROM \
 		EMPLOYEES emp \
-LEFT JOIN BRANCHES b ON emp.branch_id = b.id \
-LEFT JOIN ORGANIZATIONS o ON b.organization_id = o.id \
-LEFT JOIN CONTACTS c ON b.contact_id = c.id \
-LEFT JOIN EMAILS email ON b.email_id = email.id \
+		LEFT JOIN BRANCHES b ON emp.branch_id = b.id \
+		LEFT JOIN ORGANIZATIONS o ON b.organization_id = o.id \
+		LEFT JOIN CONTACTS c ON b.contact_id = c.id \
+		LEFT JOIN EMAILS email ON b.email_id = email.id \
 WHERE \
 		emp.user_id = '%1' \
 		AND b.organization_id = '%2' \
@@ -131,20 +130,19 @@ inline QVariant BranchListModel::data(const QModelIndex &index, int role)const {
 		int columnIdx = role - Qt::UserRole - 1;
 		QModelIndex modelIndex = this->index(index.row(), columnIdx);
 		value = QSqlQueryModel::data(modelIndex, Qt::DisplayRole);
-		qCritical() << Qt::DisplayRole ;
 	}
-	qCritical() << index << ":-:" << role << ":-:" << value;
+//	qCritical() << value;
 	return value;
 }
 inline QString BranchListModel::refresh( const QString& oid ) {
 	SQL_SELECT = QString( "SELECT \
-	b.id as id, b.name as name, email.name as email, c.name as contact, o.name as organization \
+	b.id as id, b.name as name, b.code as code, email.name as email, c.name as contact, o.name as organization \
 	FROM \
 			EMPLOYEES emp \
-	LEFT JOIN BRANCHES b ON emp.branch_id = b.id \
-	LEFT JOIN ORGANIZATIONS o ON b.organization_id = o.id \
-	LEFT JOIN CONTACTS c ON b.contact_id = c.id \
-	LEFT JOIN EMAILS email ON b.email_id = email.id \
+			LEFT JOIN BRANCHES b ON emp.branch_id = b.id \
+			LEFT JOIN ORGANIZATIONS o ON b.organization_id = o.id \
+			LEFT JOIN CONTACTS c ON b.contact_id = c.id \
+			LEFT JOIN EMAILS email ON b.email_id = email.id \
 	WHERE \
 			emp.user_id = '%1' \
 			AND b.organization_id = '%2' \

@@ -7,7 +7,6 @@ TabButton {
 
 	text: qsTr("")
 	font.bold: true
-	font.pixelSize: rootWindow.pixel_font_size_24
 	focusPolicy: Qt.ClickFocus
 	background: Rectangle {
 		width: parent.width;

@@ -28,7 +28,7 @@ Page {
 		MyListView{
 			model: _organization_list
 			manage_btn_org: true
-			sell_btn_item: true
+			select_btn: true
 			view_btn_item: true
 			anchors.fill: parent
 			orgList: true

@@ -9,7 +9,6 @@ CheckBox {
 	property string cb_color: rootWindow.secondary_color
 	property string cb_border_color: rootWindow.primary_color
 
-	font.pixelSize: pixel_font_size_24
 	indicator: Rectangle {
 		anchors.verticalCenter: parent.verticalCenter
 		width: pixel_font_size_24 * 1.5
@@ -25,7 +24,7 @@ CheckBox {
 			text: qsTr("✔️");
 			anchors.centerIn: parent
 			color: primary_text_color;
-			font.pixelSize: pixel_font_size_24;
+			font: rootWindow.font
 		}
 	}
 	contentItem: Text{

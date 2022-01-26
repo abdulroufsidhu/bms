@@ -19,7 +19,8 @@ ApplicationWindow {
 //	flags: Qt.FramelessWindowHint
 	title: qsTr("Business Management System")
 	color: secondary_color
-
+	font.family: "arial"
+	font.pixelSize: pixel_font_size_24
 
 	readonly property int hr: rootWindow.height / 480
 	readonly property int wr: rootWindow.width / 640
@@ -37,7 +38,7 @@ ApplicationWindow {
 	readonly property string transparent_color: "#00000000"
 
 	readonly property int pixel_font_size : wr<hr?wr:hr
-	readonly property int pixel_font_size_24: pixel_font_size*24
+	readonly property int pixel_font_size_24: pixel_font_size*18
 
 	readonly property string logout_txt: "⛔ Logout"
 	readonly property string back_text: "⮌ Back"
@@ -87,10 +88,7 @@ ApplicationWindow {
 					font.pixelSize: pixel_font_size_24
 				}
 			}
-
-
 		}
-
 	}
 // without auth clicking login button is changing stacks which shall not be done.
 	StackView {
@@ -112,7 +110,6 @@ ApplicationWindow {
 				back_btn_txt = logout_txt;
 				back_btn_font_col = critical_button_color;
 			}
-
 			StackView.onRemoved: destroy();
 			readonly property bool show_tab_bar: true
 			interactive: false
@@ -133,10 +130,10 @@ ApplicationWindow {
 					anchors.fill: parent;
 					color: rootWindow.primary_color
 				}
-				MyTabButton { text: qsTr("🏠 Home") }
-				MyTabButton { text: qsTr("🗄️ Store") }
-				MyTabButton { text: qsTr("🏢 Organization") }
-				MyTabButton { text: qsTr("👤 Account") }
+				MyTabButton { text: qsTr("🏠 Home"); }
+				MyTabButton { text: qsTr("🗄️ Store"); }
+				MyTabButton { text: qsTr("🏢 Organization"); }
+				MyTabButton { text: qsTr("👤 Account"); }
 
 				function visibilityCheck() {
 					if (stack.currentItem.show_tab_bar) return true

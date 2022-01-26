@@ -18,6 +18,7 @@ Rectangle {
 		anchors.centerIn: parent
 		text: qsTr(btn_text)
 		color: btn_text_color
+		font.family: rootWindow.font.family
 		font.pixelSize: btn_text_font_size
 	}
 

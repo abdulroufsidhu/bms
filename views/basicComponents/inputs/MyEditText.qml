@@ -27,6 +27,7 @@ Rectangle {
 		selectionColor: primary_text_color
 		selectedTextColor: secondary_text_color
 		anchors.verticalCenter: parent.verticalCenter
+		font.family: rootWindow.font.family
 		font.pixelSize: rootWindow.pixel_font_size_24
 		width: parent.width
 		height: parent.height
