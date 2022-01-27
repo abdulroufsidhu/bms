@@ -19,12 +19,11 @@
 class Database : public QObject {
 	Q_OBJECT
 //	QThread db_thread; // does not integrate well with the data handeling so making auth, branch, organization and user separate threaded instead
-
 public:
 	inline Database(QObject *parent = 0) : QObject(parent) {
 //		db_thread.start();
 		open_connection();
-		close_connection();
+//		close_connection();
 	}
 	inline ~Database() {
 //		db_thread.quit();db_thread.wait();
@@ -34,21 +33,21 @@ public:
 		if (!db.isOpen()) return "unable to connect to database";
 		QSqlQuery q(db);
 		q.exec(query);
-		close_connection();
+//		close_connection();
 		return q.lastError().text();
 	}
 
 	inline static QSqlQuery rawQuery(QString query) {
-		if (db.isOpen()) db.close();
+		if (!db.isOpen()) // db.close();
 		db.open();
 		QSqlQuery q(db);
 		q.exec(query);
-		db.close();
+//		// db.close();
 		return q;
 	}
 
 	inline static QSqlDatabase& getDB() {
-		if (db.isOpen()) db.close();
+		if (!db.isOpen()) // db.close();
 		db.open();
 		return Database::db;
 	}
@@ -56,11 +55,11 @@ public:
 private:
 	inline static QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL");
 	inline Q_INVOKABLE void close_connection() {
-		db.close();
+		// db.close();
 	}
 
 	inline Q_INVOKABLE bool open_connection() {
-		db.setHostName("127.0.0.1");
+		db.setHostName("localhost");
 		db.setDatabaseName("bmst");
 		db.setUserName("bmst_user");
 		db.setPassword("allah");

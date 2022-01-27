@@ -27,7 +27,7 @@ Page {
 
 			MyImage {
 				id: img_profite_acc
-				source: _current_user.image.data
+				source: _current_user.image
 				Layout.alignment: Layout.Center
 
 			}

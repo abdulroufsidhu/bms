@@ -103,23 +103,33 @@ Page {
 							txt_notification_text = "You must choose logo"
 							return
 						}
-						//register_organization(QString name, QString email, QString contact, QString regNum, QString country, QString city, QString address, QUrl url)
-						txt_notification_text = _auth.register_organization(
-																				_current_user.id,
-																				reg_org_name_et.text_data,
-																				reg_org_email_et.text_data,
-																				reg_org_contact_et.text_data,
-																				reg_org_reg_number_et.text_data,
-																				reg_org_country_cb.currentValue,
-																				reg_org_city_et.text_data,
-																				reg_org_address_et.text_data,
-																				image_picker.logourl);
+						_auth.register_organization(
+									_current_user.id, reg_org_name_et.text_data,
+									reg_org_email_et.text_data, reg_org_contact_et.text_data,
+									reg_org_reg_number_et.text_data,
+									reg_org_country_cb.currentValue,
+									reg_org_city_et.text_data, reg_org_address_et.text_data,
+									image_picker.logourl
+								);
+					}
+				}
+
+				Connections {
+					target: _auth;
+					function onOrgRegistered(r) {
+						txt_notification_text = r;
+						reg_org_email_et.text_data = "";
+						reg_org_name_et.text_data = "";
+						reg_org_reg_number_et.text_data = "";
+						reg_org_address_et.text_data = "";
+						reg_org_email_et.text_data = "";
+						reg_org_contact_et.text_data = "";
+						reg_org_city_et.text_data = "";
 						txt_notification_text = _organization_list.refresh();
+						stack.pop();
 					}
 				}
 			}
-
 		}
 	}
-
 }

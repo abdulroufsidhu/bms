@@ -80,7 +80,7 @@ inline QString Organization::insert(const QString &user_id, const QString &name,
 	qCritical() << "inserting email";
 	if (!q.exec( QString("INSERT INTO EMAILS (name) VALUES ('%1') RETURNING id;").arg(email))  || q.lastError().text().length() ) {
 		q.exec("ROLLBACK;");
-		db.close();
+		// db.close();
 		qCritical() << q.lastError().text();
 		return q.lastError().text();
 	}
@@ -90,7 +90,7 @@ inline QString Organization::insert(const QString &user_id, const QString &name,
 	qCritical() << " :inserting contact";
 	if (!q.exec( QString("INSERT INTO CONTACTS (name) VALUES (%1) RETURNING id;").arg(contact) ) || q.lastError().text().length()) {
 		q.exec("ROLLBACK;");
-		db.close();
+		// db.close();
 		qCritical() << q.lastError().text();
 		return q.lastError().text();
 	}
@@ -100,7 +100,7 @@ inline QString Organization::insert(const QString &user_id, const QString &name,
 	qCritical() << "inserting organization details";
 	if (!q.exec( QString("INSERT INTO ORGANIZATIONS (name, email_id, contact_id, gov_reg_num, location_id) VALUES ('%1','%2','%3','%4','%5') RETURNING id ; " ).arg(name, eid, pid, reg_num, addr.getId() ) ) || q.lastError().text().length() ) {
 		q.exec("ROLLBACK;");
-		db.close();
+		// db.close();
 		qCritical() << q.lastError().text();
 		return q.lastError().text();
 	}
@@ -108,9 +108,9 @@ inline QString Organization::insert(const QString &user_id, const QString &name,
 		id = q.value("id").toString();
 	}
 	qCritical() << "inserting main branch";
-	if (!q.exec( QString("INSERT INTO BRANCHES (name, code, email_id, contact_id, organization_id) VALUES ('main','B-786','%1','%2','%3') RETURNING id; ").arg(eid,pid,id) ) || q.lastError().text().length() ) {
+	if (!q.exec( QString("INSERT INTO BRANCHES (name, code, email_id, contact_id, organization_id, location_id) VALUES ('main','B-786','%1','%2','%3', '%4') RETURNING id; ").arg(eid,pid,id,addr.getId()) ) || q.lastError().text().length() ) {
 		q.exec("ROLLBACK;");
-		db.close();
+		// db.close();
 		qCritical() << q.lastError().text();
 		return q.lastError().text();
 	}
@@ -121,7 +121,7 @@ inline QString Organization::insert(const QString &user_id, const QString &name,
 	q.exec( "INSERT INTO JOBS(name) SELECT 'OWNER' WHERE NOT EXISTS (SELECT name FROM JOBS WHERE name = 'OWNER') ;" );
 	if (!q.exec( QString("SELECT id FROM JOBS WHERE name = 'OWNER';") ) || q.lastError().text().length() ) {
 		q.exec("ROLLBACK;");
-		db.close();
+		// db.close();
 		qCritical() << q.lastError().text();
 		return q.lastError().text();
 	}
@@ -131,14 +131,14 @@ inline QString Organization::insert(const QString &user_id, const QString &name,
 	qCritical() << "inserting employee";
 	if (!q.exec( QString("INSERT INTO EMPLOYEES ( user_id, branch_id, job_id, currency_id) SELECT '%1','%2','%3', id FROM CURRENCY WHERE name = 'Pakistani Rupees'; ").arg(user_id,bid,jid) ) || q.lastError().text().length() ) {
 		q.exec("ROLLBACK;");
-		db.close();
+		// db.close();
 		qCritical() << q.lastError().text();
 		return q.lastError().text();
 	}
 	qCritical() << "ending transaction";
 	if (!q.exec("COMMIT;") || q.lastError().text().length()) {
 		q.exec("ROLLBACK;");
-		db.close();
+		// db.close();
 		return q.lastError().text();
 	}
 	qCritical() << "organization insertion performed new id :-> " << id ;
@@ -199,7 +199,7 @@ inline QString Branch::insert(const Organization& org, const QString &name, cons
 	QSqlDatabase db = Database::getDB();
 	QSqlQuery q(db);
 	if (!q.exec("BEGIN;") || q.lastError().text().length()) {
-		db.close();
+		// // db.close();
 		qCritical() << q.lastError().text();
 		return q.lastError().text();
 	}
@@ -207,7 +207,7 @@ inline QString Branch::insert(const Organization& org, const QString &name, cons
 	qCritical() << "inserting contact";
 	if (!q.exec(QString("INSERT INTO CONTACTS (name) VALUES ('%1') RETURNING id;").arg(contact) ) || q.lastError().text().length() ) {
 		q.exec("ROLLBACK;");
-		db.close();
+		// db.close();
 		qCritical() << q.lastError().text();
 		return q.lastError().text();
 	}
@@ -217,7 +217,7 @@ inline QString Branch::insert(const Organization& org, const QString &name, cons
 	qCritical() << "inserting email";
 	if (!q.exec( QString("INSERT INTO EMAILS (name) VALUES ('%1') RETURNING id;").arg(email) ) || q.lastError().text().length() ) {
 		q.exec("ROLLBACK;");
-		db.close();
+		// db.close();
 		qCritical() << q.lastError().text();
 		return q.lastError().text();
 	}
@@ -226,9 +226,9 @@ inline QString Branch::insert(const Organization& org, const QString &name, cons
 	}
 
 	qCritical() << "inserting branch";
-	if (!q.exec( QString("INSERT INTO BRANCHES(name, code, email_id, contact_id, organization_id ) VALUES ( '%1','%2','%3','%4','%5' ) RETURNING id ; ").arg(name,code,eid,pid,org.getId()) ) || q.lastError().text().length() ) {
+	if (!q.exec( QString("INSERT INTO BRANCHES(name, code, email_id, contact_id, organization_id, location_id ) VALUES ( '%1','%2','%3','%4','%5','%6' ) RETURNING id ; ").arg(name,code,eid,pid,org.getId(),address.getId()) ) || q.lastError().text().length() ) {
 		q.exec("ROLLBACK;");
-		db.close();
+		// db.close();
 		qCritical() << q.lastError().text();
 		return q.lastError().text();
 	}
@@ -237,11 +237,11 @@ inline QString Branch::insert(const Organization& org, const QString &name, cons
 	}
 	if (!q.exec("COMMIT;") || q.lastError().text().length() ) {
 		q.exec("ROLLBACK;");
-		db.close();
+		// db.close();
 		qCritical() << q.lastError().text();
 		return q.lastError().text();
 	}
-	db.close();
+	// db.close();
 	this->image.uploadImage(pathToLocalFile,id);
 	qCritical() << "operation successfully completed";
 
@@ -251,8 +251,8 @@ inline QString Branch::insert(const Organization& org, const QString &name, cons
 
 #endif // BRANCH_H
 
-#ifndef EMPLOYEE_H
-#define EMPLOYEE_H
+#ifndef JOB_H
+#define JOB_H
 
 struct Job {
 private:
@@ -289,6 +289,55 @@ inline QString Job::getById(const QString &id) {
 	}
 	return "";
 }
+inline QString Job::getByName(const QString &name) {
+	QSqlQuery q = Database::rawQuery( QString("SELECT id FROM JOBS WHERE name = '%1'").arg(name) );
+	if (q.lastError().text().length()) return q.lastError().text();
+	if (q.size()<1) return "no data found";
+	this->name = name;
+	while (q.next()) {
+		this->id = q.value("id").toString();
+	}
+	return "";
+}
 
-#endif // EMPLOYEE_H
+#endif // JOB_H
+
+#ifndef EMPLOYEE_H
+#define EMPLOYEE_H
+
+struct Employee {
+private:
+	QString id, salary, currency, curr_symbol;
+	Job job;
+	Branch branch;
+public:
+	inline const Job& getJob() const { return this->job; }
+	inline const QString& getId() const { return this->id; }
+	inline const Branch& getBranch() const { return this->branch; }
+	inline const QString& getSalary() const { return this->salary; }
+	inline const QString& getCurrency() const { return this->currency; }
+	inline const QString& getCurrSymbol() const { return this->curr_symbol; }
+
+	QString getByEmail ( const QString& email ) ;
+	QString getByBranchId( const QString& bid) ;
+	QString getByOrgId( const QString& oid ) ;
+	QString getById( const QString& id ) ;
+
+};
+
+inline QString Employee::getById(const QString &id) {
+	QSqlQuery q = Database::rawQuery( QString("SELECT * FROM EMPLOYEES WHERE id = '%1'").arg(id) );
+	if (q.lastError().text().length()) return q.lastError().text();
+	if (q.size()<1) return "no data found";
+	while (q.next()) {
+		this->id = q.value("id").toString();
+		this->salary = q.value("salary").toString();
+		this->branch.getById( q.value("branch_id").toString());
+		this->job.getById(q.value("job_id").toString());
+	}
+	return "";
+}
+
+
+#endif
 

@@ -147,43 +147,52 @@ Page {
 			MyButton {
 				btn_text: "Signup"
 				MouseArea {
+					property bool signup_btn_clicked: false
 					anchors.fill: parent
 					onClicked: {
-						var t_city, t_country, t_address, p_city, p_country, p_address;
-						p_city = signup_perm_city.text_data;
-						p_country = signup_perm_country.currentValue;
-						p_address = signup_perm_address.text_data;
-						t_city = signup_temp_city.text_data;
-						t_country = signup_temp_country.currentValue;
-						t_address = signup_temp_address.text_data;
-						if (t_addr_same_as_p.checked) {
-							t_address = p_address;
-							t_city = p_city;
-							t_country = p_country;
+						if (!signup_btn_clicked) {
+							var t_city, t_country, t_address, p_city, p_country, p_address;
+							p_city = signup_perm_city.text_data;
+							p_country = signup_perm_country.currentValue;
+							p_address = signup_perm_address.text_data;
+							t_city = signup_temp_city.text_data;
+							t_country = signup_temp_country.currentValue;
+							t_address = signup_temp_address.text_data;
+							if (t_addr_same_as_p.checked) {
+								t_address = p_address;
+								t_city = p_city;
+								t_country = p_country;
+							}
+							_auth.signup(
+										signup_full_name.text_data,
+										signup_email.text_data,
+										signup_contact.text_data,
+										signup_cnic.text_data,
+										signup_password.text_data,
+										signup_conf_password.text_data,
+										p_country,
+										p_city,
+										p_address,
+										t_country,
+										t_city,
+										t_address
+										);
 						}
+						signup_btn_clicked = true;
+					}
+				}
 
-						output.text = "";
-						output.text = _auth.signup(
-									signup_full_name.text_data,
-									signup_email.text_data,
-									signup_contact.text_data,
-									signup_cnic.text_data,
-									signup_password.text_data,
-									signup_conf_password.text_data,
-									p_country,
-									p_city,
-									p_address,
-									t_country,
-									t_city,
-									t_address
-									);
-						if (output.text.length < 1) {
+				Connections {
+					target: _auth
+					function onSignedUp(r) {
+						txt_notification_text = r;
+						if (!txt_notification_text.length) {
 							stack.pop(null);
 							stack.push(s_v_component);
 						}
-
 					}
 				}
+
 			}
 		}
 	}

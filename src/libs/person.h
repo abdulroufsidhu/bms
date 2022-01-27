@@ -268,7 +268,7 @@ inline QString Person::insert(
 	if (!q.lastError().text().isEmpty()) {
 		 err = q.lastError().text();
 		 q.exec("ROLLBACK;");
-		 db.close();
+		 // db.close();
 		 return err;
 	}
 	QString eid = "";
@@ -281,7 +281,7 @@ inline QString Person::insert(
 	if (!q.lastError().text().isEmpty()) {
 		 err = q.lastError().text();
 		 q.exec("ROLLBACK;");
-		 db.close();
+		 // db.close();
 		 return err;
 	}
 	QString cid = "";
@@ -294,7 +294,7 @@ inline QString Person::insert(
 	if (!q.lastError().text().isEmpty()) {
 		 err = q.lastError().text();
 		 q.exec("ROLLBACK;");
-		 db.close();
+		 // db.close();
 		 return err;
 	}
 	QString pid = "";
@@ -307,14 +307,14 @@ inline QString Person::insert(
 	if (!q.lastError().text().isEmpty()) {
 		err = q.lastError().text();
 		q.exec("ROLLBACK;");
-		db.close();
+		// db.close();
 		return err;
 	}
 	while (q.next()) {
 		this->id = q.value(0).toString();
 	}
 	q.exec("COMMIT;");
-	db.close();
+	// db.close();
 // ----------------------------------------------
 	return err;
 }

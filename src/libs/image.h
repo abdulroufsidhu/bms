@@ -37,11 +37,11 @@ inline bool Image::uploadImage(const QString &pathToFile, QString &owner_id) {
 
 	QSqlDatabase db = Database::getDB();
 	QSqlQuery q(db);
-	q.prepare( QString("INSERT INTO images (owner_id) SELECT :id WHERE NOT EXISTS(SELECT id FROM IMAGES WHERE owner_id = :id ); " ) );
-	q.bindValue(":id",owner_id);
-	if (!q.exec() || q.lastError().text().length()) {
+//	q.prepare( QString("INSERT INTO images (owner_id) SELECT :id WHERE NOT EXISTS ( SELECT id FROM images WHERE owner_id = :id ) ; " ) );
+//	q.bindValue(":id",owner_id);
+	if (!q.exec( QString("INSERT INTO IMAGES (owner_id) SELECT '%1' WHERE NOT EXISTS ( SELECT id FROM IMAGES WHERE owner_id = '%1' ); ").arg(owner_id) ) || q.lastError().text().length()) {
 		qCritical() << q.lastQuery() << "    >--->>    " << q.lastError().text();
-		db.close();
+		// db.close();
 		return false;
 	}
 	q.clear();
@@ -50,10 +50,10 @@ inline bool Image::uploadImage(const QString &pathToFile, QString &owner_id) {
 	q.bindValue(":data", qba);
 	if (!q.exec() || q.lastError().text().length()) {
 		qCritical() << q.lastQuery() << "    >--->>    " << q.lastError().text();
-		db.close();
+		// db.close();
 		return false;
 	}
-	db.close();
+	// // db.close();
 	qCritical() << "image processed successfully";
 
 	return true;

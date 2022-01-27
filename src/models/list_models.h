@@ -149,7 +149,7 @@ inline QString BranchListModel::refresh( const QString& oid ) {
 			; ").arg(User::getCurrentUser()->getId(), oid) ;
 	this->roleNames();
 	this->setQuery(SQL_SELECT,Database::getDB());
-	qCritical() << SQL_SELECT;
+//	qCritical() << SQL_SELECT;
 	if (this->query().lastError().text().length()) {
 		return this->query().lastError().text();
 	}

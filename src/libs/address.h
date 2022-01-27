@@ -82,7 +82,7 @@ inline QString City::updateById(const QString &id) {
 	QSqlDatabase db = Database::getDB();
 	QSqlQuery q(db);
 	q.exec( QString("SELECT name, country_id FROM CITIES WHERE id = '%1'").arg(id) );
-	db.close();
+	// db.close();
 	if (!q.lastError().text().isEmpty()) return q.lastError().text();
 	QString t_cid = "";
 	while (q.next()) {

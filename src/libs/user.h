@@ -8,11 +8,11 @@ class User: public QObject {
 	Q_OBJECT
 	Q_PROPERTY(QString id READ getId )
 	Q_PROPERTY(Person person READ getPerson NOTIFY personChanged)
-	Q_PROPERTY(Image image READ getImage NOTIFY imageChanged )
+	Q_PROPERTY(QByteArray image READ getImage NOTIFY imageChanged )
 private:
 	QString id;
 	Person person = Person();
-	Image image = Image("qrc:/icons/icons/user-profile 1.svg");
+	QByteArray image = "qrc:/icons/icons/user-profile 1.svg";
 
 	inline static User *current_user = nullptr;
 
@@ -38,7 +38,7 @@ public:
 	Person &getPerson() ;
 	void setPerson(Person &newPerson);
 
-	Image& getImage();
+	QByteArray& getImage();
 	Q_INVOKABLE bool setImage(QUrl url) ;
 
 	void loadImage();
@@ -94,15 +94,24 @@ inline QString User::updateByPersonId(QString &pid, QString &password) {
 
 }
 inline bool User::setImage(QUrl url) {
-	return this->image.uploadImage(url.toLocalFile(),this->id);
+	Image i = Image(url.toLocalFile().toStdString().c_str());
+	bool b = i.uploadImage(url.toLocalFile(),this->id);
+	if (b) {
+		i.loadImage(this->id);
+		this->image = i.getData();
+		emit imageChanged();
+	}
+	return b;
 }
 
-inline Image& User::getImage() {
+inline QByteArray& User::getImage() {
 	return this->image;
 }
 
 inline void User::loadImage() {
-	this->image.loadImage(this->id);
+	Image i = Image("qrc:/icons/icons/user-profile 1.svg");
+	i.loadImage(this->id);
+	this->image = i.getData();
 	emit imageChanged();
 }
 

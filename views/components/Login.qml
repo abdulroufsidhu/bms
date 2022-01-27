@@ -44,30 +44,34 @@ Rectangle {
 			}
 
 			MyButton{
+				property bool login_btn_clicked: false
 				btn_text: "Login";
 				btn_text_color: rootWindow.secondary_text_color;
 				btn_font_pixel_size: rootWindow.pixel_font_size_24;
-				Keys.onEnterPressed: {
-					login();
-				}
+				Keys.onEnterPressed: _auth.login( login_email.text_data, login_password.text_data );
 				MouseArea {
 					anchors.fill: parent
 					onClicked: {
-						parent.login();
+						if (!parent.login_btn_clicked) {
+							_auth.login( login_email.text_data.toString(), login_password.text_data.toString() );
+						}
+						parent.login_btn_clicked = false;
+						parent.opacity = 0.5
 					}
 				}
-				function login() {
-					// going to next screen without auth for testing purposes
-					output.text = _auth.login(login_email.text_data,login_password.text_data);
-					if (!output.text.length) {
-						login_email.text_data = "";
-						login_password.text_data = "";
-						stack.pop(null);
-						stack.push(s_v_component);
-						txt_notification_text = _organization_list.refresh();
+
+				Connections {
+					target: _auth;
+					function onLogedIn(r) {
+						txt_notification_text = r;
+						if (!txt_notification_text.length) {
+							login_email.text_data = "";
+							login_password.text_data = "";
+							stack.pop(null);
+							stack.push(s_v_component);
+							txt_notification_text = _organization_list.refresh();
+						}
 					}
-					// stack.pop(null);
-					// stack.push(s_v_component);
 				}
 			}
 		}

@@ -70,8 +70,8 @@ CREATE TABLE IF NOT EXISTS USERS (
 
 CREATE TABLE IF NOT EXISTS IMAGES (
 	id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-	data BYTEA NOT NULL,
-	owmer_id VARCHAR(40) not null, -- cannot have unique or refrence because they could vary based on user organization or task soo whoever owns it is different.
+	data BYTEA,
+	owner_id VARCHAR(40) not null, -- cannot have unique or refrence because they could vary based on user organization or task soo whoever owns it is different.
 	time_stamp TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
@@ -132,7 +132,7 @@ CREATE TABLE IF NOT EXISTS EMPLOYEES /*will be dynamically created by organizati
 	branch_id UUID REFERENCES BRANCHES(id) NOT NULL,
 	job_id UUID REFERENCES JOBS (id) NOT NULL,
 	salary NUMERIC NOT NULL DEFAULT 0,
-	currency_id UUID REFERENCES CURRENCY (id) NOT NULL DEFAULT SELECT id FROM CURRENCY c WHERE name = 'Pakistani Rupees',
+	currency_id UUID REFERENCES CURRENCY (id),
   time_stamp TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,
   UNIQUE (user_id, branch_id, job_id)
 );
