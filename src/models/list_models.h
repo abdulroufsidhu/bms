@@ -17,13 +17,12 @@ public:
 	QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const override;
 	QHash<int, QByteArray> roleNames() const override;
 public slots:
-	void refresh();
+	QString refresh();
 private: //members
-	inline static const char* COLUMN_NAMES[] = { "id", "name", "email", "contact", "gov_reg_num", "country", "city", "address" };
+	inline static const char* COLUMN_NAMES[] = { "id", "name", "email", "contact", "gov_reg_num", "country", "city", "address", "employee_id" };
 	inline static QString SQL_SELECT = QString( " \
 SELECT \
-		o.id as id, o.name as name, email.name as email, contact.name as contact, \
-		o.gov_reg_num as gov_reg_num, c.name as country, city.name as city, l.name as address \
+		o.id as id, o.name as name, email.name as email, contact.name as contact, o.gov_reg_num as gov_reg_num, c.name as country, city.name as city, l.name as address, e.id as employee_id \
 FROM \
 		organizations o, branches b, contacts contact, emails email, locations l, \
 		cities city, countries c, employees e \
@@ -40,7 +39,7 @@ WHERE \
 
 };
 
-inline QHash<int, QByteArray> OrganizationListModel::roleNames()const {
+inline QHash<int, QByteArray> OrganizationListModel::roleNames () const {
 	int idx = 0;
 	QHash<int, QByteArray> hash;
 	while( COLUMN_NAMES[idx]) {
@@ -49,7 +48,7 @@ inline QHash<int, QByteArray> OrganizationListModel::roleNames()const {
 	}
 	return hash;
 }
-inline QVariant OrganizationListModel::data(const QModelIndex &index, int role)const {
+inline QVariant OrganizationListModel::data (const QModelIndex &index, int role) const {
 	QVariant value = QSqlQueryModel::data(index, role);
 	if(!index.isValid())
 	{
@@ -67,14 +66,15 @@ inline QVariant OrganizationListModel::data(const QModelIndex &index, int role)c
 //	qCritical() << value;
 	return value;
 }
-inline void OrganizationListModel::refresh() {
-	SQL_SELECT = QString( "SELECT o.id as id, o.name as name, email.name as email, contact.name as contact,  o.gov_reg_num as gov_reg_num, c.name as country, city.name as city, l.name as address  FROM  organizations o, branches b, contacts contact, emails email, locations l,  cities city, countries c, employees e  WHERE  e.user_id = '%1'  AND b.id = e.branch_id  AND contact.id = o.contact_id  AND email.id = o.email_id AND o.id = b.organization_id AND  l.id = o.location_id  AND city.id = l.city_id  AND c.id = city.country_id  ; ").arg(User::getCurrentUser()->getId()) ;
+inline QString OrganizationListModel::refresh () {
+	SQL_SELECT = QString( "SELECT o.id as id, o.name as name, email.name as email, contact.name as contact,  o.gov_reg_num as gov_reg_num, c.name as country, city.name as city, l.name as address, e.id as employee_id  FROM  organizations o, branches b, contacts contact, emails email, locations l,  cities city, countries c, employees e  WHERE  e.user_id = '%1'  AND b.id = e.branch_id  AND contact.id = o.contact_id  AND email.id = o.email_id AND o.id = b.organization_id AND  l.id = o.location_id  AND city.id = l.city_id  AND c.id = city.country_id  ; ").arg(User::getCurrentUser()->getId()) ;
 
 	this->roleNames();
 	this->setQuery(SQL_SELECT,Database::getDB());
+	if (this->query().size() < 1) return "You are not registered with any organization";
+	return "";
 }
-
-#endif // LIST_MODELS_H
+#endif // ORGANIZATION_LIST_H
 
 #ifndef BRANCH_LIST_H
 #define BRANCH_LIST_H
@@ -107,7 +107,7 @@ WHERE \
 
 };
 
-inline QHash<int, QByteArray> BranchListModel::roleNames()const {
+inline QHash<int, QByteArray> BranchListModel::roleNames () const {
 	int idx = 0;
 	QHash<int, QByteArray> hash;
 	while( COLUMN_NAMES[idx]) {
@@ -116,7 +116,7 @@ inline QHash<int, QByteArray> BranchListModel::roleNames()const {
 	}
 	return hash;
 }
-inline QVariant BranchListModel::data(const QModelIndex &index, int role)const {
+inline QVariant BranchListModel::data (const QModelIndex &index, int role) const {
 	QVariant value = QSqlQueryModel::data(index, role);
 	if(!index.isValid())
 	{
@@ -134,7 +134,7 @@ inline QVariant BranchListModel::data(const QModelIndex &index, int role)const {
 //	qCritical() << value;
 	return value;
 }
-inline QString BranchListModel::refresh( const QString& oid ) {
+inline QString BranchListModel::refresh (const QString& oid) {
 	SQL_SELECT = QString( "SELECT \
 	b.id as id, b.name as name, b.code as code, email.name as email, c.name as contact, o.name as organization \
 	FROM \
@@ -155,5 +155,4 @@ inline QString BranchListModel::refresh( const QString& oid ) {
 	}
 	return "";
 }
-
 #endif

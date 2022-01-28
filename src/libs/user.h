@@ -13,7 +13,6 @@ private:
 	QString id;
 	Person person = Person();
 	QByteArray image = "qrc:/icons/icons/user-profile 1.svg";
-
 	inline static User *current_user = nullptr;
 
 signals:
@@ -103,11 +102,9 @@ inline bool User::setImage(QUrl url) {
 	}
 	return b;
 }
-
 inline QByteArray& User::getImage() {
 	return this->image;
 }
-
 inline void User::loadImage() {
 	Image i = Image("qrc:/icons/icons/user-profile 1.svg");
 	i.loadImage(this->id);

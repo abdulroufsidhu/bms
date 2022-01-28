@@ -12,6 +12,7 @@ ComboBox {
 	width: cb_width
 	height: cb_height
 	font.family: rootWindow.font.family
+	font.pixelSize: rootWindow.font.pixelSize
 	model: model_data_array
 
 	//the background of the combobox
@@ -83,7 +84,6 @@ ComboBox {
 			id:listView
 			implicitHeight: contentHeight
 			model: cb.popup.visible ? cb.delegateModel : null
-
 			ScrollIndicator.vertical: ScrollIndicator { }
 		}
 

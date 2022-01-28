@@ -86,6 +86,12 @@ ApplicationWindow {
 					text: qsTr(txt_notification_text)
 					color: txt_notification_col
 					font.pixelSize: pixel_font_size_24
+					onTextChanged: {
+						if (text.length) {
+							notification_popup.popup_text = text;
+							notification_popup.open();
+						}
+					}
 				}
 			}
 		}
@@ -119,6 +125,44 @@ ApplicationWindow {
 			StorePage {}
 			OrganizationPage {}
 			AccountPage {}
+		}
+	}
+
+	Popup {
+		id: busy_indicator_popup
+		anchors.centerIn: parent
+		modal: true
+		focus: true
+		padding: pixel_font_size_24
+		background: Rectangle {
+			anchors.fill: parent
+			color: secondary_color
+			radius: pixel_font_size*10
+		}
+		closePolicy: Popup.NoAutoClose // | Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+		BusyIndicator {
+			running: true
+		}
+	}
+
+	Popup {
+		property string popup_text: "";
+		id: notification_popup
+		anchors.centerIn: parent
+		modal: true
+		focus: true
+		padding: pixel_font_size_24
+		background: Rectangle {
+			anchors.fill: parent
+			color: secondary_color
+			radius: pixel_font_size*10
+		}
+		closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+		Text {
+			id: notif_popup_msg
+			text: qsTr(notification_popup.popup_text)
+			font: rootWindow.font
+			color: rootWindow.primary_text_color
 		}
 	}
 

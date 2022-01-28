@@ -23,39 +23,39 @@ Page {
 			width: rootWindow.width - pixel_font_size_24*2;
 
 			MyEditText {
-				id: reg_org_name_et
-				hint: "Organization Name"
+				id: reg_branch_name_et
+				hint: "branch Name"
 				Layout.fillWidth: true;
 			}
 			MyEditText {
-				id: reg_org_contact_et
-				hint: "Organization Contact"
+				id: reg_branch_contact_et
+				hint: "branch Contact"
 				Layout.fillWidth: true;
 			}
 			MyEditText {
-				id: reg_org_email_et
-				hint: "Organization Email"
+				id: reg_branch_email_et
+				hint: "branch Email"
 				Layout.fillWidth: true;
 			}
 			MyComboBox {
-				id: reg_org_country_cb
+				id: reg_branch_country_cb
 				model_data_array: _country_list
 				Layout.fillWidth: true;
 			}
 
 			MyEditText {
-				id: reg_org_city_et
+				id: reg_branch_city_et
 				hint: "City"
 				Layout.fillWidth: true;
 			}
 			MyEditText {
-				id: reg_org_address_et
-				hint: "Organization Address"
+				id: reg_branch_address_et
+				hint: "branch Address"
 				Layout.fillWidth: true;
 			}
 			MyEditText {
-				id: reg_org_reg_number_et
-				hint: "Organization Registeration Number by government (NTN)"
+				id: reg_branch_reg_number_et
+				hint: "branch Registeration Number by government (NTN)"
 				Layout.fillWidth: true;
 			}
 			MyButton {
@@ -74,26 +74,11 @@ Page {
 				}
 			}
 
-			FileDialog {
-				property string logourl: ""
-				id: image_picker
-				title: qsTr("Please choose a file")
-				nameFilters: [ "Image files (*.png *.jpg)"]
-				//					nameFilters: [ "Image files (*.jpg *.png *.jpeg *.svg)"]
-				onAccepted: {
-					logourl = image_picker.fileUrl
-				}
-
-				onRejected: {
-					txt_notification_text = "You must select your organization's logo";
-				}
-			}
-
 			MyButton {
 				color: rootWindow.primary_button_color
 				add_width: 32
 				add_height: 0
-				btn_text: "Register New Organization®️ "
+				btn_text: "Register New branch®️ "
 				btn_font_pixel_size: pixel_font_size_24*1.5
 				btn_text_color: rootWindow.secondary_text_color
 
@@ -104,16 +89,15 @@ Page {
 							txt_notification_text = "You must choose logo"
 							return
 						}
-						busy_indicator_popup.open();
-						_auth.register_organization(
+						_auth.register_branch(
 									_current_user.id,
-									reg_org_name_et.text_data,
-									reg_org_email_et.text_data,
-									reg_org_contact_et.text_data,
-									reg_org_reg_number_et.text_data,
-									reg_org_country_cb.currentValue,
-									reg_org_city_et.text_data,
-									reg_org_address_et.text_data,
+									reg_branch_name_et.text_data,
+									reg_branch_email_et.text_data,
+									reg_branch_contact_et.text_data,
+									reg_branch_reg_number_et.text_data,
+									reg_branch_country_cb.currentValue,
+									reg_branch_city_et.text_data,
+									reg_branch_address_et.text_data,
 									image_picker.logourl
 								);
 					}
@@ -123,16 +107,15 @@ Page {
 					target: _auth;
 					function onOrgRegistered(r) {
 						txt_notification_text = r;
-						reg_org_email_et.text_data = "";
-						reg_org_name_et.text_data = "";
-						reg_org_reg_number_et.text_data = "";
-						reg_org_address_et.text_data = "";
-						reg_org_email_et.text_data = "";
-						reg_org_contact_et.text_data = "";
-						reg_org_city_et.text_data = "";
-						txt_notification_text = _organization_list.refresh();
-						busy_indicator_popup.close();
-						stack.pop();
+						reg_branch_email_et.text_data = "";
+						reg_branch_name_et.text_data = "";
+						reg_branch_reg_number_et.text_data = "";
+						reg_branch_address_et.text_data = "";
+						reg_branch_email_et.text_data = "";
+						reg_branch_contact_et.text_data = "";
+						reg_branch_city_et.text_data = "";
+						txt_notification_text = _branch_list.refresh();
+						rootWindow.stack.pop();
 					}
 				}
 			}

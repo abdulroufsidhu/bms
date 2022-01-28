@@ -147,10 +147,9 @@ Page {
 			MyButton {
 				btn_text: "Signup"
 				MouseArea {
-					property bool signup_btn_clicked: false
 					anchors.fill: parent
 					onClicked: {
-						if (!signup_btn_clicked) {
+							busy_indicator_popup.open();
 							var t_city, t_country, t_address, p_city, p_country, p_address;
 							p_city = signup_perm_city.text_data;
 							p_country = signup_perm_country.currentValue;
@@ -177,19 +176,18 @@ Page {
 										t_city,
 										t_address
 										);
-						}
-						signup_btn_clicked = true;
 					}
 				}
-
 				Connections {
 					target: _auth
 					function onSignedUp(r) {
 						txt_notification_text = r;
 						if (!txt_notification_text.length) {
+							busy_indicator_popup.close();
 							stack.pop(null);
 							stack.push(s_v_component);
 						}
+						busy_indicator_popup.close();
 					}
 				}
 

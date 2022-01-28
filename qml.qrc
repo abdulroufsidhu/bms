@@ -19,5 +19,7 @@
         <file>views/basicComponents/dialogues/MyFileDialogue.qml</file>
         <file>views/basicComponents/graphics/MyImage.qml</file>
         <file>views/components/organizations/AddOrganization.qml</file>
+        <file>views/components/organizations/ViewOrganization.qml</file>
+        <file>views/components/branches/AddBranch.qml</file>
     </qresource>
 </RCC>

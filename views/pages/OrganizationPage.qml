@@ -4,6 +4,7 @@ import QtGraphicalEffects 1.0
 import "../"
 import "../components"
 import "../components/organizations/"
+import "../components/branches"
 import "../basicComponents/buttons"
 
 Page {
@@ -56,14 +57,14 @@ Page {
 		MouseArea {
 			anchors.fill: parent
 			onClicked: {
-				stack.push(add_org_comp)
+				stack.push(add_org_component)
 			}
 		}
 
 	}
 
 	Component {
-		id: add_org_comp
+		id: add_org_component
 		AddOrganization {}
 	}
 
@@ -121,6 +122,20 @@ Page {
 			leftMargin: rootWindow.pixel_font_size*20
 			topMargin: rootWindow.pixel_font_size*20
 			right: parent.right
+		}
+
+		MouseArea {
+			anchors.fill: parent
+			onClicked: {
+				stack.push(add_branch_component)
+			}
+		}
+
+		Component {
+			id: add_branch_component
+			AddBranch{
+
+			}
 		}
 	}
 

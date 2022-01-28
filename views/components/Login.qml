@@ -44,7 +44,6 @@ Rectangle {
 			}
 
 			MyButton{
-				property bool login_btn_clicked: false
 				btn_text: "Login";
 				btn_text_color: rootWindow.secondary_text_color;
 				btn_font_pixel_size: rootWindow.pixel_font_size_24;
@@ -52,25 +51,25 @@ Rectangle {
 				MouseArea {
 					anchors.fill: parent
 					onClicked: {
-						if (!parent.login_btn_clicked) {
-							_auth.login( login_email.text_data.toString(), login_password.text_data.toString() );
-						}
-						parent.login_btn_clicked = false;
-						parent.opacity = 0.5
+						busy_indicator_popup.open()
+						_auth.login( login_email.text_data.toString(), login_password.text_data.toString() );
 					}
 				}
 
 				Connections {
 					target: _auth;
 					function onLogedIn(r) {
-						txt_notification_text = r;
+						txt_notification_text = r
 						if (!txt_notification_text.length) {
 							login_email.text_data = "";
 							login_password.text_data = "";
 							stack.pop(null);
+							busy_indicator_popup.close();
 							stack.push(s_v_component);
 							txt_notification_text = _organization_list.refresh();
+							return;
 						}
+						busy_indicator_popup.close();
 					}
 				}
 			}

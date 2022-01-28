@@ -4,14 +4,6 @@
 #ifndef ORGANIZATION_H
 #define ORGANIZATION_H
 struct Organization {
-//	Q_GADGET
-//	Q_PROPERTY( QString id READ getId)
-//	Q_PROPERTY( QString name READ getName)
-//	Q_PROPERTY( QString gov_reg_num READ getGovRegNum)
-//	Q_PROPERTY( Contact contact READ getContact)
-//	Q_PROPERTY( Address address READ getAddress)
-//	Q_PROPERTY( Email email READ getEmail)
-//	Q_PROPERTY( Image logo READ getLogo)
 private:
 	QString id, name, gov_reg_num;
 	Image logo;
@@ -185,9 +177,10 @@ public:
 
 	QString getById(const QString& id) ;
 	QString getByEmail(const QString& email);
+	QString getByOrgId(const QString& orgid);
 
 	QString insert(const Organization& org, const QString& name, const QString& code, const QString& email, const QString& contact, const Address& address, const QUrl& urlToLocalFile);
-		QString insert(const Organization& org, const QString& name, const QString& code, const QString& email, const QString& contact, const Address& address, const QString& pathToLocalFile);
+	QString insert(const Organization& org, const QString& name, const QString& code, const QString& email, const QString& contact, const Address& address, const QString& pathToLocalFile);
 
 };
 
@@ -247,7 +240,22 @@ inline QString Branch::insert(const Organization& org, const QString &name, cons
 
 	return "";
 }
-
+inline QString Branch::getById(const QString &id) {
+	QSqlQuery q = Database::rawQuery( QString("SELECT name, code, location_id, contact_id, email_id, organization_id FROM BRANCHES WHERE id = '%1';").arg(id) );
+	if (q.lastError().text().length())
+		return q.lastError().text();
+	if (q.size()<1) return "Unemployeed...";
+	this->id = id;
+	while (q.next()) {
+		this->name = q.value("name").toString();
+		this->code = q.value("code").toString();
+		this->contact.updateById (q.value("contact_id").toString());
+		this->email.updateById (q.value("email_id").toString());
+		this->address.updateById (q.value("location_id").toString());
+		this->organization.getById (q.value("organization_id").toString());
+	}
+	return "";
+}
 
 #endif // BRANCH_H
 
@@ -337,7 +345,9 @@ inline QString Employee::getById(const QString &id) {
 	}
 	return "";
 }
+inline QString Employee::getByOrgId(const QString &oid) {
 
+}
 
 #endif
 
