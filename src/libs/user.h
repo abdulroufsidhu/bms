@@ -10,24 +10,69 @@ class User: public QObject {
 	Q_PROPERTY(Person person READ getPerson NOTIFY personChanged)
 	Q_PROPERTY(QByteArray image READ getImage NOTIFY imageChanged )
 private:
-	QString id;
+	QString id ;
 	Person person = Person();
 	QByteArray image = "qrc:/icons/icons/user-profile 1.svg";
 	inline static User *current_user = nullptr;
-
+	Employee *emp;
+	QThread *emp_thread;
 signals:
 	void personChanged();
 	void imageChanged();
 
+	void getEmpById( QString) ;
+	void getEmpByBranchId( QString, QString) ;
+	void getEmpJobName();
+	void getEmpSalary();
+	void getEmpBranchName();
+	void getEmpBranchCode();
+	void getEmpBranchEmail();
+	void getEmpBranchContact();
+
+	void recievedEmpJobName ( QString );
+	void recievedEmpSalary ( QString );
+	void recievedEmpBranchName ( QString);
+	void recievedEmpBranchCode ( QString);
+	void recievedEmpBranchEmail ( QString);
+	void recievedEmpBranchContact ( QString);
+	void recievedEmpById ( QString);
+	void recievedEmpByBranchId ( QString);
+
 public:
-	inline User(QObject* parent = 0) : QObject(parent) {}
-	inline ~User() {}
+	inline User(QObject* parent = 0) : QObject(parent) {
+		emp = new Employee();
+		emp_thread = new QThread();
+		this->emp->moveToThread(emp_thread);
+		connect(this,SIGNAL(getEmpById( QString)),
+						emp, SLOT(getById( QString )) );
+		connect(emp, SIGNAL(recievedById ( QString)),
+						this, SIGNAL(recievedEmpById( QString)));
+
+		connect(this,SIGNAL(getEmpByBranchId(QString, QString)),
+						emp,SLOT(getByBranchId(QString, QString)));
+		connect(emp,SIGNAL(recievedByBranchId( QString)),
+						this,SIGNAL(recievedEmpByBranchId( QString)));
+
+		connect(this,SIGNAL(getEmpBranchCode()),
+						emp,SLOT(getBranchCode()));
+		connect(emp,SIGNAL(recievedBranchCode ( QString)),
+						this,SIGNAL(recievedEmpBranchCode(QString)));
+
+		emp_thread->start();
+	}
+	inline ~User() {
+		emp_thread->quit();
+		emp_thread->wait();
+		delete emp_thread;
+		delete emp;
+	}
 	inline static User* getCurrentUser() {
 		if (current_user == nullptr) current_user = new User();
 		return current_user;
 	}
 	QString getId() const;
 	void setId(QString id);
+
 
 	QString insert(Person& p, QString& password);
 	QString updateByEmail(QString& email, QString& password);

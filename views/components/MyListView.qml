@@ -46,7 +46,7 @@ ListView {
 			spacing: rootWindow.pixel_font_size * 10
 			Text {
 				id: lv_txt_delegate
-				width: lv.width -( view_item_btn.width + sell_item_btn.width + manage_org_btn.width + btn_select.width + parent.spacing*(total_btns) )
+				width: lv.width -( view_item_btn.width + sell_item_btn.width + manage_org_btn.width + btn_select.width + parent.spacing*(total_btns+2) )
 				text: parent.fetchTextPattern()
 				font: rootWindow.font
 				elide: Text.ElideLeft
@@ -98,20 +98,23 @@ ListView {
 
 			function selectButtonClicked() {
 				if (orgList) {
-					txt_notification_text = model.employee_id
-					_branch_list.refresh(model.id);
+					txt_notification_text = _branch_list.refresh(model.id);
+					return
+				}
+				if (branchList) {
+					_current_user.getEmpByBranchId(model.id , _current_user.id);
+					_current_user.getEmpBranchCode();
 					return
 				}
 			}
-
 			function fetchTextPattern() {
 				if (orgList) return "Name: " + model.name + "®️\n📧: " + model.email + "\n📞: " + model.contact + "\nBusiness Number: " + model.gov_reg_num;
 				else if (branchList) return "Name: " + model.name + "®️\n📧: " + model.email + "\n📞: " + model.contact + "\nBranch Code: " + model.code;
 				else if (itemsList) return "Item Name: " + model.name + "\n📧: " + model.email + "\n📞: " + model.contact
 			}
-
 			function viewButtonClicked() {
-				stack.push(v_o_component)
+				if (orgList)
+					stack.push(v_o_component)
 			}
 
 			Component {
@@ -132,6 +135,13 @@ ListView {
 			anchors.fill: lvd_row;
 			color: parent.hovered?secondary_color:primary_color
 			radius: pixel_font_size*5
+		}
+	}
+
+	Connections {
+		target: _current_user
+		function onRecievedEmpByBranchId(r) {
+			txt_notification_text = r
 		}
 	}
 

@@ -241,7 +241,9 @@ inline QString Branch::insert(const Organization& org, const QString &name, cons
 	return "";
 }
 inline QString Branch::getById(const QString &id) {
-	QSqlQuery q = Database::rawQuery( QString("SELECT name, code, location_id, contact_id, email_id, organization_id FROM BRANCHES WHERE id = '%1';").arg(id) );
+//	qCritical() << "getting branch by id: " << id;
+	QSqlQuery q = Database::rawQuery( QString("SELECT * FROM BRANCHES WHERE id = '%1';").arg(id) );
+//	qCritical() << q.size() << " results found";
 	if (q.lastError().text().length())
 		return q.lastError().text();
 	if (q.size()<1) return "Unemployeed...";
@@ -251,7 +253,9 @@ inline QString Branch::getById(const QString &id) {
 		this->code = q.value("code").toString();
 		this->contact.updateById (q.value("contact_id").toString());
 		this->email.updateById (q.value("email_id").toString());
-		this->address.updateById (q.value("location_id").toString());
+		if (q.value("location_id").isValid()
+				&& !q.value("location_id").isNull())
+			this->address.updateById (q.value("location_id").toString());
 		this->organization.getById (q.value("organization_id").toString());
 	}
 	return "";
@@ -313,12 +317,14 @@ inline QString Job::getByName(const QString &name) {
 #ifndef EMPLOYEE_H
 #define EMPLOYEE_H
 
-struct Employee {
+struct Employee : public QObject {
+	Q_OBJECT
 private:
 	QString id, salary, currency, curr_symbol;
 	Job job;
-	Branch branch;
+	Branch branch = Branch();
 public:
+	inline Employee(QObject* parent = nullptr) : QObject(parent) {}
 	inline const Job& getJob() const { return this->job; }
 	inline const QString& getId() const { return this->id; }
 	inline const Branch& getBranch() const { return this->branch; }
@@ -326,27 +332,94 @@ public:
 	inline const QString& getCurrency() const { return this->currency; }
 	inline const QString& getCurrSymbol() const { return this->curr_symbol; }
 
-	QString getByEmail ( const QString& email ) ;
-	QString getByBranchId( const QString& bid) ;
-	QString getByOrgId( const QString& oid ) ;
-	QString getById( const QString& id ) ;
+public slots:
+	void getById( QString id ) ;
+	void getByBranchId( QString bid, QString user_id) ;
+//	void getByEmail ( QString email ) ;
+//	void getByOrgId( QString oid ) ;
+
+	void getJobName();
+	void getSalary();
+	void getBranchName();
+	void getBranchCode();
+	void getBranchEmail();
+	void getBranchContact();
+
+signals:
+	void recievedJobName ( QString );
+	void recievedSalary ( QString );
+	void recievedBranchName ( QString);
+	void recievedBranchCode ( QString);
+	void recievedBranchEmail ( QString);
+	void recievedBranchContact ( QString);
+	void recievedById ( QString);
+	void recievedByBranchId ( QString);
 
 };
 
-inline QString Employee::getById(const QString &id) {
+inline void Employee::getJobName() {
+	emit recievedJobName(this->job.getName() );
+}
+inline void Employee::getSalary() {
+	emit recievedSalary(this->salary);
+}
+inline void Employee::getBranchName() {
+	emit recievedBranchName(this->branch.getName());
+}
+inline void Employee::getBranchEmail() {
+	emit recievedBranchEmail( this->branch.getEmail().getText() );
+}
+inline void Employee::getBranchCode() {
+//	qCritical() << this->branch.getCode();
+	emit recievedBranchCode( this->branch.getCode() );
+}
+inline void Employee::getBranchContact() {
+	emit recievedBranchContact( this->branch.getContact().getText() );
+}
+
+inline void Employee::getById( QString id ) {
 	QSqlQuery q = Database::rawQuery( QString("SELECT * FROM EMPLOYEES WHERE id = '%1'").arg(id) );
-	if (q.lastError().text().length()) return q.lastError().text();
-	if (q.size()<1) return "no data found";
+	if (q.lastError().text().length()) {
+		emit recievedById(q.lastError().text());
+		return ;
+	}
+	if (q.size()<1) {
+		emit recievedById("no data found");
+		return ;
+	}
 	while (q.next()) {
 		this->id = q.value("id").toString();
 		this->salary = q.value("salary").toString();
-		this->branch.getById( q.value("branch_id").toString());
-		this->job.getById(q.value("job_id").toString());
+		this->job.getById( q.value("job_id").toString() );
+		qCritical() << this->branch.getById( q.value("branch_id").toString() );
 	}
-	return "";
+	emit recievedById("");
+	return ;
 }
-inline QString Employee::getByOrgId(const QString &oid) {
-
+inline void Employee::getByBranchId( QString bid, QString user_id ) {
+	QSqlQuery q = Database::rawQuery( QString("SELECT * FROM EMPLOYEES WHERE branch_id = '%1' AND user_id = '%2'; ").arg(bid, user_id) );
+	if (q.lastError().text().length()) {
+		emit recievedByBranchId(q.lastError().text());
+		return;
+	}
+	if (q.size() < 1) {
+		emit recievedByBranchId("no data found");
+		return;
+	}
+	while (q.next()) {
+		this->id = q.value("id").toString();
+		this->job.getById( q.value("job_id").toString() );
+		this->salary = q.value("salary").toString();
+		this->branch.getById(q.value("branch_id").toString());
+	}
+//	qCritical() << this->id;
+//	qCritical() << this->job.getName();
+//	qCritical() << this->salary;
+//	qCritical() << this->branch.getId();
+//	qCritical() << this->branch.getName();
+//	qCritical() << this->branch.getCode();
+	emit recievedByBranchId("");
+	return;
 }
 
 #endif

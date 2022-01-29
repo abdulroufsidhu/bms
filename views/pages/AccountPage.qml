@@ -63,7 +63,6 @@ Page {
 				}
 			}
 
-
 			ColumnLayout{
 				spacing: rootWindow.pixel_font_size*3
 				Layout.alignment: Layout.Center
@@ -85,8 +84,16 @@ Page {
 				}
 
 				Text {
+					id: txt_contact_acc
+					text: qsTr("Contact: " + _current_user.person.contact.text)
+					color: primary_text_color
+					font.pixelSize: pixel_font_size_24
+					Layout.alignment: Layout.Center
+				}
+
+				Text {
 					id: txt_designation_acc
-					text: qsTr("current position at organization")
+					text: qsTr("at")
 					color: primary_text_color
 					font.pixelSize: pixel_font_size_24
 					Layout.alignment: Layout.Center
@@ -94,7 +101,7 @@ Page {
 
 				Text {
 					id: txt_branch_acc
-					text: qsTr("Branch: XXX")
+					text: qsTr("Branch: ")
 					color: primary_text_color
 					font.pixelSize: pixel_font_size_24
 					Layout.alignment: Layout.Center
@@ -108,16 +115,15 @@ Page {
 					Layout.alignment: Layout.Center
 				}
 
-				Text {
-					id: txt_contact_acc
-					text: qsTr("Contact: " + _current_user.person.contact.text)
-					color: primary_text_color
-					font.pixelSize: pixel_font_size_24
-					Layout.alignment: Layout.Center
-				}
-
 			}
 
+		}
+	}
+
+	Connections {
+		target: _current_user
+		function onRecievedEmpBranchCode(r) {
+			txt_branch_acc.text = "Branch: " + r;
 		}
 	}
 

@@ -102,6 +102,7 @@ Page {
 			anchors.fill: parent
 			model: _branch_list
 			sell_btn_item: true
+			select_btn: true
 			branchList: true
 		}
 	}
