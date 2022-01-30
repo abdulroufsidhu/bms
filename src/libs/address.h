@@ -55,9 +55,9 @@ public:
 	const QString& getId() const ;
 	const QString& getName() const ;
 	const Country& getCountry() const ;
-	QString update(const QString& country, QString& city);
+	QString update(const QString& country, const QString& city);
 	QString updateById(const QString& id);
-	QString insert(QString& country, QString& city);
+	QString insert(const QString& country, const QString& city);
 	void copy(City& c);
 };
 inline const QString& City::getId()const  { return this->id; }
@@ -68,7 +68,7 @@ inline void City::copy(City &c) {
 	this->name = c.name;
 	this->country.copy(c.country);
 }
-inline QString City::update(const QString &country, QString &city) {
+inline QString City::update(const QString &country, const QString &city) {
 	this->country.update(country);
 	QSqlQuery q = Database::rawQuery( QString("SELECT id, name FROM CITIES WHERE name = '%1' AND country_id = '%2';").arg(city, this->country.getId() ) );
 	if (!q.lastError().text().isEmpty()) return q.lastError().text();
@@ -92,7 +92,7 @@ inline QString City::updateById(const QString &id) {
 	QString err = this->country.updateById(t_cid);
 	return err;
 }
-inline QString City::insert(QString &country, QString &city) {
+inline QString City::insert(const QString &country, const QString &city) {
 	this->country.update(country);
 	QSqlQuery q = Database::rawQuery( QString("INSERT INTO CITIES (name, country_id) VALUES ('%1','%2'); ").arg(city, this->country.getId() ) );
 	return q.lastError().text();
@@ -116,12 +116,12 @@ public:
 	void copy(Address& a);
 	QString update(const QString& country, QString& city, QString& address);
 	QString updateById(const QString& id);
-	QString insert(QString& country, QString& city, QString& address);
+	QString insert(const QString& country, const QString& city, const QString& address);
 };
 
 inline const QString& Address::getId() const { return this->id; }
-inline const QString& Address::getName() const  { return this->name; }
-inline const City& Address::getCity() const  { return this->city; }
+inline const QString& Address::getName() const { return this->name; }
+inline const City& Address::getCity() const { return this->city; }
 inline void Address::copy(Address &a) {
 	this->id = a.id;
 	this->name = a.name;
@@ -148,7 +148,7 @@ inline QString Address::updateById(const QString &id) {
 	}
 	return this->city.updateById(cid);
 }
-inline QString Address::insert(QString &country, QString &city, QString &address) {
+inline QString Address::insert(const QString &country, const QString &city, const QString &address) {
 	QString err = "";
 	err = this->city.insert(country,city);
 	if (err.length()) qCritical() << err;

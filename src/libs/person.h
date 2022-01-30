@@ -23,7 +23,7 @@ inline const QString& Email::getId() const { return this->id; }
 inline const QString& Email::getText() const { return this->text; }
 inline void Email::copy(Email &e) { this->id = e.id; this->text = e.text; }
 inline QString Email::update(const QString& email) {
-	QSqlQuery q = Database::rawQuery( QString("SELECT id, name FROM EMAILS WHERE name = '%1' ;").arg(email) );
+	QSqlQuery q = Database::rawQuery( QString("SELECT id, name FROM EMAILS WHERE name = '%1' ;").arg(email.toUpper()) );
 	if (!q.lastError().text().isEmpty() ) return "invalid email ";
 	while (q.next()) {
 		this->id = q.value("id").toString();
@@ -156,12 +156,12 @@ public:
 	const Address &getPermanentAddr()const  ;
 	const Address &getTempraryAddr()const  ;
 
-	QString insert (const  QString& name,
-									const  QString& email,
-									const  QString& cnic,
-									const  QString& contact,
-									const  Address& p_addr,
-									const  Address& t_addr
+	QString insert (const QString& name,
+									const QString& email,
+									const QString& cnic,
+									const QString& contact,
+									const Address& p_addr,
+									const Address& t_addr
 									 );
 	QString updateByEmail(const QString& email);
 	QString updateById(const QString& id);
@@ -264,7 +264,7 @@ inline QString Person::insert(
 	q.exec("BEGIN;");
 
 // email insertion
-	q.exec( QString("INSERT INTO EMAILS (name) VALUES ('%1') RETURNING id;").arg(email) );
+	q.exec( QString("INSERT INTO EMAILS (name) VALUES ('%1') RETURNING id;").arg(email.toUpper()) );
 	if (!q.lastError().text().isEmpty()) {
 		 err = q.lastError().text();
 		 q.exec("ROLLBACK;");

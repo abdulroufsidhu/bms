@@ -125,6 +125,17 @@ Page {
 		function onRecievedEmpBranchCode(r) {
 			txt_branch_acc.text = "Branch: " + r;
 		}
+		function onRecievedEmpJobName(r) {
+			txt_designation_acc.text = r;
+		}
+
+		function onRecievedEmpOrgName(r) {
+			let t = txt_designation_acc.text;
+			txt_designation_acc.text = t + " at " + r
+		}
+		function onRecievedEmpSalary(r) {
+			txt_salary_acc.text = "Salary: " + r
+		}
 	}
 
 }

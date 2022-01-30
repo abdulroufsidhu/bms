@@ -344,6 +344,13 @@ public slots:
 	void getBranchCode();
 	void getBranchEmail();
 	void getBranchContact();
+	void getOrgName();
+	void getOrgRegNum();
+	void getOrgEmail();
+	void getOrgContact();
+	void getOrgAddr();
+
+	void emitAllSignals();
 
 signals:
 	void recievedJobName ( QString );
@@ -354,6 +361,11 @@ signals:
 	void recievedBranchContact ( QString);
 	void recievedById ( QString);
 	void recievedByBranchId ( QString);
+	void recievedOrgName(const QString&);
+	void recievedOrgEmail(const QString&);
+	void recievedOrgContact(const QString&);
+	void recievedOrgRegNum(const QString&);
+	void recievedOrgAddr(const QString&);
 
 };
 
@@ -376,7 +388,22 @@ inline void Employee::getBranchCode() {
 inline void Employee::getBranchContact() {
 	emit recievedBranchContact( this->branch.getContact().getText() );
 }
-
+inline void Employee::getOrgName() {
+	emit recievedOrgName( this->branch.getOrg().getName() );
+}
+inline void Employee::getOrgEmail() {
+	emit recievedOrgEmail(this->branch.getOrg( ).getEmail( ).getText( ) );
+}
+inline void Employee::getOrgContact() {
+	emit recievedOrgContact(this->branch.getOrg().getContact().getText());
+}
+inline void Employee::getOrgRegNum() {
+	emit recievedOrgRegNum(this->branch.getOrg().getGovRegNum());
+}
+inline void Employee::getOrgAddr() {
+	Address __t__addr = this->branch.getOrg().getAddress();
+	emit recievedOrgAddr(__t__addr.getName() + ",\n" + __t__addr.getCity().getName() + ", " + __t__addr.getCity().getCountry().getName());
+}
 inline void Employee::getById( QString id ) {
 	QSqlQuery q = Database::rawQuery( QString("SELECT * FROM EMPLOYEES WHERE id = '%1'").arg(id) );
 	if (q.lastError().text().length()) {
@@ -394,6 +421,7 @@ inline void Employee::getById( QString id ) {
 		qCritical() << this->branch.getById( q.value("branch_id").toString() );
 	}
 	emit recievedById("");
+	this->emitAllSignals();
 	return ;
 }
 inline void Employee::getByBranchId( QString bid, QString user_id ) {
@@ -419,7 +447,22 @@ inline void Employee::getByBranchId( QString bid, QString user_id ) {
 //	qCritical() << this->branch.getName();
 //	qCritical() << this->branch.getCode();
 	emit recievedByBranchId("");
+	this->emitAllSignals();
 	return;
+}
+
+inline void Employee::emitAllSignals() {
+	this->getBranchName();
+	this->getBranchCode();
+	this->getBranchEmail();
+	this->getBranchContact();
+	this->getSalary();
+	this->getJobName();
+	this->getOrgName();
+	this->getOrgEmail();
+	this->getOrgAddr();
+	this->getOrgRegNum();
+	this->getOrgContact();
 }
 
 #endif

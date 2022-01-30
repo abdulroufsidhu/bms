@@ -28,6 +28,11 @@ signals:
 	void getEmpBranchCode();
 	void getEmpBranchEmail();
 	void getEmpBranchContact();
+	void getEmpOrgName();
+	void getEmpOrgEmail();
+	void getEmpOrgContact();
+	void getEmpOrgAddr();
+	void getEmpOrgRegNum();
 
 	void recievedEmpJobName ( QString );
 	void recievedEmpSalary ( QString );
@@ -37,6 +42,11 @@ signals:
 	void recievedEmpBranchContact ( QString);
 	void recievedEmpById ( QString);
 	void recievedEmpByBranchId ( QString);
+	void recievedEmpOrgName (const QString&);
+	void recievedEmpOrgEmail(const QString&);
+	void recievedEmpOrgContact(const QString&);
+	void recievedEmpOrgRegNum(const QString&);
+	void recievedEmpOrgAddr(const QString&);
 
 public:
 	inline User(QObject* parent = 0) : QObject(parent) {
@@ -58,6 +68,38 @@ public:
 		connect(emp,SIGNAL(recievedBranchCode ( QString)),
 						this,SIGNAL(recievedEmpBranchCode(QString)));
 
+		connect(this,SIGNAL(getEmpBranchEmail()),
+						emp,SLOT(getBranchEmail()));
+		connect(emp,SIGNAL(recievedBranchEmail ( QString)),
+						this,SIGNAL(recievedEmpBranchEmail ( QString)));
+
+		connect(this,SIGNAL(getEmpJobName()),
+						emp,SLOT(getJobName()));
+		connect(emp,SIGNAL(recievedJobName(QString)),
+						this,SIGNAL(recievedEmpJobName(QString)));
+
+		connect(this,SIGNAL(getEmpSalary()),
+						emp,SLOT(getSalary()));
+		connect(emp,SIGNAL(recievedSalary(QString)),
+						this,SIGNAL(recievedEmpSalary(QString)));
+
+		connect(this,SIGNAL(getEmpBranchName()),
+						emp,SLOT(getBranchName()));
+		connect(emp,SIGNAL(recievedBranchName(QString)),
+						this,SIGNAL(recievedEmpBranchName(QString)));
+
+		connect(this,SIGNAL(getEmpBranchContact()),
+						emp,SLOT(getBranchContact()));
+		connect(emp,SIGNAL(recievedBranchContact(QString)),
+						this,SIGNAL(recievedEmpBranchContact(QString)));
+
+		connect(this,SIGNAL(getEmpOrgName()),
+						emp,SLOT(getOrgName()));
+		connect(emp,SIGNAL(recievedOrgName(const QString&)),
+						this,SIGNAL(recievedEmpOrgName(const QString&)));
+
+
+
 		emp_thread->start();
 	}
 	inline ~User() {
@@ -75,7 +117,7 @@ public:
 
 
 	QString insert(Person& p, QString& password);
-	QString updateByEmail(QString& email, QString& password);
+	QString updateByEmail(const QString& email, const QString& password);
 	QString updateByPersonId(QString& pid, QString& password);
 	void copy(User& u);
 
@@ -113,7 +155,7 @@ inline QString User::insert(Person &p, QString& password) {
 
 	return "";
 }
-inline QString User::updateByEmail(QString &email, QString& password) {
+inline QString User::updateByEmail(const QString &email, const QString& password) {
 	QString err = this->person.updateByEmail(email);
 	if (err.length()) return "account does not exists";
 	QSqlQuery q = Database::rawQuery( QString("SELECT id FROM USERS WHERE person_id = '%1' and password = '%2' ;").arg(this->person.getId(), password ) );
