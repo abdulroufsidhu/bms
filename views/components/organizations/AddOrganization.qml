@@ -5,22 +5,20 @@ import QtQuick.Dialogs 1.2
 import "../../basicComponents/inputs/"
 import "../../basicComponents/buttons"
 
-Page {
+Popup {
 	clip: true
+	modal: true
+	focus: true
 
-	StackView.onActivated: {
-		back_btn_txt = back_text;
-		back_btn_font_col = secondary_text_color;
-	}
-	background: Rectangle{anchors.fill: parent; color: secondary_color }
+	closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+//	background: Rectangle{anchors.fill: parent; color: secondary_color }
 
 	ScrollView {
 		padding: pixel_font_size_24;
-		width: parent.width;
-		height: parent.height;
+		anchors.fill: parent
 		ColumnLayout {
 			spacing: pixel_font_size*10;
-			width: rootWindow.width - pixel_font_size_24*2;
+
 
 			MyEditText {
 				id: reg_org_name_et
@@ -132,7 +130,6 @@ Page {
 						reg_org_city_et.text_data = "";
 						txt_notification_text = _organization_list.refresh();
 						busy_indicator_popup.close();
-						stack.pop();
 					}
 				}
 			}

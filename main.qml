@@ -29,12 +29,13 @@ ApplicationWindow {
 	readonly property string secondary_color: "#6d9c89"
 	readonly property string primary_text_color: "#FFE1C6"
 	readonly property string secondary_text_color: "#AA000000"
-	readonly property string primary_button_color: "#FF0"
+	readonly property string primary_button_color: "#FFE600"
 	readonly property string secondary_button_color: "#0C0"
 	readonly property string opaque_white: '#AAFFFFFF'
 	readonly property string critical_button_color: "#A00"
 	readonly property string skyblue_color: "#0CF"
 	readonly property string red_color: "#F00"
+	readonly property string green_color: "#0F0"
 	readonly property string transparent_color: "#00000000"
 
 	readonly property int pixel_font_size : wr<hr?wr:hr
@@ -46,7 +47,9 @@ ApplicationWindow {
 	property string back_btn_font_col: secondary_text_color
 
 	property string txt_notification_text: ""
-	property string txt_notification_col: critical_button_color
+	property string txt_notification_col: primary_text_color
+	property string txt_popup_col: primary_text_color
+	property bool back_btn_visibility: true
 
 	header: ColumnLayout {
 		width: rootWindow.width
@@ -60,6 +63,7 @@ ApplicationWindow {
 			spacing: pixel_font_size_24
 			MyButton {
 				btn_text: back_btn_txt
+				visible: back_btn_visibility
 				btn_font_pixel_size: pixel_font_size_24
 				btn_text_color: back_btn_font_col
 				color: back_btn_col()
@@ -85,18 +89,20 @@ ApplicationWindow {
 					id: txt_notification
 					text: qsTr(txt_notification_text)
 					color: txt_notification_col
+					font.family: rootWindow.font.family
 					font.pixelSize: pixel_font_size_24
 					onTextChanged: {
 						if (text.length) {
 							notification_popup.popup_text = text;
 							notification_popup.open();
+						} else {
+							txt_notification_col = primary_text_color
 						}
 					}
 				}
 			}
 		}
 	}
-// without auth clicking login button is changing stacks which shall not be done.
 	StackView {
 		id: stack
 		anchors.fill: parent
@@ -113,17 +119,16 @@ ApplicationWindow {
 		id: s_v_component
 		SwipeView {
 			StackView.onActivated: {
-				back_btn_txt = logout_txt;
-				back_btn_font_col = critical_button_color;
+				back_btn_visibility = false;
 			}
 			StackView.onRemoved: destroy();
 			readonly property bool show_tab_bar: true
-			interactive: false
+//			interactive: false
 			id: swipe_view;
 			currentIndex: tab_bar.currentIndex
 			HomePage {}
 			StorePage {}
-			OrganizationPage {}
+			OrganizationPage { id: org_page}
 			AccountPage {}
 		}
 	}
@@ -161,9 +166,12 @@ ApplicationWindow {
 		Text {
 			id: notif_popup_msg
 			text: qsTr(notification_popup.popup_text)
-			font: rootWindow.font
-			color: rootWindow.primary_text_color
+			font.family: rootWindow.font.family
+			font.pixelSize: rootWindow.font.pixelSize
+			font.bold: true
+			color: txt_popup_col
 		}
+		onClosed: txt_popup_col = primary_text_color
 	}
 
 	footer: TabBar {

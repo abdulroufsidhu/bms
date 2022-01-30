@@ -67,6 +67,10 @@ Rectangle {
 							busy_indicator_popup.close();
 							stack.push(s_v_component);
 							txt_notification_text = _organization_list.refresh();
+							if (!txt_notification_text.length) {
+								txt_notification_text = "Please select organization in Organizations tab from Organization's list"
+								txt_popup_col = red_color
+							}
 							return;
 						}
 						busy_indicator_popup.close();

@@ -5,7 +5,11 @@ import QtQuick.Dialogs 1.2
 import "../../basicComponents/graphics/"
 import "../../basicComponents/buttons"
 
-Page {
+Popup {
+	focus: true
+	modal: true
+
+	closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
 //	required property string image_data
 	id: pageViewOrganization
 	property string name
@@ -36,7 +40,7 @@ Page {
 
 			MyImage {
 				id: img_profite_view_org
-//				source: _current_user.image
+				source: _current_user.image
 				Layout.alignment: Layout.Center
 
 			}
@@ -44,7 +48,7 @@ Page {
 			MyButton {
 				id: btn_change_profile_img_view_org
 				anchors{
-					horizontalCenter: img_profite_view_org.right
+					right: img_profite_view_org.right
 					bottom: img_profite_view_org.bottom
 				}
 				color: rootWindow.opaque_white

@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 	QGuiApplication app(argc, argv);
 
 	Database *db = new Database();
-	Auth auth;
+	AuthWrapper auth;
 	OrganizationListModel organization_list;
 	BranchListModel branch_list;
 	User *current_user = User::getCurrentUser();

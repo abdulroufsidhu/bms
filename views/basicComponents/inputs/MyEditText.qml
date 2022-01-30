@@ -30,7 +30,7 @@ Rectangle {
 		font.family: rootWindow.font.family
 		font.pixelSize: rootWindow.pixel_font_size_24
 		width: parent.width
-		height: parent.height
+		maximumLength: 90
 //		validator: validator_prop
 		placeholderTextColor: rootWindow.secondary_text_color
 		background: Rectangle {

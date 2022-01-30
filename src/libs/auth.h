@@ -1,13 +1,13 @@
-#ifndef AUTHWRAPER_H
-#define AUTHWRAPER_H
+#ifndef AUTH_H
+#define AUTH_H
 
 #include "user.h"
 
-class AuthWraper : public QObject {
+class Auth : public QObject {
 	Q_OBJECT
 public:
-	inline AuthWraper (QObject* parent = 0) : QObject (parent) { }
-	inline ~AuthWraper () {  }
+	inline Auth (QObject* parent = 0) : QObject (parent) { }
+	inline ~Auth () {  }
 
 signals:
 	void logedIn(QString );
@@ -20,13 +20,13 @@ public slots:
 
 };
 
-inline void AuthWraper::login(QString email, QString password) {
+inline void Auth::login(QString email, QString password) {
 	qCritical() << "loging in";
 	QString err = User::getCurrentUser()->updateByEmail(email.toUpper(),password);
 	emit logedIn(err);
 	return;
 }
-inline void AuthWraper::signup(QString name, QString email, QString contact, QString cnic, QString password, QString conf_password, QString p_country, QString p_city, QString p_address, QString t_country, QString t_city, QString t_address ) {
+inline void Auth::signup(QString name, QString email, QString contact, QString cnic, QString password, QString conf_password, QString p_country, QString p_city, QString p_address, QString t_country, QString t_city, QString t_address ) {
 	if (password.isEmpty()) {emit signedUp("password not entered"); return;}
 	if (password != conf_password) {emit signedUp("passwords mismatch"); return;}
 	if (password.length() < 8) { emit signedUp("password too short"); return;}
@@ -57,7 +57,7 @@ inline void AuthWraper::signup(QString name, QString email, QString contact, QSt
 	return;
 
 }
-inline void AuthWraper::register_organization(QString user_id, QString name, QString email, QString contact, QString regNum, QString country, QString city, QString address, QUrl url) {
+inline void Auth::register_organization(QString user_id, QString name, QString email, QString contact, QString regNum, QString country, QString city, QString address, QUrl url) {
 	qCritical () << "setting up address";
 	Address a;
 	QString err = a.insert(country, city, address);
@@ -67,12 +67,12 @@ inline void AuthWraper::register_organization(QString user_id, QString name, QSt
 	return;
 }
 
-#endif // AUTHWRAPER_H
+#endif // AUTH_H
 
-#ifndef AUTH_H
-#define AUTH_H
+#ifndef AUTH_WRAPPER_H
+#define AUTH_WRAPPER_H
 
-class Auth : public QObject {
+class AuthWrapper : public QObject {
 	Q_OBJECT
 signals:
 	void login(QString, QString);
@@ -84,13 +84,16 @@ signals:
 	void register_organization(QString , QString , QString , QString , QString , QString , QString , QString , QUrl );
 	void orgRegistered(QString );
 
+	void register_branch(const QString&, const QString&, const QString&, const QString& , const QString& , const QString& , const QString& , const QString&);
+	void branchRegistered(const QString&);
+
 private:
 	QThread *reg_auth_thread;
-	AuthWraper *auth_wrapper;
+	Auth *auth_wrapper;
 public:
-	inline explicit Auth(QObject* parent = nullptr) : QObject(parent) {
+	inline explicit AuthWrapper(QObject* parent = nullptr) : QObject(parent) {
 		qCritical () << "initializing Auth";
-		auth_wrapper = new AuthWraper();
+		auth_wrapper = new Auth();
 		reg_auth_thread = new QThread();
 		auth_wrapper->moveToThread(reg_auth_thread);
 
@@ -110,7 +113,7 @@ public:
 		reg_auth_thread->start();
 
 	};
-	inline ~Auth() {
+	inline ~AuthWrapper() {
 		reg_auth_thread->quit();
 		reg_auth_thread->wait();
 		delete auth_wrapper; delete reg_auth_thread;
@@ -118,7 +121,7 @@ public:
 
 };
 
-#endif //AUTH_H
+#endif //AUTH_WRAPPER_H
 
 
 

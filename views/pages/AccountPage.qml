@@ -35,7 +35,7 @@ Page {
 			MyButton {
 				id: btn_change_profile_img_acc
 				anchors{
-					horizontalCenter: img_profite_acc.right
+					right: img_profite_acc.right
 					bottom: img_profite_acc.bottom
 				}
 				color: rootWindow.opaque_white
@@ -122,8 +122,13 @@ Page {
 
 	Connections {
 		target: _current_user
-		function onRecievedEmpBranchCode(r) {
+		function onRecievedEmpBranchName(r) {
 			txt_branch_acc.text = "Branch: " + r;
+		}
+
+		function onRecievedEmpBranchCode(r) {
+			let t = txt_branch_acc.text;
+			txt_branch_acc.text = t + " " + r;
 		}
 		function onRecievedEmpJobName(r) {
 			txt_designation_acc.text = r;

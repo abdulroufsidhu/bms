@@ -57,15 +57,21 @@ Page {
 		MouseArea {
 			anchors.fill: parent
 			onClicked: {
-				stack.push(add_org_component)
+				add_org_popup.open();
 			}
 		}
 
 	}
 
-	Component {
-		id: add_org_component
-		AddOrganization {}
+	AddOrganization {
+		id: add_org_popup
+		padding: pixel_font_size_24
+		anchors.centerIn: parent
+		background: Rectangle {
+			anchors.fill: parent
+			color: secondary_color
+			radius: pixel_font_size_24
+		}
 	}
 
 	Rectangle {
@@ -137,6 +143,17 @@ Page {
 			AddBranch{
 
 			}
+		}
+	}
+
+	ViewOrganization {
+		id: view_org_popup
+		anchors.centerIn: parent
+		padding: pixel_font_size_24
+		background: Rectangle {
+			anchors.fill: parent
+			color: secondary_color
+			radius: pixel_font_size_24
 		}
 	}
 

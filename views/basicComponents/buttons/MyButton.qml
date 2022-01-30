@@ -13,10 +13,7 @@ Rectangle {
 	implicitHeight: mbt.implicitHeight + add_height
 	activeFocusOnTab: true
 	color: rootWindow.primary_button_color
-
-	onActiveFocusChanged: {
-		opacity = activeFocus ? 0.8: 1
-	}
+	opacity : activeFocus ? 1 : 0.7
 
 	radius: 5
 
@@ -35,10 +32,10 @@ Rectangle {
 		cursorShape: "PointingHandCursor"
 		hoverEnabled: true
 		onEntered: {
-			parent.opacity = 0.8
+			parent.opacity = 1
 		}
 		onExited: {
-			parent.opacity = 1
+			parent.opacity = 0.7
 		}
 	}
 
