@@ -57,19 +57,13 @@ Popup {
 				Layout.fillWidth: true;
 			}
 			MyButton {
-				color: rootWindow.opaque_white
+				btn_col : rootWindow.opaque_white
 				add_width: 32
 				add_height: 0
 				btn_text: "📷︎ Logo "
 				btn_font_pixel_size: pixel_font_size_24*1.5
 				btn_text_color: rootWindow.secondary_text_color
-
-				MouseArea {
-					anchors.fill: parent
-					onClicked: {
-						image_picker.open();
-					}
-				}
+				onPressed: image_picker.open()
 			}
 
 			FileDialog {
@@ -88,33 +82,30 @@ Popup {
 			}
 
 			MyButton {
-				color: rootWindow.primary_button_color
+				btn_col: rootWindow.primary_button_color
 				add_width: 32
 				add_height: 0
 				btn_text: "Register New Organization®️ "
 				btn_font_pixel_size: pixel_font_size_24*1.5
 				btn_text_color: rootWindow.secondary_text_color
 
-				MouseArea {
-					anchors.fill: parent
-					onClicked: {
-						if (image_picker.logourl.length < 1) {
-							txt_notification_text = "You must choose logo"
-							return
-						}
-						busy_indicator_popup.open();
-						_auth.register_organization(
-									_current_user.id,
-									reg_org_name_et.text_data,
-									reg_org_email_et.text_data,
-									reg_org_contact_et.text_data,
-									reg_org_reg_number_et.text_data,
-									reg_org_country_cb.currentValue,
-									reg_org_city_et.text_data,
-									reg_org_address_et.text_data,
-									image_picker.logourl
-								);
+				onClicked: {
+					if (image_picker.logourl.length < 1) {
+						txt_notification_text = "You must choose logo"
+						return
 					}
+					busy_indicator_popup.open();
+					_auth.register_organization(
+								_current_user.id,
+								reg_org_name_et.text_data,
+								reg_org_email_et.text_data,
+								reg_org_contact_et.text_data,
+								reg_org_reg_number_et.text_data,
+								reg_org_country_cb.currentValue,
+								reg_org_city_et.text_data,
+								reg_org_address_et.text_data,
+								image_picker.logourl
+							);
 				}
 
 				Connections {

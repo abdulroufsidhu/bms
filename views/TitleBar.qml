@@ -29,22 +29,18 @@ Rectangle {
 			left: parent.left
 			leftMargin: 5
 		}
-		rect_diameter: 32
+//		rect_diameter: 32
 		rect_color: rootWindow.skyblue_color
 		btn_text: "<b>!</b>"
 		btn_text_font_size: 24
-
-		MouseArea {
-			anchors.fill: parent
-			onClicked: {
-				if (rootWindow.flags == Qt.FramelessWindowHint) {
-					rootWindow.flags = Qt.Window
-				} else {
-					rootWindow.flags = Qt.FramelessWindowHint
-				}
-				btn_close_title_bar.visible = !btn_close_title_bar.visible
-				btn_maximize_title_bar.visible = !btn_maximize_title_bar.visible
+		onClicked: {
+			if (rootWindow.flags == Qt.FramelessWindowHint) {
+				rootWindow.flags = Qt.Window
+			} else {
+				rootWindow.flags = Qt.FramelessWindowHint
 			}
+			btn_close_title_bar.visible = !btn_close_title_bar.visible
+			btn_maximize_title_bar.visible = !btn_maximize_title_bar.visible
 		}
 	}
 
@@ -63,22 +59,16 @@ Rectangle {
 			right: btn_close_title_bar.left
 			rightMargin: 5
 		}
-		rect_diameter: 32
+//		rect_diameter: 32
 		visible: {rootWindow.flags === Qt.FramelessWindowHint? true:false}
 		rect_color: rootWindow.primary_button_color
 		btn_text_font_size: 24
-		MouseArea {
-			anchors.fill: parent
-			onClicked: {
-				if (rootWindow.visibility === 5) {
-					rootWindow.visibility = 2;
-				} else {
-					rootWindow.visibility = 5;
-				}
-
-//			--_database object comming from cpp
-//				var v = _db.insert("insert into person(name, age) values('Abdul',33); ");
-//				v += _db.insert("insert into person(name, age) values('ABR',22); ");
+		btn_text: " "
+		onClicked: {
+			if (rootWindow.visibility === 5) {
+				rootWindow.visibility = 2;
+			} else {
+				rootWindow.visibility = 5;
 			}
 		}
 
@@ -90,16 +80,17 @@ Rectangle {
 			right: parent.right
 			rightMargin: 5
 		}
-		rect_diameter: 32
+//		rect_diameter: 32
 		rect_color: rootWindow.critical_button_color
-		btn_text: "<b>X</b>"
+		btn_text: "<b>+</b>"
+		text_rotation: 45
 		btn_text_font_size: 24
 		visible: {rootWindow.flags === Qt.FramelessWindowHint? true:false}
+		onClicked: Qt.quit();
 
-		MouseArea {
-			anchors.fill: parent
-			onClicked: Qt.quit();
-		}
+//		MouseArea {
+//			anchors.fill: parent
+//		}
 
 	}
 

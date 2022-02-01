@@ -57,28 +57,24 @@ Popup {
 			}
 
 			MyButton {
-				color: rootWindow.primary_button_color
+				btn_col: rootWindow.primary_button_color
 				add_width: 32
 				add_height: 0
 				btn_text: "Register New branch®️ "
 				btn_font_pixel_size: pixel_font_size_24*1.5
 				btn_text_color: rootWindow.secondary_text_color
-
-				MouseArea {
-					anchors.fill: parent
-					onClicked: {
-						_auth.register_branch(
-									_current_user.id,
-									reg_branch_name_et.text_data,
-									reg_branch_email_et.text_data,
-									reg_branch_contact_et.text_data,
-									reg_branch_reg_number_et.text_data,
-									reg_branch_country_cb.currentValue,
-									reg_branch_city_et.text_data,
-									reg_branch_address_et.text_data,
-									image_picker.logourl
-								);
-					}
+				onClicked: {
+					_auth.register_branch(
+								_current_user.id,
+								reg_branch_name_et.text_data,
+								reg_branch_email_et.text_data,
+								reg_branch_contact_et.text_data,
+								reg_branch_reg_number_et.text_data,
+								reg_branch_country_cb.currentValue,
+								reg_branch_city_et.text_data,
+								reg_branch_address_et.text_data,
+								image_picker.logourl
+							);
 				}
 
 				Connections {

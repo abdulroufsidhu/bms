@@ -48,6 +48,11 @@ signals:
 	void recievedEmpOrgRegNum(const QString&);
 	void recievedEmpOrgAddr(const QString&);
 
+	void logout(const bool&);
+
+public slots:
+	void logout();
+
 public:
 	inline User(QObject* parent = 0) : QObject(parent) {
 		emp = new Employee();
@@ -115,7 +120,6 @@ public:
 	QString getId() const;
 	void setId(QString id);
 
-
 	QString insert(Person& p, QString& password);
 	QString updateByEmail(const QString& email, const QString& password);
 	QString updateByPersonId(QString& pid, QString& password);
@@ -130,6 +134,11 @@ public:
 	void loadImage();
 
 };
+inline void User::logout() {
+	delete User::current_user;
+	User::current_user = nullptr;
+	emit logout(User::current_user==nullptr);
+}
 inline Person& User::getPerson() { return this->person; }
 inline void User::setPerson(Person &newPerson) {
 	if (newPerson.getId().isEmpty()) return;

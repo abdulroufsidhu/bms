@@ -146,37 +146,34 @@ Page {
 
 			MyButton {
 				btn_text: "Signup"
-				MouseArea {
-					anchors.fill: parent
-					onClicked: {
-							busy_indicator_popup.open();
-							var t_city, t_country, t_address, p_city, p_country, p_address;
-							p_city = signup_perm_city.text_data;
-							p_country = signup_perm_country.currentValue;
-							p_address = signup_perm_address.text_data;
-							t_city = signup_temp_city.text_data;
-							t_country = signup_temp_country.currentValue;
-							t_address = signup_temp_address.text_data;
-							if (t_addr_same_as_p.checked) {
-								t_address = p_address;
-								t_city = p_city;
-								t_country = p_country;
-							}
-							_auth.signup(
-										signup_full_name.text_data,
-										signup_email.text_data,
-										signup_contact.text_data,
-										signup_cnic.text_data,
-										signup_password.text_data,
-										signup_conf_password.text_data,
-										p_country,
-										p_city,
-										p_address,
-										t_country,
-										t_city,
-										t_address
-										);
-					}
+				onClicked: {
+						busy_indicator_popup.open();
+						var t_city, t_country, t_address, p_city, p_country, p_address;
+						p_city = signup_perm_city.text_data;
+						p_country = signup_perm_country.currentValue;
+						p_address = signup_perm_address.text_data;
+						t_city = signup_temp_city.text_data;
+						t_country = signup_temp_country.currentValue;
+						t_address = signup_temp_address.text_data;
+						if (t_addr_same_as_p.checked) {
+							t_address = p_address;
+							t_city = p_city;
+							t_country = p_country;
+						}
+						_auth.signup(
+									signup_full_name.text_data,
+									signup_email.text_data,
+									signup_contact.text_data,
+									signup_cnic.text_data,
+									signup_password.text_data,
+									signup_conf_password.text_data,
+									p_country,
+									p_city,
+									p_address,
+									t_country,
+									t_city,
+									t_address
+									);
 				}
 				Connections {
 					target: _auth

@@ -6,14 +6,16 @@
 #define ORGANIZATION_LIST_H
 class OrganizationListModel : public QSqlQueryModel {
 	Q_OBJECT
-	QThread orgListThread;
+
+public slots:
+	void clear() override;
+
 public:
 	inline explicit OrganizationListModel(QObject *parent = nullptr) : QSqlQueryModel (parent) {
-		orgListThread.start();
 		roleNames();
 		this->refresh();
 	}
-	inline ~OrganizationListModel() {orgListThread.quit(); orgListThread.wait();}
+	inline ~OrganizationListModel() { }
 	QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const override;
 	QHash<int, QByteArray> roleNames() const override;
 public slots:
@@ -38,6 +40,10 @@ WHERE \
 		; ").arg(User::getCurrentUser()->getId()) ;
 
 };
+
+inline void OrganizationListModel::clear() {
+	QSqlQueryModel::clear();
+}
 
 inline QHash<int, QByteArray> OrganizationListModel::roleNames () const {
 	int idx = 0;
@@ -80,12 +86,13 @@ inline QString OrganizationListModel::refresh () {
 #define BRANCH_LIST_H
 class BranchListModel : public QSqlQueryModel {
 	Q_OBJECT
-	QThread branchListThread;
+
+public slots:
+	void clear() override;
+
 public:
-	inline explicit BranchListModel(QObject *parent = nullptr) : QSqlQueryModel (parent) {
-		branchListThread.start();
-	}
-	inline ~BranchListModel() {branchListThread.quit(); branchListThread.wait();}
+	inline explicit BranchListModel(QObject *parent = nullptr) : QSqlQueryModel (parent) { }
+	inline ~BranchListModel() { }
 	QVariant data( const QModelIndex& index, int role = Qt::DisplayRole ) const override;
 	QHash<int, QByteArray> roleNames() const override;
 public slots:
@@ -107,6 +114,9 @@ WHERE \
 
 };
 
+inline void BranchListModel::clear() {
+	QSqlQueryModel::clear();
+}
 inline QHash<int, QByteArray> BranchListModel::roleNames () const {
 	int idx = 0;
 	QHash<int, QByteArray> hash;

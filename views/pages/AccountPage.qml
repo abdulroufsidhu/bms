@@ -38,18 +38,15 @@ Page {
 					right: img_profite_acc.right
 					bottom: img_profite_acc.bottom
 				}
-				color: rootWindow.opaque_white
+				btn_col : rootWindow.opaque_white
 				add_width: 32
 				add_height: 0
 				btn_text: "📷︎"
 				btn_font_pixel_size: pixel_font_size_24*1.5
 				btn_text_color: rootWindow.secondary_text_color
 
-				MouseArea {
-					anchors.fill: parent
-					onClicked: {
-						image_picker.open();
-					}
+				onClicked: {
+					image_picker.open();
 				}
 			}
 
@@ -115,6 +112,23 @@ Page {
 					Layout.alignment: Layout.Center
 				}
 
+				MyButton {
+					btn_text: logout_txt
+					btn_text_color: critical_button_color
+					btn_font_pixel_size: rootWindow.font.pixelSize
+					Layout.alignment: Layout.Center
+					Keys.onEnterPressed: {
+						logout();
+					}
+					onClicked: {
+						logout()
+					}
+
+					function logout() {
+						_current_user.logout();
+					}
+				}
+
 			}
 
 		}
@@ -133,13 +147,20 @@ Page {
 		function onRecievedEmpJobName(r) {
 			txt_designation_acc.text = r;
 		}
-
 		function onRecievedEmpOrgName(r) {
 			let t = txt_designation_acc.text;
 			txt_designation_acc.text = t + " at " + r
 		}
 		function onRecievedEmpSalary(r) {
 			txt_salary_acc.text = "Salary: " + r
+		}
+		function onLogout(r) {
+			if (r) {
+				stack.pop(null);
+				_organization_list.clear();
+				_branch_list.clear();
+				txt_notification_text = "Successfully logedout"
+			}
 		}
 	}
 

@@ -66,13 +66,9 @@ ApplicationWindow {
 				visible: back_btn_visibility
 				btn_font_pixel_size: pixel_font_size_24
 				btn_text_color: back_btn_font_col
-				color: back_btn_col()
-				MouseArea{
-					anchors.fill: parent
-					onClicked: {
-						stack.pop()
-					}
-				}
+				btn_col: back_btn_col()
+				onPressed: stack.pop()
+
 				function back_btn_col() {
 					if (stack.depth < 2 ) return rootWindow.opaque_white;
 					return secondary_button_color;

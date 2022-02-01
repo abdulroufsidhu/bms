@@ -48,12 +48,10 @@ Rectangle {
 				btn_text_color: rootWindow.secondary_text_color;
 				btn_font_pixel_size: rootWindow.pixel_font_size_24;
 				Keys.onEnterPressed: _auth.login( login_email.text_data, login_password.text_data );
-				MouseArea {
-					anchors.fill: parent
-					onClicked: {
-						busy_indicator_popup.open()
-						_auth.login( login_email.text_data.toString(), login_password.text_data.toString() );
-					}
+
+				onClicked: {
+					busy_indicator_popup.open()
+					_auth.login( login_email.text_data.toString(), login_password.text_data.toString() );
 				}
 
 				Connections {

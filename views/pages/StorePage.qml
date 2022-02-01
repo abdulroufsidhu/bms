@@ -49,11 +49,8 @@ Page {
 			btn_text: "🔍"
 			btn_text_color: rootWindow.primary_button_color
 			btn_text_font_size: rootWindow.pixel_font_size_24*1.5
-			color: rootWindow.primary_color
-			border {
-				color: primary_button_color
-				width: rootWindow.pixel_font_size*2
-			}
+			rect_color: primary_color
+			border_width: 2*rootWindow.pixel_font_size
 		}
 
 
@@ -61,7 +58,7 @@ Page {
 
 	MyCircularButton {
 		id: btn_add_item
-		btn_text: "➕"
+		btn_text: "+"
 		btn_text_color: rootWindow.secondary_text_color
 		btn_text_font_size: rootWindow.pixel_font_size_24*2
 		rect_color: rootWindow.primary_button_color

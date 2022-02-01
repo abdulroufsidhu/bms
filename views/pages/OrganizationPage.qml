@@ -53,13 +53,7 @@ Page {
 			leftMargin: rootWindow.pixel_font_size*20
 			right: parent.right
 		}
-
-		MouseArea {
-			anchors.fill: parent
-			onClicked: {
-				add_org_popup.open();
-			}
-		}
+		onPressed: add_org_popup.open();
 
 	}
 
@@ -130,20 +124,11 @@ Page {
 			topMargin: rootWindow.pixel_font_size*20
 			right: parent.right
 		}
+		onClicked: add_branch_popup.open()
 
-		MouseArea {
-			anchors.fill: parent
-			onClicked: {
-				stack.push(add_branch_component)
-			}
-		}
-
-		Component {
-			id: add_branch_component
-			AddBranch{
-
-			}
-		}
+	}
+	AddBranch{
+		id: add_branch_popup
 	}
 
 	ViewOrganization {

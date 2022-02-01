@@ -51,19 +51,13 @@ Popup {
 					right: img_profite_view_org.right
 					bottom: img_profite_view_org.bottom
 				}
-				color: rootWindow.opaque_white
+				btn_col: rootWindow.opaque_white
 				add_width: 32
 				add_height: 0
 				btn_text: "📷︎"
 				btn_font_pixel_size: pixel_font_size_24*1.5
 				btn_text_color: rootWindow.secondary_text_color
-
-				MouseArea {
-					anchors.fill: parent
-					onClicked: {
-						image_picker.open();
-					}
-				}
+				onClicked: image_picker.open()
 			}
 
 			FileDialog {
