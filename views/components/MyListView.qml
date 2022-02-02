@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import "./organizations/"
+import "../basicComponents/buttons"
 
 ListView {
 	property bool view_btn_item: false
@@ -47,11 +48,10 @@ ListView {
 		Row {
 			anchors.centerIn: parent
 			id: lvd_row
-			//				implicitHeight: lv_txt_delegate.implicitHeight
 			spacing: rootWindow.pixel_font_size * 10
 			Text {
 				id: lv_txt_delegate
-				width: lv.width -( view_item_btn.width + sell_item_btn.width + manage_org_btn.width + btn_select.width + parent.spacing*(total_btns) + rootWindow.pixel_font_size_24 )
+				width: lv.width - ( sell_item_btn.implicitContentWidth + btn_select.implicitContentWidth + view_item_btn.implicitContentWidth + manage_org_btn.implicitContentWidth + (parent.spacing * total_btns) )
 				text: parent.fetchTextPattern()
 				font: rootWindow.font
 				elide: Text.ElideLeft
@@ -59,69 +59,55 @@ ListView {
 				horizontalAlignment: Text.AlignLeft
 				color: rootWindow.primary_text_color
 			}
-			Image {
+
+			MyButton {
 				id: manage_org_btn;
-				opacity: 0.7
-				source: "qrc:/icons/icons/process.svg";
+				btn_font_pixel_size: pixel_font_size_24
+				add_width: 16
+				add_height: 16
+				btn_text_color: secondary_text_color;
+				btn_text: "🛠️";
+				btn_col: primary_button_color;
+				anchors.verticalCenter: lvd_row.verticalCenter
 				visible: manage_btn_org;
-				width: visible ? rootWindow.pixel_font_size * sourceSize.width/3.56 : 0
-				height: rootWindow.pixel_font_size * sourceSize.height/3.56
-				anchors.verticalCenter: lvd_row.verticalCenter
-				MouseArea {
-					anchors.fill: parent
-					hoverEnabled: true;
-					onEntered: parent.opacity = 1;
-					onExited: parent.opacity = 0.7;
-				}
 			}
 
-			Image {
+			MyButton {
 				id: view_item_btn;
-				opacity: 0.7
-				source: "qrc:/icons/icons/view 1.svg";
+				btn_font_pixel_size: pixel_font_size_24
+				add_width: 16
+				add_height: 16
+				btn_text_color: secondary_text_color;
+				btn_text: "👁️";
+				btn_col: primary_button_color;
+				anchors.verticalCenter: lvd_row.verticalCenter
+				onClicked: parent.viewButtonClicked()
 				visible: view_btn_item;
-				width: visible ? rootWindow.pixel_font_size * sourceSize.width/2 : 0
-				height: rootWindow.pixel_font_size * sourceSize.height/2
-				anchors.verticalCenter: lvd_row.verticalCenter
-				MouseArea {
-					anchors.fill: parent
-					onClicked: parent.parent.viewButtonClicked();
-					hoverEnabled: true;
-					onEntered: parent.opacity = 1;
-					onExited: parent.opacity = 0.7;
-				}
 			}
-			Image {
-				id: sell_item_btn;
-				opacity: 0.7
-				source: "qrc:/icons/icons/sell-label 1.svg";
-				visible: sell_btn_item;
-				width: visible ? rootWindow.pixel_font_size * sourceSize.width/2 : 0
-				height: rootWindow.pixel_font_size * sourceSize.height/2
-				anchors.verticalCenter: lvd_row.verticalCenter
 
-				MouseArea {
-					anchors.fill: parent
-					hoverEnabled: true;
-					onEntered: parent.opacity = 1;
-					onExited: parent.opacity = 0.7;
-				}
-			}
-			Image {
-				id: btn_select
-				opacity: 0.7
-				source: "qrc:/icons/icons/SelectButton.svg"
-				visible: select_btn;
-				width: visible ? rootWindow.pixel_font_size * sourceSize.width/2:0;
-				height: visible ? rootWindow.pixel_font_size * sourceSize.height/2:0;
+			MyButton {
+				id: sell_item_btn;
+				btn_font_pixel_size: pixel_font_size_24
+				add_width: 16
+				add_height: 16
+				btn_text_color: secondary_text_color;
+				btn_text: "SELL";
+				btn_col: primary_button_color;
 				anchors.verticalCenter: lvd_row.verticalCenter
-				MouseArea {
-					anchors.fill: parent
-					onClicked: parent.parent.selectButtonClicked();
-					hoverEnabled: true;
-					onEntered: parent.opacity = 1;
-					onExited: parent.opacity = 0.7;
-				}
+				visible: sell_btn_item;
+			}
+
+			MyButton {
+				id: btn_select;
+				btn_font_pixel_size: pixel_font_size_24
+				add_width: 16
+				add_height: 16
+				btn_text_color: secondary_text_color;
+				btn_text: "SELECT";
+				btn_col: primary_button_color;
+				anchors.verticalCenter: lvd_row.verticalCenter
+				onClicked: parent.selectButtonClicked()
+				visible: select_btn;
 			}
 
 			function selectButtonClicked() {
@@ -146,19 +132,11 @@ ListView {
 			function viewButtonClicked() {
 				if (orgList) {
 					view_org_popup.open();
+					view_org_popup.name = model.name
+					view_org_popup.email = model.email
+					view_org_popup.contact = model.contact
 				}
 			}
-
-			Component {
-				id: v_o_component;
-				ViewOrganization {
-					id: view_organization
-					name: model.name
-					email: model.email
-					contact: model.contact
-				}
-			}
-
 		}
 
 		hoverEnabled: true

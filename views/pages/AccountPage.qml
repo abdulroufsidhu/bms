@@ -154,7 +154,7 @@ Page {
 		function onRecievedEmpSalary(r) {
 			txt_salary_acc.text = "Salary: " + r
 		}
-		function onLogout(r) {
+		function onLogedout(r) {
 			if (r) {
 				stack.pop(null);
 				_organization_list.clear();

@@ -12,8 +12,8 @@ ApplicationWindow {
 	y: 0
 	width: 1600
 	height: 900
-	minimumWidth: 640
-	minimumHeight: 480
+	minimumWidth: 800
+	minimumHeight: 600
 	visible: true
 	flags: Qt.Window
 //	flags: Qt.FramelessWindowHint
@@ -22,8 +22,8 @@ ApplicationWindow {
 	font.family: "arial"
 	font.pixelSize: pixel_font_size_24
 
-	readonly property int hr: rootWindow.height / 480
-	readonly property int wr: rootWindow.width / 640
+	readonly property real hr: rootWindow.height / minimumHeight
+	readonly property real wr: rootWindow.width / minimumWidth
 
 	readonly property string primary_color: "#466a63"
 	readonly property string secondary_color: "#6d9c89"
@@ -38,7 +38,7 @@ ApplicationWindow {
 	readonly property string green_color: "#0F0"
 	readonly property string transparent_color: "#00000000"
 
-	readonly property int pixel_font_size : wr<hr?wr:hr
+	readonly property real pixel_font_size : wr<hr?wr:hr
 	readonly property int pixel_font_size_24: pixel_font_size*18
 
 	readonly property string logout_txt: "⛔ Logout"

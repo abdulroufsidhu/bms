@@ -34,6 +34,9 @@ Popup {
 		anchors.horizontalCenter: parent.horizontalCenter
 		height: parent.height
 
+		ScrollBar.horizontal.policy: ScrollBar.AlwaysOn
+		ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+
 		ColumnLayout {
 
 			anchors.fill: parent

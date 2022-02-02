@@ -69,6 +69,7 @@ Rectangle {
 								txt_notification_text = "Please select organization in Organizations tab from Organization's list"
 								txt_popup_col = red_color
 							}
+							tab_bar.setCurrentIndex(2)
 							return;
 						}
 						busy_indicator_popup.close();

@@ -48,7 +48,7 @@ signals:
 	void recievedEmpOrgRegNum(const QString&);
 	void recievedEmpOrgAddr(const QString&);
 
-	void logout(const bool&);
+	void logedout(const bool&);
 
 public slots:
 	void logout();
@@ -135,9 +135,12 @@ public:
 
 };
 inline void User::logout() {
-	delete User::current_user;
-	User::current_user = nullptr;
-	emit logout(User::current_user==nullptr);
+	User *u = User::getCurrentUser();
+	u->id = "";
+	u->image = "";
+	u->emp->clear();
+	u->person = Person();
+	emit logedout(u->id.isEmpty()&&u->image.isEmpty()&&u->emp->getBranch().getId().isEmpty()&&u->person.getId().isEmpty());
 }
 inline Person& User::getPerson() { return this->person; }
 inline void User::setPerson(Person &newPerson) {

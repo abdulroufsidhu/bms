@@ -16,6 +16,10 @@ Button {
 
 	hoverEnabled: true
 
+	onHoveredChanged: {
+		focus = false
+	}
+
 	scale: (hovered|activeFocus) ? 1.1:1
 
 	contentItem: Text {
@@ -24,6 +28,7 @@ Button {
 		font.family: rootWindow.font.family
 		font.pixelSize: btn_font_pixel_size;
 		font.bold: true
+		font.weight: Font.Black
 	}
 
 	background: Rectangle {

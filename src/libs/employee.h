@@ -331,6 +331,14 @@ public:
 	inline const QString& getSalary() const { return this->salary; }
 	inline const QString& getCurrency() const { return this->currency; }
 	inline const QString& getCurrSymbol() const { return this->curr_symbol; }
+	inline void clear() {
+		this->id = "";
+		this->salary = "";
+		this->currency = "";
+		this->curr_symbol = "";
+		this->job = Job();
+		this->branch = Branch();
+	}
 
 public slots:
 	void getById( QString id ) ;
