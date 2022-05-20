@@ -1,19 +1,19 @@
-CREATE TABLE emails (
+CREATE TABLE IF NOT EXISTS emails (
 	id BIGSERIAL PRIMARY KEY,
 	data VARCHAR(250) NOT NULL UNIQUE
 );
 
-CREATE TABLE contacts (
+CREATE TABLE IF NOT EXISTS contacts (
 	id BIGSERIAL PRIMARY KEY,
 	data VARCHAR(250) NOT NULL UNIQUE
 );
 
-CREATE TABLE national_identity_card_numbers (
+CREATE TABLE IF NOT EXISTS national_identity_card_numbers (
 	id BIGSERIAL PRIMARY KEY,
 	data VARCHAR(250) NOT NULL UNIQUE
 );
 
-CREATE TABLE countries (
+CREATE TABLE IF NOT EXISTS countries (
 	id BIGSERIAL PRIMARY KEY,
 	name VARCHAR(250) NOT NULL UNIQUE,
 	code NUMERIC(3) NOT NULL,
@@ -21,36 +21,36 @@ CREATE TABLE countries (
 	currency_symbol VARCHAR(3) NOT NULL
 );
 
-CREATE TABLE cities (
+CREATE TABLE IF NOT EXISTS cities (
 	id BIGSERIAL PRIMARY KEY,
 	name VARCHAR(250) NOT NULL,
 	zip_code VARCHAR(8) NOT NULL,
 	country_id BIGINT REFERENCES countries(id)
 );
 
-CREATE TABLE addresses (
+CREATE TABLE IF NOT EXISTS addresses (
 	id BIGSERIAL PRIMARY KEY,
 	country_id BIGINT REFERENCES countries(id),
-	city_id BIGING REFERENCES cities(id),
+	city_id BIGINT REFERENCES cities(id),
 	street VARCHAR(300) NOT NULL
 );
 
-CREATE TABLE person_names (
+CREATE TABLE IF NOT EXISTS persons (
 	id BIGSERIAL PRIMARY KEY,
-	name VARCHAR(250) UNIQUE
+	name VARCHAR(250),
+	contact_id BIGINT REFERENCES contacts(id) UNIQUE
 ); 
 
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
 	id BIGSERIAL PRIMARY KEY,
-	person_name_id BIGSERIAL REFERENCES person_names(id),
+	person_id BIGSERIAL REFERENCES persons(id),
 	age NUMERIC(3) NOT NULL,
 	address_id BIGINT REFERENCES addresses(id),
-	email_id BIGINT REFERENCES emails(id),
-	contact_id BIGINT REFERENCES contacts(id),
-	nationality_identity_card_number_id BIGINT REFERENCES nationality_identity_card_numbers(id)
+	email_id BIGINT REFERENCES emails(id) UNIQUE,
+	national_identity_card_number_id BIGINT REFERENCES national_identity_card_numbers(id) UNIQUE
 );
 
-CREATE TABLE businesses (
+CREATE TABLE IF NOT EXISTS businesses (
 	id BIGSERIAL PRIMARY KEY,
 	name VARCHAR (250) NOT NULL UNIQUE,
 	address_id BIGINT REFERENCES addresses(id),
@@ -58,7 +58,7 @@ CREATE TABLE businesses (
 	contact_id BIGINT REFERENCES contacts(id)
 );
 
-CREATE TABLE branch (
+CREATE TABLE IF NOT EXISTS branch (
 	id BIGSERIAL PRIMARY KEY,
 	name VARCHAR (250) NOT NULL UNIQUE,
 	address_id BIGINT REFERENCES addresses(id),
@@ -66,37 +66,56 @@ CREATE TABLE branch (
 	contact_id BIGINT REFERENCES contacts(id)
 );
 
-CREATE TABLE job_names (
+CREATE TABLE IF NOT EXISTS job_names (
 	id BIGSERIAL PRIMARY KEY,
 	name VARCHAR(250) NOT NULL UNIQUE
 );
 
-CREATE TABLE companies_names (
+CREATE TABLE IF NOT EXISTS companies_names (
 	id BIGSERIAL PRIMARY KEY,
-	name VARCHAR(250) UNIQUE,
-);
-
-CREATE TABLE item_names (
 	name VARCHAR(250) UNIQUE
 );
 
-CREATE TABLE items (
+CREATE TABLE IF NOT EXISTS item_names (
 	id BIGSERIAL PRIMARY KEY,
-	item_name_id BIGINT REFERENCES item_name(id),
+	name VARCHAR(250) UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS items (
+	id BIGSERIAL PRIMARY KEY,
+	item_name_id BIGINT REFERENCES item_names(id),
 	company_name_id BIGINT REFERENCES companies_names(id),
 	specifications JSON
 );
 
-CREATE TABLE prices (
+CREATE TABLE IF NOT EXISTS prices (
 	id BIGSERIAL PRIMARY KEY,
-	prices JSON NOT NULL,
-)
-
-CREATE TABLE inventory (
-	id BIGSERIAL PRIMARY KEY,
-	item_id BIGSERIAL REFERENCES items(id),
-	price_id
+	prices JSON NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS inventory (
+	id BIGSERIAL PRIMARY KEY,
+	item_id BIGINT REFERENCES items(id),
+	price_id BIGINT REFERENCES prices(id),
+	quantity NUMERIC NOT NULL DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS sales (
+	id BIGSERIAL PRIMARY KEY,
+	item_id BIGINT REFERENCES items(id),
+	price NUMERIC NOT NULL DEFAULT 0,
+	seller BIGINT REFERENCES persons (id),
+	buyer BIGINT REFERENCES persons (id)
+);
+
+CREATE TABLE IF NOT EXISTS purchases (
+	id BIGSERIAL PRIMARY KEY,
+	item_id BIGINT REFERENCES items(id),
+	price NUMERIC NOT NULL DEFAULT 0,
+	seller BIGINT REFERENCES persons (id),
+	buyer BIGINT REFERENCES persons (id)
+);
+
 
 
 
